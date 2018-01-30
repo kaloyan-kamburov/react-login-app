@@ -5,14 +5,18 @@ import './App.css';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers'
-import Login from './containers/Login'
+import Navigation from './containers/Navigation'
+import Routes from './containers/Routes'
 
 const store = createStore(rootReducer)
 
 const App = props => {
-	return(
+	return (
 		<Provider store={store}>
-			<Login />
+			<div>
+				<Navigation />
+				<Routes />
+			</div>
 		</Provider>
 	)
 }

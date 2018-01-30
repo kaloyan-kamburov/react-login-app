@@ -1,9 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
-const Navigation = (props) => {
-    return(
-        <div>{props.navigation_title}</div>
-    )
+export default class Navigation extends React.Component {
+   
+    render() {
+        return (
+            <div>
+                dsa
+                <Link to="/">
+                    home
+                </Link><br/>
+                <Link to="/register">
+                    reg
+                </Link>
+                
+            </div>
+        );
+    }
 }
-
-export default Navigation;
