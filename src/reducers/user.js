@@ -1,10 +1,17 @@
 const initialState = {
-    name: "sss",
+    name: "fssdfsdfs",
     email: ""
 }
 
 const userReducer = (state = initialState, action) => {
-    return state;
+    if (action.type === 'USER_REGISTER') {
+        return {
+            name: action.payload.name,
+            email: action.payload.email
+        }
+    } else {
+        return state;
+    }
 }
 
 export default userReducer;

@@ -5,7 +5,8 @@ import Navigation from '../../components/Navigation';
 
 const mapStateToProps = state => {
     return {
-        name: state.user.name
+        name: state.user.name,
+        email: state.user.email
     }
 }
 

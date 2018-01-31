@@ -2,7 +2,7 @@ import React from 'react'
 
 const LoginForm = props => {
     return(
-        <div>{props.name}</div>
+        <div>Login</div>
     )
 }
 
