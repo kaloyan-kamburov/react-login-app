@@ -11,9 +11,9 @@ export function* userRegisterSaga(action) {
                 email: action.payload.email
             })            
         )
-        const { newUser } = newUserData.data
-        yield put({ type: constants.USER_REGISTERED, payload: newUser.data.user })
+        yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
     } catch(error) {
+        console.log(error)
         yield put({ type: constants.USER_REGISTER_ERROR });
     }
 
