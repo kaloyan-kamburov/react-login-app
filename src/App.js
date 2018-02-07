@@ -3,15 +3,25 @@ import logo from './logo.svg';
 import './styles/App.css';
 
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers'
 import Navigation from './containers/Navigation'
 import Routes from './containers/Routes'
 
+import rootSaga from './sagas';
+import createSagaMiddleWare from 'redux-saga';
+
+import axios from 'axios';
+
 
 import { Container, Row, Col } from 'reactstrap';
 
-const store = createStore(rootReducer)
+const sagaMiddleware = createSagaMiddleWare();
+const store = createStore(
+	rootReducer,
+	applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga);
 
 const App = props => {
 	return (

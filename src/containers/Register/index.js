@@ -13,6 +13,11 @@ class Register extends React.Component{
         }
     }
 
+    componentDidMount() {
+        
+        // console.log(this.state)
+    }
+
     onChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -44,7 +49,6 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: 'USER_REGISTER',
             payload:{
-
                 name,
                 email
             }
