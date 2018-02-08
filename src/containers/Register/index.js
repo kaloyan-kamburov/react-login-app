@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import * as constants from '../../common/constants';
 
 import RegisterForm from '../../components/RegisterForm';
 
-class Register extends React.Component{
+class RegisterContainer extends Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            name: props.name,
-            email: props.email
+            name: props.user.name,
+            email: props.user.email
         }
+
+        debugger;
     }
 
     componentDidMount() {
@@ -20,6 +23,7 @@ class Register extends React.Component{
 
     onChange = (event) => {
         this.setState({
+            ...this.state,
             [event.target.name]: event.target.value
         })
     }
@@ -31,7 +35,10 @@ class Register extends React.Component{
 
     render() {
         return (
-            <RegisterForm name={this.state.name} onChange={this.onChange} onSubmit={this.onSubmit}/>
+            <RegisterForm 
+                name={this.state.name} 
+                email={this.state.email}
+                onChange={this.onChange} onSubmit={this.onSubmit}/>
         )
     }
     
@@ -39,15 +46,18 @@ class Register extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        name: state.user.name,
-        email: state.user.email
+        user: {
+            ...state.user,
+            name: state.user.name,
+            email: state.user.email
+        }
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onSubmit: ({name, email}) => (
         dispatch({
-            type: 'USER_REGISTER',
+            type: constants.USER_REGISTER,
             payload:{
                 name,
                 email
@@ -56,4 +66,4 @@ const mapDispatchToProps = (dispatch) => ({
     )
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);

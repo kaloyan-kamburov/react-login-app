@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 
-import Register from '../../containers/Register/';
-import LoginForm from '../../components/LoginForm'
+import RegisterContainer from '../../containers/Register/';
+import LoginContainer from '../../containers/Login/';
 
 class Routes extends Component {
     render() {
@@ -13,7 +13,8 @@ class Routes extends Component {
             <div>
             <Switch>
                 <Route exact path="/" component={() => (<h1>Home</h1>)}/>
-                <Route path="/register" component={Register}/>
+                <Route path="/register" component={RegisterContainer}/>
+                <Route path="/login" component={LoginContainer}/>
             </Switch>
             </div>
         )

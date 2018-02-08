@@ -1,4 +1,10 @@
 export default {
-    name: "fssdfsd1fs",
-    email: ""
+    user: {
+        name: "fssdfsd1fs",
+        email: "",
+        password: "",
+        token: "",
+        products: [],
+        wishlist: [] 
+    }
 }

@@ -20,7 +20,7 @@ export default class Navigation extends React.Component {
     render() {
         return (
             <div>
-                {this.props.name}
+                {this.props.email}
                 <Navbar color="faded" light expand="md">
                     <Container>
                     <NavbarBrand tag={Link} to="/">
@@ -29,7 +29,12 @@ export default class Navigation extends React.Component {
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink onClick={() => { }} tag={Link} to="/register">
-                            Register
+                                Register
+                            </NavLink>
+                        </NavItem> 
+                        <NavItem>
+                            <NavLink onClick={() => { }} tag={Link} to="/login">
+                                Login
                             </NavLink>
                         </NavItem> 
                     </Nav>
