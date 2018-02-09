@@ -74,6 +74,8 @@ module.exports.changePassword = function(id, password, callback) {
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback) {
+
+    console.log('PASS: ' + candidatePassword)
     bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
         if (err) throw err;
         callback(null, isMatch); 

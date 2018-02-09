@@ -29,11 +29,7 @@ function* userLoginSaga(action) {
                 password: action.payload.password
             })  
         )
-
-        console.log(newUserData)
-        debugger
-
-        yield put({ type: constants.USER_LOGIN, payload: newUserData.data.user })
+        yield put({ type: constants.USER_LOGGED, payload: newUserData.data.user })
     } catch(error) {
         yield put({ type: constants.USER_LOGIN_ERROR })
     }

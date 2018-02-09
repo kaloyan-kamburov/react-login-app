@@ -11,7 +11,7 @@ router.post('/register', (req, res, next) => {
     let newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: 'cici'
+        password: 'asd'
     });
 
     User.addUser(newUser, (err, user) => {
@@ -35,14 +35,13 @@ router.post('/authenticate', (req, res, next) => {
         }
 
         User.comparePassword(password, user.password, (err, isMatch) => {
+
             if (err) throw err;
 
-            console.log(user)
 
             if (isMatch) {
-                console.log(user)
-                const token = jwt.sign(user, config.secret, {
-                    expiresIn: 604800 // 1 week
+                const token = jwt.sign(JSON.stringify(user), config.secret, {
+                    //expiresIn: 604800 // 1 week
                 });
 
                 res.json({

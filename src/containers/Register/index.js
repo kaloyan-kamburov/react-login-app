@@ -13,7 +13,6 @@ class RegisterContainer extends Component{
             email: props.user.email
         }
 
-        debugger;
     }
 
     componentDidMount() {
