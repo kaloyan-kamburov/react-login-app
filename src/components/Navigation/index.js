@@ -20,7 +20,7 @@ export default class Navigation extends React.Component {
     render() {
         return (
             <div>
-                {this.props.email}
+                {this.props.email.value}
                 <Navbar color="faded" light expand="md">
                     <Container>
                     <NavbarBrand tag={Link} to="/">

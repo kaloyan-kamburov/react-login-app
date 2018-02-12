@@ -6,7 +6,7 @@ import * as constants from '../common/constants'
 export function* userRegisterSaga(action) {
     try {
         const newUserData = yield call(() =>
-            axios.post('http://localhost:8080/users/register', {
+            axios.post(constants.API_URL + '/users/register', {
                 name: action.payload.name,
                 email: action.payload.email,
                 password: action.payload.password,
@@ -24,14 +24,14 @@ export function* userRegisterSaga(action) {
 function* userLoginSaga(action) {
     try {
         const newUserData = yield call(() => 
-            axios.post('http://localhost:8080/users/authenticate', {
+            axios.post(constants.API_URL + '/users/authenticate', {
                 email: action.payload.email,
                 password: action.payload.password
             })  
         )
-        yield put({ type: constants.USER_LOGGED, payload: newUserData.data.user })
+        yield put({ type: constants.USER_LOGGED, payload: newUserData.data.user });
     } catch(error) {
-        yield put({ type: constants.USER_LOGIN_ERROR })
+        yield put({ type: constants.USER_LOGIN_ERROR });
     }
 }
 

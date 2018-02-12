@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:3000/'
+export const API_URL = 'http://localhost:8080/'
 
 /* action types */
 export const USER_LOGIN = 'USER_LOGIN';

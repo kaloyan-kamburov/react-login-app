@@ -1,9 +1,21 @@
 export default {
     user: {
-        name: "fssdfsd1fs",
-        email: "",
-        password: "",
-        token: "",
+        name: {
+            value: "",
+            isValid: false
+        },        
+        email: {
+            value: "",
+            isValid: false
+        },        
+        password: {
+            value: "",
+            isValid: false
+        },        
+        password2: {
+            value: "",
+            isValid: false
+        },
         products: [],
         wishlist: [] 
     }
