@@ -11,41 +11,20 @@ class RegisterContainer extends Component{
         super(props);
 
         this.state = {
-            name: {
-                value: props.user.name.value,
-                class: ""
-            },
-            email: {
-                value: props.user.email.value,
-                class: "",
-                validator: isEmail
-            },
-            password: {
-                value: props.user.password.value,
-                class: ""
-            },
-            password2: {
-                value: props.user.password2.value,
-                class: ""
-            }
+            name: props.user.name,
+            email: props.user.email,
+            password: props.user.password,
+            password2: props.user.password2
         }
 
     }
 
     componentDidMount() {
         
-        // console.log(this.state)
-    }
-
-    onChange = (event) => {
-        let newState = Object.assign({}, this.state);
-        newState[event.target.name].value = event.target.value;
-        newState[event.target.name].class = this.state[event.target.name].validator(event.target.value) ? "" : "has-error"
-        this.setState(newState);
     }
 
     onSubmit = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         this.props.onSubmit(this.state)
     }
 
@@ -56,7 +35,6 @@ class RegisterContainer extends Component{
                 email={this.state.email}
                 password={this.state.password}
                 password2={this.state.password2}
-                onChange={this.onChange} 
                 onSubmit={this.onSubmit}
             />
         )
@@ -67,11 +45,7 @@ class RegisterContainer extends Component{
 const mapStateToProps = state => {
     return {
         user: {
-            ...state.user,
-            name: state.user.name,
-            email: state.user.email,
-            password: state.user.password,
-            password2: state.user.password2
+            ...state.user
         }
     }
 }

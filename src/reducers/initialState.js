@@ -2,19 +2,19 @@ export default {
     user: {
         name: {
             value: "",
-            isValid: false
+            class: ""
         },        
         email: {
             value: "",
-            isValid: false
+            class: ""
         },        
         password: {
             value: "",
-            isValid: false
+            class: ""
         },        
         password2: {
             value: "",
-            isValid: false
+            class: ""
         },
         products: [],
         wishlist: [] 

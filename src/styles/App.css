@@ -31,6 +31,27 @@
   color: red;
 }
 
-.has-error {
+.has-error { 
   border: 1px solid red;
+}
+/* 
+input:invalid {
+  outline: 2px solid red;
+  outline-style: inset;
+}  */
+
+.error-msg {
+  clear: both;
+  float: left;
+  width: 100%;
+  background: red;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 5px;
+  display: block;
+}
+
+.form-group {
+  float: left;
+  width: 100%;
 }
