@@ -97,9 +97,11 @@ class RegisterForm extends Component {
         this.setState({
             formSubmitted: true
         }, this.triggerValidations());
-        
 
-        this.props.onSubmit(this.state);
+        this.props.onSubmit({
+            name: this.state.name.value,
+            email: this.state.email.value
+        });
     }
     
     validateField = (name) => {

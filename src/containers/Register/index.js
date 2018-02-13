@@ -23,9 +23,10 @@ class RegisterContainer extends Component{
         
     }
 
-    onSubmit = (event) => {
+    onSubmit = (payload) => {
         // event.preventDefault();
-        this.props.onSubmit(this.state)
+        console.log(payload)
+        this.props.onSubmit(payload)
     }
 
     render() {
