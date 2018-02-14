@@ -5,6 +5,6 @@ import { userRegisterSaga, watchUserRegister, watchUserLogin } from './userSaga'
 export default function* rootSaga() {
     yield all([
         watchUserRegister(),
-        watchUserLogin()
+        // watchUserLogin()
     ])
 }

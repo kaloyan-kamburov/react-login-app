@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import Navigation from '../../components/Navigation';
 
 const mapStateToProps = state => {
+    console.log(state)
     return {
-        name: state.user.name,
-        email: state.user.email
+        email: state.user.personal_info.email.value
     }
 }
 

@@ -7,10 +7,11 @@ const userReducer = (state = initialState.user, action) => {
         case actionTypes.USER_REGISTER:
         case actionTypes.USER_REGISTERED:
             return Object.assign({}, state, {
-                ...state,
-                name: action.payload.name,
-                email: action.payload.email
-                
+                personal_info: {
+                    email: {
+                        value: action.payload.email
+                    }
+                }
             })            
         case actionTypes.USER_REGISTER_ERROR:
             return state;

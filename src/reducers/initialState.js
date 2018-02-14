@@ -1,22 +1,44 @@
 export default {
     user: {
-        name: {
-            value: "",
-            class: ""
-        },        
-        email: {
-            value: "",
-            class: ""
-        },        
-        password: {
-            value: "",
-            class: ""
-        },        
-        password2: {
-            value: "",
-            class: ""
+        personal_info: {
+            username: {
+                value: "",
+                class: ""
+            },     
+            firstname: {
+                value: "",
+                class: ""
+            },     
+            lastname: {
+                value: "",
+                class: ""
+            },      
+            address: {
+                value: "",
+                class: ""
+            },       
+            phone: {
+                value: "",
+                class: ""
+            },       
+            email: {
+                value: "s",
+                class: ""
+            },        
+            password: {
+                value: "",
+                class: ""
+            },        
+            password2: {
+                value: "",
+                class: ""
+            },
         },
-        products: [],
-        wishlist: [] 
+        cart_products: [],
+        wishlist: [],
+        orders: {
+            pending: [],
+            history: []
+        } 
     }
 }

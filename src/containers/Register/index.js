@@ -11,10 +11,14 @@ class RegisterContainer extends Component{
         super(props);
 
         this.state = {
-            name: props.user.name,
-            email: props.user.email,
-            password: props.user.password,
-            password2: props.user.password2
+            username: props.personal_info.username,
+            firstname: props.personal_info.firstname,
+            lastname: props.personal_info.lastname,
+            address: props.personal_info.address,
+            phone: props.personal_info.phone,
+            email: props.personal_info.email,
+            password: props.personal_info.password,
+            password2: props.personal_info.password2
         }
 
     }
@@ -23,16 +27,19 @@ class RegisterContainer extends Component{
         
     }
 
-    onSubmit = (payload) => {
-        // event.preventDefault();
-        console.log(payload)
+    onSubmit = payload => {
+        // console.log(payload)
         this.props.onSubmit(payload)
     }
 
     render() {
         return (
             <RegisterForm 
-                name={this.state.name} 
+                username={this.state.username} 
+                firstname={this.state.firstname} 
+                lastname={this.state.lastname} 
+                address={this.state.address} 
+                phone={this.state.phone} 
                 email={this.state.email}
                 password={this.state.password}
                 password2={this.state.password2}
@@ -45,20 +52,18 @@ class RegisterContainer extends Component{
 
 const mapStateToProps = state => {
     return {
-        user: {
-            ...state.user
+        personal_info: {
+            ...state.user.personal_info
         }
+            
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: ({name, email}) => (
+    onSubmit: (payload) => (
         dispatch({
             type: constants.USER_REGISTER,
-            payload:{
-                name,
-                email
-            }
+            payload
         })
     )
 })

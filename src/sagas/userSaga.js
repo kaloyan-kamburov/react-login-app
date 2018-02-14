@@ -7,13 +7,15 @@ export function* userRegisterSaga(action) {
     try {
         const newUserData = yield call(() =>
             axios.post(constants.API_URL + '/users/register', {
-                name: action.payload.name,
+                username: action.payload.username,
+                firstname: action.payload.firstname,
+                lastname: action.payload.lastname,
+                address: action.payload.address,
+                phone: action.payload.phone,
                 email: action.payload.email,
                 password: action.payload.password,
-                address: action.payload.address
             })            
         )
-        debugger
         yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
     } catch(error) {
         console.log(error)
