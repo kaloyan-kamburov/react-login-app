@@ -103,14 +103,14 @@ class RegisterForm extends Component {
         }
 
         newState.fieldsEmpty = !this.fieldsNotEmpty([
-            this.state.username,
-            this.state.firstname,
-            this.state.lastname,
-            this.state.address,
-            this.state.phone,
-            this.state.email,
-            this.state.password,
-            this.state.password2
+            this.state.username.value,
+            this.state.firstname.value,
+            this.state.lastname.value,
+            this.state.address.value,
+            this.state.phone.value,
+            this.state.email.value,
+            this.state.password.value,
+            this.state.password2.value
         ]);
         
         this.setState(newState);
@@ -141,7 +141,7 @@ class RegisterForm extends Component {
 
     fieldsNotEmpty = fields => {
         return fields.every(field => {
-            return field.value.length > 0;
+            return field.length > 0;
         });
     }
 
