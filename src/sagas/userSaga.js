@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as constants from '../common/constants'
 
 export function* userRegisterSaga(action) {
+    // debugger;
     try {
         const newUserData = yield call(() =>
             axios.post(constants.API_URL + '/users/register', {
@@ -18,7 +19,7 @@ export function* userRegisterSaga(action) {
         )
         yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
     } catch(error) {
-        console.log(error)
+        // console.log(error)
         yield put({ type: constants.USER_REGISTER_ERROR });
     }
 }

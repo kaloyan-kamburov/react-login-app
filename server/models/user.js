@@ -40,6 +40,18 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
+module.exports.getUser = function(username, email) {
+    // return {email: 'test@test.com', username: 'test'} 
+    // console.log('username: ' + username) 
+    // console.log('email: ' + email)
+    return User.findOne({ 
+        $or: [
+            {username: username}, 
+            {email: email}
+        ]
+    })
+}
+
 module.exports.getUserById = function(id, callback) {
     User.findById(id, callback); 
 }
@@ -58,14 +70,20 @@ module.exports.getUserByEmail = function(email, callback) {
     User.findOne(query, callback);
 }
 
-module.exports.addUser = function(newUser, callback) {
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser.save(callback);
-        });
-    });
+
+module.exports.addUser = async function(newUser) {    
+    const genSalt = await bcrypt.genSalt(10);
+    const genHash = await bcrypt.hash(newUser.password, genSalt);
+    newUser.password = genHash;
+    return newUser.save();
+    
+    // , (err, salt) => {
+    //     bcrypt.hash(newUser.password, salt, (err, hash) => {
+    //         if (err) throw err;
+    //         newUser.password = hash;
+    //         return newUser.save();
+    //     });
+    // });
 }
 
 module.exports.deleteUser = function(id, callback) {

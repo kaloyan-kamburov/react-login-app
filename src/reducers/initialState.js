@@ -22,7 +22,7 @@ export default {
                 class: ""
             },       
             email: {
-                value: "s",
+                value: "",
                 class: ""
             },        
             password: {

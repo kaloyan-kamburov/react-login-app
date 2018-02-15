@@ -6,6 +6,7 @@ const userReducer = (state = initialState.user, action) => {
     switch (action.type) {
         case actionTypes.USER_REGISTER:
         case actionTypes.USER_REGISTERED:
+        // debugger
             return Object.assign({}, state, {
                 personal_info: {
                     email: {

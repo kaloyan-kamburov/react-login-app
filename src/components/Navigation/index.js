@@ -19,11 +19,12 @@ export default class Navigation extends React.Component {
     // }
 
     componentWillUpdate() {
-        // debugger;
+        // debugger;        
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState(newProps)
+        // debugger
+        // this.setState(newProps)
     }
     render() {
         return (

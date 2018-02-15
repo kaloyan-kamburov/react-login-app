@@ -6,25 +6,98 @@ const config = require('../config/database');
 
 const User = require('../models/user');
 
+function test() {
+    return  {name: 'Kaloqn', email: 'kaol@abv/bg' }
+}
+
 // Register
-router.post('/register', (req, res, next) => { 
+router.post('/register', async (req, res, next) => { 
     let newUser = new User({
         username: req.body.username,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         address: req.body.address,
         phone: req.body.phone,
-        email: req.body.email,
+        email: req.body.email, 
         password: req.body.password
     });
 
-    User.addUser(newUser, (err, user) => {
-        if (err) {
-            res.json({success: false, msg: 'Failed to register user', err: err})
+    try {
+        const user = await User.getUser(req.body.username, req.body.email);
+        if (!user) {
+            // return res.json({
+            //     success: true, 
+            //     msg: 'User is unique'
+            // });
+            const userAdd = await User.addUser(newUser)
+            if (userAdd) {
+                return res.json({
+                    success: true, 
+                    msg: 'User registered',
+                    user: userAdd
+                });
+            }
         } else {
-            res.json({success: true, msg: 'User registered', user: { name: user.name, email: user.email }});
+            if (user.username === req.body.username) {                
+                return res.json({
+                    success: true, 
+                    msg: 'User\'s username exists'
+                });
+            } else {
+                return res.json({
+                    success: true, 
+                    msg: 'User\'s email exists'
+                });
+            }
         }
-    });
+
+    } catch (err) {
+        console.log(err)
+        res.json({success: false, msg: '', err: err})
+    }
+
+    // try {
+    //     const userName = await User.getUserByUsername(req.body.username, (err, user) => {
+    //         if (err) throw err;
+    //         res.json({
+    //             success: true,
+    //             msg: 'User found by username'
+    //         })
+    //     })
+
+    //     const userEmail = await User.getUserByEmail(req.body.email, (err, user) => {
+    //         if (err) throw err;
+    //         res.json({
+    //             success: true,
+    //             msg: 'User found by email'
+    //         })
+    //     })
+    // } catch (err) {
+        
+    // }
+    
+    // User.getUserByUsername(req.body.username, (err, user) => {
+    //     if (!user) {
+    //         User.getUserByEmail(req.body.email, (err, user) => {
+    //             if (err) throw err;
+    //             if (!user) {
+    //                 User.addUser(newUser, (err, user) => {
+    //                     if (err) {
+    //                         res.json({success: false, msg: 'Email already exists', err: err})
+    //                     } else {
+    //                         res.json({success: true, msg: 'User registered', user: { name: user.name, email: user.email }});
+    //                     }
+    //                 });
+    //             }
+    //         });
+            
+    //     } else {
+    //         console.log('dsasda1')
+    //         res.json({success: false, msg: 'Username already exists', err: err})
+
+    //     }
+    // })
+    
 });
 
 // authenticate
