@@ -18,14 +18,16 @@ class RegisterContainer extends Component{
             phone: props.personal_info.phone,
             email: props.personal_info.email,
             password: props.personal_info.password,
-            password2: props.personal_info.password2
+            password2: props.personal_info.password2,
+            errorType: props.personal_info.errorType
         }
 
     }
 
-    componentDidMount() {
-        
-    }
+    // componentWillReceiveProps(props) {
+    //     debugger;
+    //     console.log(props)
+    // }    
 
     onSubmit = payload => {
         // console.log(payload)
@@ -43,6 +45,7 @@ class RegisterContainer extends Component{
                 email={this.state.email}
                 password={this.state.password}
                 password2={this.state.password2}
+                errorType={this.state.errorType}
                 onSubmit={this.onSubmit}
             />
         )
@@ -53,9 +56,9 @@ class RegisterContainer extends Component{
 const mapStateToProps = state => {
     return {
         personal_info: {
-            ...state.user.personal_info
-        }
-            
+            ...state.user.personal_info,
+            errorType: state.user.personal_info.errorType
+        },
     }
 }
 

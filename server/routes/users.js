@@ -6,10 +6,6 @@ const config = require('../config/database');
 
 const User = require('../models/user');
 
-function test() {
-    return  {name: 'Kaloqn', email: 'kaol@abv/bg' }
-}
-
 // Register
 router.post('/register', async (req, res, next) => { 
     let newUser = new User({
@@ -38,17 +34,27 @@ router.post('/register', async (req, res, next) => {
                 });
             }
         } else {
-            if (user.username === req.body.username) {                
-                return res.json({
-                    success: true, 
-                    msg: 'User\'s username exists'
-                });
-            } else {
-                return res.json({
-                    success: true, 
-                    msg: 'User\'s email exists'
-                });
+            let errorType,
+            msgText = () => {
+                if (user.username === req.body.username && user.email === req.body.email) {
+                    errorType = 'userAndEmail';
+                    return 'Username and email exists';
+                }
+                if (user.username === req.body.username) {
+                    errorType = 'user';
+                    return 'Username exists';
+                }
+                if (user.email === req.body.email) {
+                    errorType = 'email';
+                    return 'Email exists'
+                }
             }
+            return res.json({
+                success: true, 
+                msg: msgText(),
+                errorType: errorType,
+                user: {}
+            });
         }
 
     } catch (err) {

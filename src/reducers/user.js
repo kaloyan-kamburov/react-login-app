@@ -5,8 +5,9 @@ const userReducer = (state = initialState.user, action) => {
     // console.log(action)
     switch (action.type) {
         case actionTypes.USER_REGISTER:
+            return state;
         case actionTypes.USER_REGISTERED:
-        // debugger
+            // debugger
             return Object.assign({}, state, {
                 personal_info: {
                     email: {
@@ -15,7 +16,14 @@ const userReducer = (state = initialState.user, action) => {
                 }
             })            
         case actionTypes.USER_REGISTER_ERROR:
-            return state;
+            return Object.assign({}, state, {
+                personal_info: {
+                    email: {
+                        value: ''
+                    },
+                    errorType: action.payload.errorType
+                },
+            }); 
         case actionTypes.USER_LOGIN:
             return Object.assign({}, state, {
                 ...state,

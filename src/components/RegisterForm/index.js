@@ -22,6 +22,7 @@ class RegisterForm extends Component {
             ...props,
             formSubmitted: false,
             fieldsEmpty: true,
+            errorType: props.errorType,
             username: {
                 ...props.username,
                 validators: [
@@ -118,18 +119,18 @@ class RegisterForm extends Component {
 
     triggerValidations = () => {
         Object.keys(this.state).forEach((key, index) => {
-            this.validateField(key);
+            if (key !== 'errorType') {
+                this.validateField(key);
+            }
         });
     }
-
-    componentDidMount() {
-        
-    }
-
+componentWillReceiveProps(props) {
+    console.log(props)
+}
     formValid = () => {
         let fields = [];
         Object.keys(this.props).forEach((key, index) => {
-            if (typeof this.props[key] != 'function') {
+            if (typeof this.props[key] != 'function' && key !== 'errorType') {
                 fields.push(Object.assign({}, this.state[key]));
             }
         });
@@ -189,6 +190,7 @@ class RegisterForm extends Component {
         return (
             <div className='col-xs-8 offset-2'>
                 <h1>Registration</h1>
+                {this.state.errorType}
                 <Form onSubmit={this.onSubmit} noValidate>
                     <FormGroup>
                         <Label for='username'>Username</Label>

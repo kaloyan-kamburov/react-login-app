@@ -15,9 +15,14 @@ export function* userRegisterSaga(action) {
                 phone: action.payload.phone,
                 email: action.payload.email,
                 password: action.payload.password,
-            })            
+            })
         )
-        yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
+        if(newUserData.data.errorType) {
+            yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
+        }
+       
     } catch(error) {
         // console.log(error)
         yield put({ type: constants.USER_REGISTER_ERROR });

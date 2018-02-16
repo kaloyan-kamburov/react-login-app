@@ -33,6 +33,7 @@ export default {
                 value: "",
                 class: ""
             },
+            errorType: "",
         },
         cart_products: [],
         wishlist: [],
