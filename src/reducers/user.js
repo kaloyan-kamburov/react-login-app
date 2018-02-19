@@ -12,15 +12,15 @@ const userReducer = (state = initialState.user, action) => {
                 personal_info: {
                     email: {
                         value: action.payload.email
-                    }
+                    },
+                    errorType: ''
                 }
             })            
         case actionTypes.USER_REGISTER_ERROR:
             return Object.assign({}, state, {
                 personal_info: {
-                    email: {
-                        value: ''
-                    },
+                    ...state.personal_info,
+                    errorMsg: action.payload.errorMsg,
                     errorType: action.payload.errorType
                 },
             }); 

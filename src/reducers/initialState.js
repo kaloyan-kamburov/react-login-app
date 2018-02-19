@@ -34,6 +34,7 @@ export default {
                 class: ""
             },
             errorType: "",
+            errorMsg: "" 
         },
         cart_products: [],
         wishlist: [],

@@ -9,43 +9,49 @@ import { isEmail } from '../../common/validators';
 class RegisterContainer extends Component{
     constructor(props) {
         super(props);
-
         this.state = {
-            username: props.personal_info.username,
-            firstname: props.personal_info.firstname,
-            lastname: props.personal_info.lastname,
-            address: props.personal_info.address,
-            phone: props.personal_info.phone,
-            email: props.personal_info.email,
-            password: props.personal_info.password,
-            password2: props.personal_info.password2,
-            errorType: props.personal_info.errorType
+            personal_info: {
+                username: props.personal_info.username,
+                firstname: props.personal_info.firstname,
+                lastname: props.personal_info.lastname,
+                address: props.personal_info.address,
+                phone: props.personal_info.phone,
+                email: props.personal_info.email,
+                password: props.personal_info.password,
+                password2: props.personal_info.password2,
+                errorType: props.personal_info.errorType,
+                errorMsg: props.personal_info.errorMsg
+            }
         }
 
     }
 
-    // componentWillReceiveProps(props) {
-    //     debugger;
-    //     console.log(props)
-    // }    
+    componentWillReceiveProps(props) {
+        this.setState({
+            personal_info: {
+                ...this.state.personal_info,
+                ...props.personal_info
+            }
+        })
+    }
 
     onSubmit = payload => {
-        // console.log(payload)
         this.props.onSubmit(payload)
     }
 
     render() {
         return (
             <RegisterForm 
-                username={this.state.username} 
-                firstname={this.state.firstname} 
-                lastname={this.state.lastname} 
-                address={this.state.address} 
-                phone={this.state.phone} 
-                email={this.state.email}
-                password={this.state.password}
-                password2={this.state.password2}
-                errorType={this.state.errorType}
+                username={this.state.personal_info.username} 
+                firstname={this.state.personal_info.firstname} 
+                lastname={this.state.personal_info.lastname} 
+                address={this.state.personal_info.address} 
+                phone={this.state.personal_info.phone} 
+                email={this.state.personal_info.email}
+                password={this.state.personal_info.password}
+                password2={this.state.personal_info.password2}
+                errorType={this.state.personal_info.errorType}
+                errorMsg={this.state.personal_info.errorMsg}
                 onSubmit={this.onSubmit}
             />
         )
@@ -56,9 +62,8 @@ class RegisterContainer extends Component{
 const mapStateToProps = state => {
     return {
         personal_info: {
-            ...state.user.personal_info,
-            errorType: state.user.personal_info.errorType
-        },
+            ...state.user.personal_info
+        }
     }
 }
 

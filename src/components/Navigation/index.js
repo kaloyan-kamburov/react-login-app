@@ -30,6 +30,7 @@ export default class Navigation extends React.Component {
         return (
             <div>
                 {this.props.email}
+                {this.props.errorType}
                 <Container>
                     <Nav pills>
                         <NavbarBrand tag={Link} to="/">

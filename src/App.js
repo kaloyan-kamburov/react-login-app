@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+// import logo from './logo.svg';
 import './styles/App.css';
 
 import { Provider } from 'react-redux'
@@ -11,7 +11,6 @@ import Routes from './containers/Routes'
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
 
-import axios from 'axios';
 
 
 import { Container, Row, Col } from 'reactstrap';

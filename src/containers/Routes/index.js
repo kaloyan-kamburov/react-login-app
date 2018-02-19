@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 
 import RegisterContainer from '../../containers/Register/';

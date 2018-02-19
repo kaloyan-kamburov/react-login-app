@@ -41,7 +41,7 @@ router.post('/register', async (req, res, next) => {
                     return 'Username and email exists';
                 }
                 if (user.username === req.body.username) {
-                    errorType = 'user';
+                    errorType = 'username';
                     return 'Username exists';
                 }
                 if (user.email === req.body.email) {
@@ -49,9 +49,9 @@ router.post('/register', async (req, res, next) => {
                     return 'Email exists'
                 }
             }
-            return res.json({
+            return res.json({ 
                 success: true, 
-                msg: msgText(),
+                errorMsg: msgText(),
                 errorType: errorType,
                 user: {}
             });

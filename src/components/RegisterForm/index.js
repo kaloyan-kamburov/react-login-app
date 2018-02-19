@@ -6,23 +6,15 @@ import classNames from 'classnames';
 import { email, notEmpty, comparePasswords, length, password } from '../../common/validators';
 import * as constants from '../../common/constants';
 
-// export default class Register extends React.Component {
-//     render() {
-//         return(
-//             <div>REGISTsER</div>
-//         )
-//     }
-// }
-
 class RegisterForm extends Component {
     constructor(props) {
-        super(props)
-
+        super(props);
         this.state = {
             ...props,
             formSubmitted: false,
             fieldsEmpty: true,
             errorType: props.errorType,
+            errorMsg: props.errorMsg,
             username: {
                 ...props.username,
                 validators: [
@@ -119,18 +111,31 @@ class RegisterForm extends Component {
 
     triggerValidations = () => {
         Object.keys(this.state).forEach((key, index) => {
-            if (key !== 'errorType') {
+            if (key !== 'errorType' && key !== 'errorMsg') {
                 this.validateField(key);
             }
         });
     }
-componentWillReceiveProps(props) {
-    console.log(props)
-}
+
+    componentWillReceiveProps(props) {
+        let newState = Object.assign({}, this.state);
+        let errorType = props.errorType;
+
+        if (errorType !== 'userAndEmail') {
+            newState[errorType].class = constants.ERROR_CLASS;
+        } else {
+            newState['username'].class = constants.ERROR_CLASS;
+            newState['email'].class = constants.ERROR_CLASS;
+        }
+
+        this.setState(newState);
+
+    }
+
     formValid = () => {
         let fields = [];
         Object.keys(this.props).forEach((key, index) => {
-            if (typeof this.props[key] != 'function' && key !== 'errorType') {
+            if (typeof this.props[key] !== 'function' && key !== 'errorType' && key !== 'errorMsg') {
                 fields.push(Object.assign({}, this.state[key]));
             }
         });
@@ -138,6 +143,7 @@ componentWillReceiveProps(props) {
         return fields.every(field => {
             return field.errorMessages.length == 0;
         });
+        console.log(this.state)
     }
 
     fieldsNotEmpty = fields => {
@@ -186,11 +192,36 @@ componentWillReceiveProps(props) {
         this.setState(newState);
     }
 
+    renderServerError = (error, field) => {
+        if (error === field) {
+            return <span className='error-msg'> already exists</span>
+        }
+
+        // if (error) {
+        //     switch (field) {
+        //         case 'username':
+        //             if (error !== 'email') { 
+        //                 return <span className='error-msg'>Username already exists</span>
+        //                 break;
+        //             }                   
+        //         case 'email':
+        //             if (error !== 'username') { 
+        //                 return <span className='error-msg'>Email already exists</span>
+        //                 break;
+        //             }
+        //         default:
+        //             break;
+        //     }
+        // }
+        
+        
+    }
+
     render() {
         return (
             <div className='col-xs-8 offset-2'>
                 <h1>Registration</h1>
-                {this.state.errorType}
+                {this.props.errorMsg}
                 <Form onSubmit={this.onSubmit} noValidate>
                     <FormGroup>
                         <Label for='username'>Username</Label>
@@ -255,7 +286,7 @@ componentWillReceiveProps(props) {
                             id='phone' 
                             placeholder='Phone number'
                         />
-                        {this.state.username.errorMessages.map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }
+                        {this.state.phone.errorMessages.map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }
                     </FormGroup>
                     <FormGroup>
                         <Label for='email'>Email</Label>
