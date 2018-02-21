@@ -10,6 +10,7 @@ import Routes from './containers/Routes'
 
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
+import axios from 'axios';
 
 
 
@@ -21,6 +22,11 @@ const store = createStore(
 	applyMiddleware(sagaMiddleware)
 )
 sagaMiddleware.run(rootSaga);
+
+if(localStorage.getItem('loginAppToken')) {
+	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
+	axios.defaults.headers.common['Content-type'] = 'application/json';
+}
 
 const App = props => {
 	return (

@@ -71,7 +71,7 @@ module.exports.getUserByEmail = function(email, callback) {
 }
 
 
-module.exports.addUser = async function(newUser) {    
+module.exports.addUser = async function(newUser) { 
     const genSalt = await bcrypt.genSalt(10);
     const genHash = await bcrypt.hash(newUser.password, genSalt);
     newUser.password = genHash;

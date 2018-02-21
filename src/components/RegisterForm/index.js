@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import classNames from 'classnames';
+import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 import { email, notEmpty, comparePasswords, length, password } from '../../common/validators';
 import * as constants from '../../common/constants';
+
+import { Redirect } from 'react-router-dom';
 
 class RegisterForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             ...props,
+            userChanged: false,
             formSubmitted: false,
             fieldsEmpty: true,
             errorType: props.errorType,
@@ -66,7 +68,7 @@ class RegisterForm extends Component {
                 ...props.password,
                 validators: [
                     notEmpty,
-                    
+                    // password
                 ],
                 errorMessages: []
             },
@@ -117,15 +119,19 @@ class RegisterForm extends Component {
         });
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(nextProps) {
         let newState = Object.assign({}, this.state);
-        let errorType = props.errorType;
+        let errorType = nextProps.errorType;
 
-        if (errorType !== 'userAndEmail') {
-            newState[errorType].class = constants.ERROR_CLASS;
+        if (errorType) {
+            if (errorType !== 'userAndEmail') {
+                newState[errorType].class = constants.ERROR_CLASS;
+            } else {
+                newState['username'].class = constants.ERROR_CLASS;
+                newState['email'].class = constants.ERROR_CLASS;
+            }
         } else {
-            newState['username'].class = constants.ERROR_CLASS;
-            newState['email'].class = constants.ERROR_CLASS;
+            newState.userChanged = true;
         }
 
         this.setState(newState);
@@ -141,9 +147,8 @@ class RegisterForm extends Component {
         });
 
         return fields.every(field => {
-            return field.errorMessages.length == 0;
+            return field.errorMessages.length === 0;
         });
-        console.log(this.state)
     }
 
     fieldsNotEmpty = fields => {
@@ -182,7 +187,7 @@ class RegisterForm extends Component {
                     newState[name].class = '';
                 } else {
                     newState[name].class = constants.ERROR_CLASS;
-                    newState[name].errorMessages.push(validatorStatus)
+                    newState[name].errorMessages.push(validatorStatus);
                 }
                 
             });
@@ -196,32 +201,22 @@ class RegisterForm extends Component {
         if (error === field) {
             return <span className='error-msg'> already exists</span>
         }
+    }
 
-        // if (error) {
-        //     switch (field) {
-        //         case 'username':
-        //             if (error !== 'email') { 
-        //                 return <span className='error-msg'>Username already exists</span>
-        //                 break;
-        //             }                   
-        //         case 'email':
-        //             if (error !== 'username') { 
-        //                 return <span className='error-msg'>Email already exists</span>
-        //                 break;
-        //             }
-        //         default:
-        //             break;
-        //     }
-        // }
-        
-        
+    renderServerError = (error) => {
+        if (this.props.errorType) {
+            return <Alert color='danger'>{error}</Alert>
+        }
     }
 
     render() {
+        if (this.state.userChanged) {
+            return <Redirect to='' />
+        }
         return (
             <div className='col-xs-8 offset-2'>
                 <h1>Registration</h1>
-                {this.props.errorMsg}
+                {this.renderServerError(this.props.errorMsg)}
                 <Form onSubmit={this.onSubmit} noValidate>
                     <FormGroup>
                         <Label for='username'>Username</Label>

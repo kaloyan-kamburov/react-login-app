@@ -20,7 +20,8 @@ export function* userRegisterSaga(action) {
         if(newUserData.data.errorType) {
             yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
         } else {
-            yield put({ type: constants.USER_REGISTERED, payload: newUserData.data.user })
+            console.log(newUserData.data)
+            yield put({ type: constants.USER_REGISTERED, payload: newUserData.data })
         }
        
     } catch(error) {

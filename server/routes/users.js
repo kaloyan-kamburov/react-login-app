@@ -8,7 +8,7 @@ const User = require('../models/user');
 
 // Register
 router.post('/register', async (req, res, next) => { 
-    let newUser = new User({
+    const newUser = new User({
         username: req.body.username,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -18,19 +18,21 @@ router.post('/register', async (req, res, next) => {
         password: req.body.password
     });
 
+    console.log(req.body)
+
     try {
         const user = await User.getUser(req.body.username, req.body.email);
         if (!user) {
-            // return res.json({
-            //     success: true, 
-            //     msg: 'User is unique'
-            // });
             const userAdd = await User.addUser(newUser)
             if (userAdd) {
+                const token = jwt.sign(JSON.stringify(userAdd), config.secret, {
+                    //expiresIn: 604800 // 1 week
+                });
                 return res.json({
                     success: true, 
                     msg: 'User registered',
-                    user: userAdd
+                    user: userAdd,
+                    token: token
                 });
             }
         } else {
@@ -46,11 +48,11 @@ router.post('/register', async (req, res, next) => {
                 }
                 if (user.email === req.body.email) {
                     errorType = 'email';
-                    return 'Email exists'
+                    return 'Email exists';
                 }
             }
             return res.json({ 
-                success: true, 
+                success: false, 
                 errorMsg: msgText(),
                 errorType: errorType,
                 user: {}
@@ -145,6 +147,11 @@ router.post('/authenticate', (req, res, next) => {
             
         });
     });
+});
+
+//check token
+router.post('/validateToken', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    res.json({user: req.user})
 });
 
 // profile 

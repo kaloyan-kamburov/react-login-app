@@ -4,8 +4,6 @@ import * as constants from '../../common/constants';
 
 import RegisterForm from '../../components/RegisterForm';
 
-import { isEmail } from '../../common/validators'; 
-
 class RegisterContainer extends Component{
     constructor(props) {
         super(props);
