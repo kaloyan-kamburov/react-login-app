@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as constants from '../common/constants';
+import * as constants from '../constants';
 import { Redirect } from 'react-router-dom';
+
+import isTokenExpired from './jwtHelper';
 
 
 const AuthGuard = (WrappedComponent, authFunc) => {
@@ -10,12 +12,12 @@ const AuthGuard = (WrappedComponent, authFunc) => {
         constructor(props) {
             super(props)
             this.state = {
-                authenticated: true
+                token: localStorage.getItem('loginAppToken') || this.props.user.token
             }
         }
 
         render() {
-            if (this.props.user.personal_info.username.value) {
+            if (this.state.token && !isTokenExpired(this.state.token)) {
                 return <WrappedComponent />
             }
             return <Redirect to='' />
@@ -26,7 +28,6 @@ const AuthGuard = (WrappedComponent, authFunc) => {
 }
 
 const mapStateToProps = state => {
-
     return {
         user: state.user
     }

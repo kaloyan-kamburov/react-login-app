@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 const User = require('../models/user');
+require('dotenv').config();
+const secret = process.env.SECRET;
+
+const createToken = require('../utils/token');
 
 // Register
 router.post('/register', async (req, res, next) => { 
@@ -18,16 +22,16 @@ router.post('/register', async (req, res, next) => {
         password: req.body.password
     });
 
-    console.log(req.body)
-
     try {
         const user = await User.getUser(req.body.username, req.body.email);
         if (!user) {
             const userAdd = await User.addUser(newUser)
             if (userAdd) {
-                const token = jwt.sign(JSON.stringify(userAdd), config.secret, {
-                    //expiresIn: 604800 // 1 week
-                });
+                // const token = jwt.sign(JSON.stringify(userAdd), secret, {
+                //     //expiresIn: 604800 // 1 week
+                // });
+                const token = createToken(userAdd);
+
                 return res.json({
                     success: true, 
                     msg: 'User registered',
@@ -108,111 +112,111 @@ router.post('/register', async (req, res, next) => {
     
 });
 
-// authenticate
-router.post('/authenticate', (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
+// // authenticate
+// router.post('/authenticate', (req, res, next) => {
+//     const email = req.body.email;
+//     const password = req.body.password;
 
-    User.getUserByEmail(email, (err, user) => {
-        if (err) throw err;
-        if (!user) {
-            return res.json({success: false, msg: 'no such user'});
-        }
+//     User.getUserByEmail(email, (err, user) => {
+//         if (err) throw err;
+//         if (!user) {
+//             return res.json({success: false, msg: 'no such user'});
+//         }
 
-        User.comparePassword(password, user.password, (err, isMatch) => {
+//         User.comparePassword(password, user.password, (err, isMatch) => {
 
-            if (err) throw err;
+//             if (err) throw err;
 
 
-            if (isMatch) {
-                const token = jwt.sign(JSON.stringify(user), config.secret, {
-                    //expiresIn: 604800 // 1 week
-                });
+//             if (isMatch) {
+//                 const token = jwt.sign(JSON.stringify(user), config.secret, {
+//                     //expiresIn: 604800 // 1 week
+//                 });
 
-                res.json({
-                    success: true,
-                    token: 'JWT ' + token, 
-                    user: {
-                        id: user._id,
-                        name: user.name,
-                        username: user.username,
-                        email: user.email,
-                        isAdmin: user.isAdmin
-                    }
-                });
-            } else {
-                return res.json({success: false, msg: 'wrong password'});
-            }
+//                 res.json({
+//                     success: true,
+//                     token: 'JWT ' + token, 
+//                     user: {
+//                         id: user._id,
+//                         name: user.name,
+//                         username: user.username,
+//                         email: user.email,
+//                         isAdmin: user.isAdmin
+//                     }
+//                 });
+//             } else {
+//                 return res.json({success: false, msg: 'wrong password'});
+//             }
 
             
-        });
-    });
-});
+//         });
+//     });
+// });
 
-//check token
-router.post('/validateToken', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    res.json({user: req.user})
-});
+// //check token
+// router.post('/validateToken', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     res.json({user: req.user})
+// });
 
-// profile 
-router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    console.log('USER: ')
-    console.log(req.user);
-    res.json({user: req.user})
-});
+// // profile 
+// router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     console.log('USER: ')
+//     console.log(req.user);
+//     res.json({user: req.user})
+// });
 
-// all users
-router.get('/all', passport.authenticate('jwt', {session: false}), (req, res, next) => {    
-    User.getAllUsers((err, users) => {
-        if (err) throw err;
-        res.json(users);
-    });
-});
+// // all users
+// router.get('/all', passport.authenticate('jwt', {session: false}), (req, res, next) => {    
+//     User.getAllUsers((err, users) => {
+//         if (err) throw err;
+//         res.json(users);
+//     });
+// });
 
-// get edit user
-router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    User.getUserById(req.params.id, (err, user) => { 
-        if (err) throw err;
-        res.json(user);
-    });
-});
+// // get edit user
+// router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     User.getUserById(req.params.id, (err, user) => { 
+//         if (err) throw err;
+//         res.json(user);
+//     });
+// });
 
-// update user
-router.put('/:id/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
-        if (err) throw err;
-        res.send('User updated.');
-    })
-});
+// // update user
+// router.put('/:id/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
+//         if (err) throw err;
+//         res.send('User updated.');
+//     })
+// });
 
-// change password
-router.put('/:id/changepassword', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+// // change password
+// router.put('/:id/changepassword', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 
-        // User.getUserById(req.params.id, (err, user) => { 
-        //     if (err) throw err; 
+//         // User.getUserById(req.params.id, (err, user) => { 
+//         //     if (err) throw err; 
             
-        //     console.log('USER: ');
-        //     console.log(user.isAdmin); 
-        //     console.log('ID: ');
-        //     console.log(req.params.id);
-        //     console.log('PASSPORT ID: ');
-        //     // console.log(passport.);
+//         //     console.log('USER: ');
+//         //     console.log(user.isAdmin); 
+//         //     console.log('ID: ');
+//         //     console.log(req.params.id);
+//         //     console.log('PASSPORT ID: ');
+//         //     // console.log(passport.);
            
 
-        // });
+//         // });
 
-    User.changePassword(req.params.id, req.body.password, (err, result) => {
-        if (err) throw err;
-        res.send('Password updated.');
-    });
-});
+//     User.changePassword(req.params.id, req.body.password, (err, result) => {
+//         if (err) throw err;
+//         res.send('Password updated.');
+//     });
+// });
  
-//delete user
-router.delete('/:id/delete', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    User.deleteUser(req.params.id, (err, result) => {
-        if (err) throw err;
-        res.send('User deleted.');
-    })
-});
+// //delete user
+// router.delete('/:id/delete', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+//     User.deleteUser(req.params.id, (err, result) => {
+//         if (err) throw err;
+//         res.send('User deleted.');
+//     })
+// });
 
 module.exports = router;

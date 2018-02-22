@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './styles/App.css';
 
@@ -11,7 +11,8 @@ import Routes from './containers/Routes'
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
 import axios from 'axios';
-
+import { getUserPersonalInfoFromToken } from './common/auth/jwtHelper';
+import * as actionTypes from './common/constants';
 
 
 import { Container, Row, Col } from 'reactstrap';
@@ -28,19 +29,25 @@ if(localStorage.getItem('loginAppToken')) {
 	axios.defaults.headers.common['Content-type'] = 'application/json';
 }
 
-const App = props => {
-	return (
-		<Provider store={store}>
-			<div className='App'>
-				<Navigation />
-				<Container>
-					<Row>
-						<Col xs="12"><Routes/></Col>
-					</Row>
-				</Container>
-			</div>
-		</Provider>
-	)
+class App extends Component {
+	componentWillMount() {
+		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO, payload: getUserPersonalInfoFromToken() })
+	}
+
+	render() {
+		return (
+			<Provider store={store}>
+				<div className='App'>
+					<Navigation />
+					<Container>
+						<Row>
+							<Col xs="12"><Routes/></Col>
+						</Row>
+					</Container>
+				</div>
+			</Provider>
+		)
+	}
 }
 
 export default App

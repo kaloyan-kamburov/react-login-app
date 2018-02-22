@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import * as constants from '../../common/constants';
 
 import LoginForm from '../../components/LoginForm';
-import AuthGuard from '../../common/authGuard'
+import AuthGuard from '../../common/auth/authGuard';
 import axios from 'axios';
-import * as authFunctions from '../../common/authFunctions';
+import * as authFunctions from '../../common/auth/authFunctions';
 
 class LoginContainer extends Component {
 
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-// export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(LoginContainer), authFunctions.authDefaultFunc)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

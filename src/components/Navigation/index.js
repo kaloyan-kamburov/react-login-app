@@ -7,9 +7,6 @@ export default class Navigation extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            collapsed: true
-        }
     }
     // toggleNavbar = () => {
         
@@ -27,25 +24,31 @@ export default class Navigation extends React.Component {
         // this.setState(newProps)
     }
     render() {
+        console.log(this.props)
         return (
             <div>
                 {this.props.email}
-                {this.props.errorType}
                 <Container>
                     <Nav pills>
                         <NavbarBrand tag={Link} to="/">
-                                Home
+                            Home
                         </NavbarBrand>
-                            <NavItem>
-                                <NavLink onClick={() => { }} tag={Link} to="/register">
-                                    Register
-                                </NavLink>
-                            </NavItem> 
-                            <NavItem>
-                                <NavLink onClick={() => { }} tag={Link} to="/login">
-                                    Login
-                                </NavLink>
-                            </NavItem> 
+                        <NavItem>
+                            <NavLink onClick={() => { }} tag={Link} to="/register">
+                                Register
+                            </NavLink>
+                        </NavItem> 
+                        <NavItem>
+                            <NavLink onClick={() => { }} tag={Link} to="/profile">
+                                Profile
+                            </NavLink>
+                        </NavItem> 
+                        
+                        <NavItem>
+                            <NavLink onClick={() => { }} tag={Link} to="/login">
+                                Login
+                            </NavLink>
+                        </NavItem> 
                         
                         {/* <NavbarToggler className="dsaads" onClick={this.toggleNavbar} className="mr-2" />
                         <Collapse isOpen={!this.state.collapsed} navbar>

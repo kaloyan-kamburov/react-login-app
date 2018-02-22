@@ -36,11 +36,20 @@ export default {
             errorType: "",
             errorMsg: "" 
         },
+        token: '',
         cart_products: [],
         wishlist: [],
         orders: {
             pending: [],
             history: []
         } 
+    }, 
+    products: {
+        categories: [
+            {
+                name: 'category1'
+            }
+        ],
+        
     }
 }
