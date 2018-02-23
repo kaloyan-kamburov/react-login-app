@@ -1,11 +1,11 @@
 import decode from 'jwt-decode';
 
-export function getUserPersonalInfoFromToken() {
+export function getUserPersonalInfoFromToken(state) {
     if (localStorage.getItem('loginAppToken')) {
         return decode(localStorage.getItem('loginAppToken'));
     }
-
     return false;
+
     
 }
 

@@ -1,12 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Router } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 
 export default class Navigation extends React.Component {
+    
     constructor(props) {
         super(props);
-
+        
+        this.state = {
+            activeState: ''
+        }
     }
     // toggleNavbar = () => {
         
@@ -15,16 +19,22 @@ export default class Navigation extends React.Component {
     //     });
     // }
 
-    componentWillUpdate() {
-        // debugger;        
+    componentWillMount() {
+        let loc = window.location.href,
+            allIndexes = loc.split(''),
+            firstIndex = loc.indexOf('/') + 1;
+
+        //if (loc.lastIndexOf('/') && loc)
+
+        
     }
 
-    componentWillReceiveProps(newProps) {
-        // debugger
-        // this.setState(newProps)
+    changeActiveState(activeState) {    
+        //this.setState({ activeState });
     }
+
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         return (
             <div>
                 {this.props.email}
@@ -34,18 +44,18 @@ export default class Navigation extends React.Component {
                             Home
                         </NavbarBrand>
                         <NavItem>
-                            <NavLink onClick={() => { }} tag={Link} to="/register">
+                            <NavLink className={this.state.activeState === "register" ? "active" : ""} onClick={() => this.changeActiveState('register')} tag={Link} to="/register">
                                 Register
                             </NavLink>
                         </NavItem> 
-                        <NavItem>
-                            <NavLink onClick={() => { }} tag={Link} to="/profile">
+                        <NavItem active="active">
+                            <NavLink className={this.state.activeState === "profile" ? "active" : ""}  onClick={() => this.changeActiveState('profile')} tag={Link} to="/profile">
                                 Profile
                             </NavLink>
                         </NavItem> 
                         
-                        <NavItem>
-                            <NavLink onClick={() => { }} tag={Link} to="/login">
+                        <NavItem className={this.state.activeState === "login" ? "active" : ""} onClick={() => this.changeActiveState('login')} >
+                            <NavLink onClick={() => this.changeActiveState('register')} tag={Link} to="/login">
                                 Login
                             </NavLink>
                         </NavItem> 

@@ -7,6 +7,7 @@ import RegisterForm from '../../components/RegisterForm';
 class RegisterContainer extends Component{
     constructor(props) {
         super(props);
+        console.log(props)
         this.state = {
             personal_info: {
                 username: props.personal_info.username,

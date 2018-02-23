@@ -30,7 +30,10 @@ if(localStorage.getItem('loginAppToken')) {
 }
 
 class App extends Component {
+	
 	componentWillMount() {
+		// console.log(getUserPersonalInfoFromToken())
+		// console.log(store.getState())
 		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO, payload: getUserPersonalInfoFromToken() })
 	}
 

@@ -112,6 +112,46 @@ router.post('/register', async (req, res, next) => {
     
 });
 
+router.post('/authenticate', async (req, res, next) => {
+    try {
+        console.log(req.body.userOrEmail, req.body.userOrEmail)
+        const user = await User.getUser(req.body.userOrEmail, req.body.userOrEmail);
+        if (!user) {
+            return res.json({
+                success: false,
+                msg: 'Wrong user'
+            });
+        } else {
+            
+            try {
+                const isMatch = await User.comparePassword(req.body.password, user.password)
+                if (isMatch) {
+
+                    const token = createToken(user);
+                    console.log(token)
+                        
+                    res.json({
+                        success: true,
+                        token,
+                        user
+                    });
+                }
+                    
+                return res.json({
+                    success: false,
+                    msg: 'Wrong user'
+                });
+            } catch (error) {
+                return res.json({success: false, msg: '', error: error})
+            }
+           
+        }
+        
+    } catch(error) {
+        console.log(error)
+    }
+})
+
 // // authenticate
 // router.post('/authenticate', (req, res, next) => {
 //     const email = req.body.email;

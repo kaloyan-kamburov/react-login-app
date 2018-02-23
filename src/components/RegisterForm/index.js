@@ -20,7 +20,7 @@ class RegisterForm extends Component {
             username: {
                 ...props.username,
                 validators: [
-                    notEmpty,
+                    // notEmpty,
                     length(3, 32)
                 ],
                 errorMessages: []
@@ -86,7 +86,6 @@ class RegisterForm extends Component {
     onChange = (event) => {
         let newState = Object.assign({}, this.state);
         newState[event.target.name].value = event.target.value;
-
         if (this.state.formSubmitted) {
             Object.keys(this.state).forEach((key, index) => {
                 this.validateField(event.target.name);
@@ -195,12 +194,6 @@ class RegisterForm extends Component {
         }
 
         this.setState(newState);
-    }
-
-    renderServerError = (error, field) => {
-        if (error === field) {
-            return <span className='error-msg'> already exists</span>
-        }
     }
 
     renderServerError = (error) => {

@@ -13,7 +13,7 @@ class LoginContainer extends Component {
         super(props);
 
         this.state = {
-            email: '',
+            userOrEmail: '',
             password: ''
         }
     }
@@ -29,15 +29,17 @@ class LoginContainer extends Component {
 
     }
 
-    onSubmit = (event) => {
-        event.preventDefault();
-        this.props.onSubmit(this.state)
+    onSubmit = payload => {
+        this.props.onSubmit({
+            userOrEmail: payload.userOrEmail.value,
+            password: payload.password.value
+        })
     }
 
 
     render() {
         return <LoginForm 
-            email={this.state.email} 
+            userOrEmail={this.state.userOrEmail} 
             password={this.state.password} 
             onChange={this.onChange}
             onSubmit={this.onSubmit}
@@ -47,23 +49,17 @@ class LoginContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-            email: state.name,
-            password: state.password
-
+        userOrEmail: state.userOrEmail,
+        password: state.password
     }
 }
 
 const mapDispatchToProps = dispatch => {
-
-
     return {
-        onSubmit: ({ email, password}) => {
+        onSubmit: (payload) => {
             dispatch({
                 type: constants.USER_LOGIN,
-                payload: {
-                    email,
-                    password
-                }
+                payload
             })
         }
     }

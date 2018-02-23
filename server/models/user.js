@@ -76,14 +76,6 @@ module.exports.addUser = async function(newUser) {
     const genHash = await bcrypt.hash(newUser.password, genSalt);
     newUser.password = genHash;
     return newUser.save();
-    
-    // , (err, salt) => {
-    //     bcrypt.hash(newUser.password, salt, (err, hash) => {
-    //         if (err) throw err;
-    //         newUser.password = hash;
-    //         return newUser.save();
-    //     });
-    // });
 }
 
 module.exports.deleteUser = function(id, callback) {
@@ -104,11 +96,6 @@ module.exports.changePassword = function(id, password, callback) {
     });
 }
 
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-
-    console.log('PASS: ' + candidatePassword)
-    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-        if (err) throw err;
-        callback(null, isMatch); 
-    });
+module.exports.comparePassword = function(candidatePassword, hash) {
+    return bcrypt.compare(candidatePassword, hash);
 }
