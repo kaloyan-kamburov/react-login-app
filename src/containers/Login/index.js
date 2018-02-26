@@ -6,20 +6,29 @@ import LoginForm from '../../components/LoginForm';
 import AuthGuard from '../../common/auth/authGuard';
 import axios from 'axios';
 import * as authFunctions from '../../common/auth/authFunctions';
+import { Redirect } from 'react-router-dom';
 
 class LoginContainer extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {
+        
+        this.state = {            
             userOrEmail: '',
-            password: ''
+            password: '',
+            user: props.user
         }
-    }
-    componentDidMount() {
 
     }
+
+    componentWillReceiveProps(nextProps) {
+
+        this.setState({
+            user: nextProps.user
+        });
+    }
+
 
     onChange = (event) => {
         this.setState({
@@ -36,27 +45,26 @@ class LoginContainer extends Component {
         })
     }
 
-
     render() {
         return <LoginForm 
             userOrEmail={this.state.userOrEmail} 
             password={this.state.password} 
             onChange={this.onChange}
             onSubmit={this.onSubmit}
+            user={this.state.user}
         />
     }
 }
 
 const mapStateToProps = state => {
     return {
-        userOrEmail: state.userOrEmail,
-        password: state.password
+        ...state
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmit: (payload) => {
+        onSubmit: payload => {
             dispatch({
                 type: constants.USER_LOGIN,
                 payload
@@ -66,6 +74,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

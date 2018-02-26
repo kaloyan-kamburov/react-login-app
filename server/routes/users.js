@@ -27,11 +27,8 @@ router.post('/register', async (req, res, next) => {
         if (!user) {
             const userAdd = await User.addUser(newUser)
             if (userAdd) {
-                // const token = jwt.sign(JSON.stringify(userAdd), secret, {
-                //     //expiresIn: 604800 // 1 week
-                // });
                 const token = createToken(userAdd);
-
+                console.log('dsadsdsadsa')
                 return res.json({
                     success: true, 
                     msg: 'User registered',
@@ -126,14 +123,11 @@ router.post('/authenticate', async (req, res, next) => {
             try {
                 const isMatch = await User.comparePassword(req.body.password, user.password)
                 if (isMatch) {
-
-                    const token = createToken(user);
-                    console.log(token)
-                        
+                    const token = createToken(user);                        
                     res.json({
                         success: true,
-                        token,
-                        user
+                        user,
+                        token
                     });
                 }
                     

@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import * as constants from '../../common/constants';
 
 import RegisterForm from '../../components/RegisterForm';
+import AuthGuard from '../../common/auth/authGuard';
+import { Redirect } from 'react-router-dom';
 
 class RegisterContainer extends Component{
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {
+            loggedIn: props.loggedIn,
             personal_info: {
                 username: props.personal_info.username,
                 firstname: props.personal_info.firstname,
@@ -25,6 +27,7 @@ class RegisterContainer extends Component{
 
     }
 
+
     componentWillReceiveProps(props) {
         this.setState({
             personal_info: {
@@ -39,6 +42,9 @@ class RegisterContainer extends Component{
     }
 
     render() {
+        if (this.props.personal_info.username.value) {
+            return <Redirect to='' />;            
+        };
         return (
             <RegisterForm 
                 username={this.state.personal_info.username} 
@@ -67,7 +73,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (payload) => (
+    onSubmit: payload => (
         dispatch({
             type: constants.USER_REGISTER,
             payload

@@ -55,3 +55,10 @@ input:invalid {
   float: left;
   width: 100%;
 }
+
+.btn-signout {
+  float: right;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 30px;
+}

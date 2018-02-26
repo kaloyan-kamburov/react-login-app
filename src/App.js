@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './styles/App.css';
+import { Link, Router, withRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -24,27 +25,49 @@ const store = createStore(
 )
 sagaMiddleware.run(rootSaga);
 
-if(localStorage.getItem('loginAppToken')) {
+if (localStorage.getItem('loginAppToken')) {
 	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
 	axios.defaults.headers.common['Content-type'] = 'application/json';
 }
 
 class App extends Component {
-	
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			activeRoute: ''
+		}
+	}
+
 	componentWillMount() {
-		// console.log(getUserPersonalInfoFromToken())
-		// console.log(store.getState())
+		this.setState({
+			activeRoute: this.props.location.pathname
+		})
 		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO, payload: getUserPersonalInfoFromToken() })
 	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.location.pathname !== prevProps.location.pathname) {
+			this.setState({
+				activeRoute: this.props.location.pathname
+			})
+		}
+	}
+
+	onRouteChanged() {
+		console.log("ROUTE CHANGED");
+	}
+
 
 	render() {
 		return (
 			<Provider store={store}>
 				<div className='App'>
-					<Navigation />
+					<Navigation activeRoute={this.state.activeRoute} />
 					<Container>
 						<Row>
-							<Col xs="12"><Routes/></Col>
+							<Col xs="12"><Routes /></Col>
 						</Row>
 					</Container>
 				</div>
@@ -53,4 +76,4 @@ class App extends Component {
 	}
 }
 
-export default App
+export default withRouter(App)

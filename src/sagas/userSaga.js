@@ -31,17 +31,21 @@ export function* userRegisterSaga(action) {
 }
 
 function* userLoginSaga(action) {
-    console.log(action)
     try {
         const newUserData = yield call(() => 
             axios.post(constants.API_URL + '/users/authenticate', {
                 userOrEmail: action.payload.userOrEmail,
                 // name: action.payload.name,
                 // email: action.payload.email,
-                password: action.payload.password
+                password: action.payload.password,
+                token: action.payload.token
             })  
         )
-        yield put({ type: constants.USER_LOGGED, payload: newUserData.data.user });
+        if (newUserData.data.success) {
+            yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.USER_LOGIN_ERROR });
+        }
     } catch(error) {
         yield put({ type: constants.USER_LOGIN_ERROR });
     }

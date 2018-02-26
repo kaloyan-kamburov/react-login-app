@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { notEmpty, length } from '../../common/validators';
 import * as constants from '../../common/constants';
+import { Redirect } from 'react-router-dom';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class LoginForm extends Component {
             formSubmitted: false,
             fieldsEmpty: true,
             errorMsg: '',
+            user: props.user,
             userOrEmail: {
                 value: props.userOrEmail,
                 class: '',
@@ -27,6 +29,13 @@ class LoginForm extends Component {
                 errorMessages: []
             }
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let newState = Object.assign({}, this.state, {
+            user: nextProps.user
+        });
+        this.setState(newState);
     }
 
     onSubmit = event => {
@@ -64,9 +73,12 @@ class LoginForm extends Component {
 
     }
     
-    render() {        
+    render() { 
+        if (this.state.user.personal_info.username.value) {
+            return <Redirect to='' />
+        }       
         return(
-            <div className='col-xs-8 offset-2'>
+            <div>
                 <h1>Login</h1>
                 {this.renderServerError(this.props.errorMsg)}
                 <Form onSubmit={this.onSubmit} noValidate>

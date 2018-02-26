@@ -203,11 +203,11 @@ class RegisterForm extends Component {
     }
 
     render() {
-        if (this.state.userChanged) {
+        if (this.props.username.value) {
             return <Redirect to='' />
         }
         return (
-            <div className='col-xs-8 offset-2'>
+            <div>
                 <h1>Registration</h1>
                 {this.renderServerError(this.props.errorMsg)}
                 <Form onSubmit={this.onSubmit} noValidate>
