@@ -10,7 +10,7 @@ class LoginForm extends Component {
         this.state = {
             formSubmitted: false,
             fieldsEmpty: true,
-            errorMsg: '',
+            errorMsg: props.errorMsg,
             user: props.user,
             userOrEmail: {
                 value: props.userOrEmail,
@@ -55,7 +55,7 @@ class LoginForm extends Component {
 
     
     renderServerError = (error) => {
-        if (this.props.errorType) {
+        if (this.props.errorMsg) {
             return <Alert color='danger'>{error}</Alert>
         }
     }
@@ -80,7 +80,7 @@ class LoginForm extends Component {
         return(
             <div>
                 <h1>Login</h1>
-                {this.renderServerError(this.props.errorMsg)}
+                {this.renderServerError(this.state.user.errorMsg)}
                 <Form onSubmit={this.onSubmit} noValidate>
                     <FormGroup>
                         <Label for='username'>Username or email</Label>

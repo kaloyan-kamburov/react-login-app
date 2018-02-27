@@ -56,9 +56,9 @@ input:invalid {
   width: 100%;
 }
 
-.btn-signout {
+.btn-signout { 
   float: right;
   color: #007bff;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 26px;
 }

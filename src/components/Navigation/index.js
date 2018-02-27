@@ -28,6 +28,10 @@ export default class Navigation extends React.Component {
             activeRoute: nextProps.activeRoute
         })
     }
+
+    logout = () => {
+        this.props.onLogout();
+    }
   
 
     renderLink = (name, path, authOnly, authHidden) => {
@@ -40,9 +44,17 @@ export default class Navigation extends React.Component {
                 </NavItem>
             )
         }
-        return;
-        
+        return;        
     }
+
+    renderMenuItem = (element, authOnly) => {
+        if (authOnly && this.props.email) {
+            return element;
+        }
+        return;
+    }
+
+    
 
     render() {
         // console.log(this.props)  onClick={() => this.changeActiveState(name)}s
@@ -50,16 +62,19 @@ export default class Navigation extends React.Component {
             <div>
                 {this.props.email}
                 <Container>
-                    <Nav className="mr-auto">
+                    <Nav className="align-items-center">
                         <NavbarBrand tag={Link} to="/">
                             Home
-                        </NavbarBrand>
+                        </NavbarBrand> 
                         {this.renderLink("Register", "/register", false, true)}
                         {this.renderLink("Profile", "/profile", true, false)}
                         {this.renderLink("Login", "/login", false, true)}
-                        <NavItem>
-                            <FaSignOut className="btn-signout"/>
-                        </NavItem>
+                        {this.renderMenuItem(
+                            <NavItem onClick={() => this.logout()} className="ml-auto">
+                                <FaSignOut  className="btn-signout"/>
+                            </NavItem>,
+                            true
+                        )}
                     </Nav>
                     
                 </Container>

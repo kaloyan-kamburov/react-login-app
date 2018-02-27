@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-
+import * as constants from '../../common/constants';
 import Navigation from '../../components/Navigation';
 
 const mapStateToProps = state => {
@@ -8,4 +8,15 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogout: () => {
+            dispatch({
+                type: constants.USER_LOGOUT
+            })
+        }
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

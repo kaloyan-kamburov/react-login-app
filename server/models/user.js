@@ -84,7 +84,7 @@ module.exports.deleteUser = function(id, callback) {
 
 
 module.exports.updateUser = function(id, body, callback) { 
-    User.findByIdAndUpdate(id, body, callback);
+    return User.findByIdAndUpdate(id, body, callback);
 }
 
 module.exports.changePassword = function(id, password, callback) {

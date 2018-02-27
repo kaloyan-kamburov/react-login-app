@@ -23,9 +23,8 @@ class LoginContainer extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
         this.setState({
-            user: nextProps.user
+            user: nextProps.user,
         });
     }
 
@@ -41,7 +40,7 @@ class LoginContainer extends Component {
     onSubmit = payload => {
         this.props.onSubmit({
             userOrEmail: payload.userOrEmail.value,
-            password: payload.password.value
+            password: payload.password.value,
         })
     }
 
@@ -51,6 +50,7 @@ class LoginContainer extends Component {
             password={this.state.password} 
             onChange={this.onChange}
             onSubmit={this.onSubmit}
+            errorMsg={this.state.user.errorMsg}
             user={this.state.user}
         />
     }
@@ -58,7 +58,8 @@ class LoginContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        ...state
+        ...state,
+        
     }
 }
 

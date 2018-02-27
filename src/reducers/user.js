@@ -4,36 +4,40 @@ import * as actionTypes from '../common/constants';
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) {
         case actionTypes.USER_SET_PERSONAL_INFO:
-        // debugger;
-        // console.log(action)
+        
             if (action.payload) {
                 return Object.assign({}, state, {
-                    loggedIn: true,
+                    id: action.payload._doc._id,
                     personal_info: {
-                        ...state.personal_info.username,
                         username: {
                             ...state.personal_info.username,
-                            value: action.payload.username
+                            value: action.payload._doc.username
                         },
                         firstname: {
                             ...state.personal_info.firstname,
-                            value: action.payload.firstname
+                            value: action.payload._doc.firstname
                         },
                         lastname: {
                             ...state.personal_info.lastname,
-                            value: action.payload.lastname
+                            value: action.payload._doc.lastname
                         },
                         email: {
                             ...state.personal_info.email,
-                            value: action.payload.email
+                            value: action.payload._doc.email
                         },
                         address: {
                             ...state.personal_info.address,
-                            value: action.payload.address
+                            value: action.payload._doc.address
                         },
                         phone: {
                             ...state.personal_info.phone,
-                            value: action.payload.phone
+                            value: action.payload._doc.phone
+                        },
+                        password: {
+                            ...state.personal_info.password
+                        },
+                        password2: {
+                            ...state.personal_info.password2
                         }
                     }
                 });
@@ -46,7 +50,7 @@ const userReducer = (state = initialState.user, action) => {
             localStorage.setItem('loginAppToken', action.payload.token);
             return Object.assign({}, state, {
                 token: action.payload.token,
-                loggedIn: true,
+                id: action.payload.user._id,
                 personal_info: {
                     username: {
                         ...state.personal_info.username,
@@ -75,7 +79,40 @@ const userReducer = (state = initialState.user, action) => {
                     errorType: '',
                     errorMsg: ''
                 }
-            })            
+            }) 
+        case actionTypes.USER_UPDATE:    
+            return Object.assign({}, state, {
+                token: action.payload.token,
+                loggedIn: true,
+                personal_info: {
+                    username: {
+                        ...state.personal_info.username,
+                        value: action.payload.username
+                    },
+                    firstname: {
+                        ...state.personal_info.firstname,
+                        value: action.payload.firstname
+                    },
+                    lastname: {
+                        ...state.personal_info.lastname,
+                        value: action.payload.lastname
+                    },
+                    email: {
+                        ...state.personal_info.email,
+                        value: action.payload.email
+                    },
+                    address: {
+                        ...state.personal_info.address,
+                        value: action.payload.address
+                    },
+                    phone: {
+                        ...state.personal_info.phone,
+                        value: action.payload.phone
+                    },
+                    errorType: '',
+                    errorMsg: ''
+                }
+            })                
         case actionTypes.USER_REGISTER_ERROR:
             return Object.assign({}, state, {
                 loggedIn: false,
@@ -87,9 +124,25 @@ const userReducer = (state = initialState.user, action) => {
             }); 
         case actionTypes.USER_LOGIN:
             return Object.assign({}, state, {
-                loggedIn: false
+                errorMsg: ''
             })
-        /*case actionTypes.USER_LOGGED:
+        case actionTypes.USER_LOGOUT:
+            localStorage.removeItem('loginAppToken');        
+            return Object.assign({}, state, initialState.user);
+        case actionTypes.USER_LOGIN_ERROR:
+            return Object.assign({}, state, {
+                errorMsg: action.payload.msg
+            })
+            
+        default:
+            return state;
+    }
+}
+
+export default userReducer;
+
+
+/*case actionTypes.USER_LOGGED:
             localStorage.setItem('loginAppToken', action.payload.token);
             return Object.assign({}, state, {
                 loggedIn: true,
@@ -127,12 +180,4 @@ const userReducer = (state = initialState.user, action) => {
             //     userOrEmail: action.payload.email,
             //     password: action.payload.password
             // })
-        */case actionTypes.USER_LOGIN_ERROR:
-        debugger
-            return state;
-        default:
-            return state;
-    }
-}
-
-export default userReducer;
+        */

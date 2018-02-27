@@ -1,5 +1,6 @@
 export default {
     user: {
+        id: '',
         personal_info: {
             username: {
                 value: "",

@@ -24,9 +24,7 @@ class RegisterContainer extends Component{
                 errorMsg: props.personal_info.errorMsg
             }
         }
-
     }
-
 
     componentWillReceiveProps(props) {
         this.setState({

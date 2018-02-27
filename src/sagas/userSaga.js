@@ -30,13 +30,11 @@ export function* userRegisterSaga(action) {
     }
 }
 
-function* userLoginSaga(action) {
+export function* userLoginSaga(action) {
     try {
         const newUserData = yield call(() => 
             axios.post(constants.API_URL + '/users/authenticate', {
                 userOrEmail: action.payload.userOrEmail,
-                // name: action.payload.name,
-                // email: action.payload.email,
                 password: action.payload.password,
                 token: action.payload.token
             })  
@@ -44,12 +42,32 @@ function* userLoginSaga(action) {
         if (newUserData.data.success) {
             yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
         } else {
-            yield put({ type: constants.USER_LOGIN_ERROR });
+            yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
         }
     } catch(error) {
         yield put({ type: constants.USER_LOGIN_ERROR });
     }
 }
+
+export function* userUpdateSaga(action) {
+    console.log(constants.API_URL + '/' + action.payload.id + '/update');
+
+    try {
+        const newUserData = yield call(() => 
+            axios.put(constants.API_URL + '/' + action.payload.id + '/update', {
+                ...action.payload
+            })  
+        )
+        // if (newUserData.data.success) {
+        //     yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
+        // } else {
+        //     yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
+        // }
+    } catch(error) {
+        // yield put({ type: constants.USER_LOGIN_ERROR });
+    }
+}
+
 
 export function* watchUserRegister() {
     yield takeEvery(constants.USER_REGISTER, userRegisterSaga)
@@ -57,4 +75,8 @@ export function* watchUserRegister() {
 
 export function* watchUserLogin() {
     yield takeEvery(constants.USER_LOGIN, userLoginSaga)
+}
+
+export function* watchUserUpdate() {
+    yield takeEvery(constants.USER_UPDATE, userUpdateSaga)
 }
