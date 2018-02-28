@@ -157,7 +157,7 @@ router.post('/authenticate', async (req, res, next) => {
 // });
 
 
-router.put('/:id/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
         User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
             if (err) throw err;
             res.send('User updated.');

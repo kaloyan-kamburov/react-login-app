@@ -38,7 +38,7 @@ const userReducer = (state = initialState.user, action) => {
                         },
                         password2: {
                             ...state.personal_info.password2
-                        }
+                        },
                     }
                 });
             };
@@ -50,7 +50,7 @@ const userReducer = (state = initialState.user, action) => {
             localStorage.setItem('loginAppToken', action.payload.token);
             return Object.assign({}, state, {
                 token: action.payload.token,
-                id: action.payload.user._id,
+                // id: action.payload.user._id,
                 personal_info: {
                     username: {
                         ...state.personal_info.username,
@@ -81,8 +81,9 @@ const userReducer = (state = initialState.user, action) => {
                 }
             }) 
         case actionTypes.USER_UPDATE:    
+            debugger;
             return Object.assign({}, state, {
-                token: action.payload.token,
+                token: localStorage.getItem('loginAppToken'),
                 loggedIn: true,
                 personal_info: {
                     username: {

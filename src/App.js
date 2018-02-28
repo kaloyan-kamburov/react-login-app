@@ -1,79 +1,21 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
-import './styles/App.css';
-import { Link, Router, withRouter } from 'react-router-dom';
-
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import rootReducer from './reducers'
-import Navigation from './containers/Navigation'
-import Routes from './containers/Routes'
-
-import rootSaga from './sagas';
-import createSagaMiddleWare from 'redux-saga';
-import axios from 'axios';
-import { getUserPersonalInfoFromToken } from './common/auth/jwtHelper';
-import * as actionTypes from './common/constants';
-
-
-import { Container, Row, Col } from 'reactstrap';
-
-const sagaMiddleware = createSagaMiddleWare();
-const store = createStore(
-	rootReducer,
-	applyMiddleware(sagaMiddleware)
-)
-sagaMiddleware.run(rootSaga);
-
-if (localStorage.getItem('loginAppToken')) {
-	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
-	axios.defaults.headers.common['Content-type'] = 'application/json';
-}
+import logo from './logo.svg';
+import './App.css';
 
 class App extends Component {
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			activeRoute: ''
-		}
-	}
-
-	componentWillMount() {
-		this.setState({
-			activeRoute: this.props.location.pathname
-		})
-		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO, payload: getUserPersonalInfoFromToken() })
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.props.location.pathname !== prevProps.location.pathname) {
-			this.setState({
-				activeRoute: this.props.location.pathname
-			})
-		}
-	}
-
-	onRouteChanged() {
-		console.log("ROUTE CHANGED");
-	}
-
-
-	render() {
-		return (
-			<Provider store={store}>
-				<div className='App'>
-					<Navigation activeRoute={this.state.activeRoute} />
-					<Container>
-						<Row>
-							<Col xs="12"><Routes /></Col>
-						</Row>
-					</Container>
-				</div>
-			</Provider>
-		)
-	}
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
+      </div>
+    );
+  }
 }
 
-export default withRouter(App)
+export default App;

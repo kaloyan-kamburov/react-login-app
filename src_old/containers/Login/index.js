@@ -13,7 +13,6 @@ class LoginContainer extends Component {
     constructor(props) {
         super(props);
 
-        
         this.state = {            
             userOrEmail: '',
             password: '',

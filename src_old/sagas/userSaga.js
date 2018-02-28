@@ -50,11 +50,11 @@ export function* userLoginSaga(action) {
 }
 
 export function* userUpdateSaga(action) {
-    console.log(constants.API_URL + '/' + action.payload.id + '/update');
+    console.log(constants.API_URL + '/' + action.payload.id + '/users/update');
 
     try {
         const newUserData = yield call(() => 
-            axios.put(constants.API_URL + '/' + action.payload.id + '/update', {
+            axios.put(constants.API_URL + '/users/update', {
                 ...action.payload
             })  
         )

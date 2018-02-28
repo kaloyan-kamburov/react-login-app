@@ -17,6 +17,7 @@ export default class Profile extends Component {
             fieldsEmpty: true,
             errorType: props.errorType,
             errorMsg: props.errorMsg,
+            token: props.user.token,
             user: {
                 ...props.user,
                 personal_info: {
@@ -89,10 +90,51 @@ export default class Profile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log(nextProps)
+        console.log(nextProps)
+        debugger
+
+        // this.setState({
+        //     user: {
+        //         personal_info: 
+        //         ...state.user,
+        //     }
+        // })
 
         this.setState({
-            user: nextProps.user
+            personal_info: {
+                username: {
+                    ...this.state.user.personal_info.username,
+                    ...nextProps.username,
+                },
+                firstname: {
+                    ...this.state.user.personal_info.firstname,
+                    ...nextProps.firstname,
+                },
+                lastname: {
+                    ...this.state.user.personal_info.lastname,
+                    ...nextProps.username,
+                },
+                address: {
+                    ...this.state.user.personal_info.address,
+                    ...nextProps.address,
+                },
+                phone: {
+                    ...this.state.user.personal_info.phone,
+                    ...nextProps.phone,
+                },
+                email: {
+                    ...this.state.user.personal_info.email,
+                    ...nextProps.email,
+                },
+                password: {
+                    ...this.state.user.personal_info.password,
+                    ...nextProps.password,
+                },
+                password2: {
+                    ...this.state.user.personal_info.password2,
+                    ...nextProps.password2,
+                }
+            }
         })
     }
     
@@ -100,7 +142,7 @@ export default class Profile extends Component {
         let newState = Object.assign({}, this.state);
         newState.user.personal_info[event.target.name].value = event.target.value;
         if (this.state.formSubmitted) {
-            Object.keys(this.state).forEach((key, index) => {
+            Object.keys(this.state.user.personal_info).forEach((key, index) => {
                 this.validateField(event.target.name);
             });
 
@@ -133,6 +175,7 @@ export default class Profile extends Component {
 
     fieldsNotEmpty = fields => {
         return fields.every(field => {
+            console.log(fields)
             return field.length > 0;
         });
     }

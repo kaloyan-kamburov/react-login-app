@@ -44,6 +44,9 @@ class RegisterContainer extends Component{
             return <Redirect to='' />;            
         };
         return (
+            // <FormComponent onSubmit={() => handler()}>
+            //     <Input validators={[v1, v2]} 
+            // </FormComponent>
             <RegisterForm 
                 username={this.state.personal_info.username} 
                 firstname={this.state.personal_info.firstname} 
