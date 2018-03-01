@@ -1,0 +1,64 @@
+.App {
+  margin: 0;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.active {
+  color: red;
+}
+
+.has-error { 
+  border: 1px solid red;
+}
+/* 
+input:invalid {
+  outline: 2px solid red;
+  outline-style: inset;
+}  */
+
+.error-msg {
+  clear: both;
+  float: left;
+  width: 100%;
+  background: red;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 5px;
+  display: block;
+}
+
+.form-group {
+  float: left;
+  width: 100%;
+}
+
+.btn-signout { 
+  float: right;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 26px;
+}
