@@ -26,18 +26,24 @@ class RegisterContainer extends Component {
         // console.log('-------------------')
     }
 
+    onSubmit = payload => {
+        this.props.onSubmit(payload);
+    }
+
     render() {
         return(
             <Form onSubmit={this.onSubmit}>
                 <Input 
                     type='text' 
-                    name='firstname' 
+                    name='firstname'
+                    label='First name'
                     value={this.props.user.personalInfo.firstname} 
                     validators={[notEmpty, length(3, 24)]}
                 />
                 <Input 
                     type='text' 
                     name='lastname' 
+                    label='Last name'
                     value={this.props.user.personalInfo.lastname} 
                     validators={[notEmpty, length(3, 24)]}
                 />
@@ -110,9 +116,6 @@ class RegisterContainer extends Component {
 const mapStateToProps = state => {
     return {
         ...state
-        // personal_info: {
-        //     ...state.user.personal_info
-        // }
     }
 }
 

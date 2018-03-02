@@ -1,7 +1,7 @@
 export default {
     user: {
         personalInfo: {
-            username: "",
+            username: "s",
             firstname: "",
             lastname: "",
             address: "",

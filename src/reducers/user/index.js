@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import userPersonalInfoReducer from './personalInfoReducer';
+import personalInfoReducer from './personalInfoReducer';
 
 export default combineReducers({
-    personalInfo: userPersonalInfoReducer
+    personalInfo: personalInfoReducer
     // products: productsReducer
 })

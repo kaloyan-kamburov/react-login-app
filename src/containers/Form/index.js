@@ -6,7 +6,6 @@ class Form extends Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
             pristine: true,
             formSubmitted: false,
@@ -16,32 +15,36 @@ class Form extends Component {
 
     onSubmit = event => {
         event.preventDefault();
-
-        this.setState({
+        this.setState(state => ({
             formSubmitted: true
-        });
-
-        this.validateForm();
-        this.props.onSubmit(this.state.formData);
-    }
-
-    onChange = payload => {
-        console.log('PAYLOAD: ');
-        console.log(payload)
-        this.setState({
-            pristine: false,
-            formData: {
-                ...this.state.formData,
-                payload
+        }));
+        
+        this.validateForm(() => {
+            if (Object.keys(this.refs).every(key => this.refs[key].state.valid)) {
+                this.props.onSubmit(this.state.formData);
             }
         });
     }
+
+    onChange = payload => {
+        this.setState(state => ({
+            pristine: false,
+            formData: {
+                ...this.state.formData,
+                ...payload
+            }
+        }));
+        this.props.onChange(payload)
+        
+    }
     
 
-    validateForm = () => {
+    validateForm = (callback) => {
         Object.keys(this.refs).forEach(key => {
+            console.log(this.refs[key])
             this.refs[key].validateField();
         });
+        callback();
     }
 
     render() {
@@ -49,7 +52,7 @@ class Form extends Component {
             <form onSubmit={this.onSubmit} noValidate>
                 {
                     React.Children.map(this.props.children, (child, i) => {
-                        return React.cloneElement(child, { onChange: this.onChange, formSubmitted: this.state.formSubmitted, ref: 'child' + i });
+                        return React.cloneElement(child, { onChange: this.onChange, formSubmitted: this.state.formSubmitted, ref: 'child' + i, valid: false });
                     })
                 }
                 <button type='submit' disabled={ this.state.pristine ? 'disabled' : '' }>Submit</button>
@@ -71,13 +74,7 @@ const mapDispatchToProps = dispatch => ({
             type: constants.USER_INFO_CHANGE,
             payload
         })
-    ),
-    onSubmit: payload => (
-        dispatch({
-            type: constants.USER_REGISTER,
-            payload
-        })
-    )
+    )    
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
