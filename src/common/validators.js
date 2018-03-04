@@ -14,13 +14,13 @@ export function notEmpty(input) {
     }
 }
 
-export function comparePasswords(password1, password2) {
+/*export function comparePasswords(password1, password2) {
     if (password1.localeCompare(password2) === 0) {
         return true;
     } else {
         return 'Passwords mismatch'
     }
-}
+}*/
 
 export function length(min, max) {
     let f = (value) => {
@@ -44,4 +44,23 @@ export function password(password) {
     } else {
         return 'Password must be at least 8 symbols long and containing 1 number, 1 upper and 1 lowercase'
     }
+}
+
+export function comparePasswords(password1, password2) {
+    let f = value => {
+        
+        if (document.getElementsByName(password1)[0].value.localeCompare(document.getElementsByName(password2)[0].value) === 0) {
+            return true;
+        } else {
+            return 'Passwords mismatch'
+        }
+    }
+        
+    
+    return f;
+    // if (password1.localeCompare(password2) === 0) {
+    //     return true;
+    // } else {
+    //     return 'Passwords mismatch'
+    // }
 }

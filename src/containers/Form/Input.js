@@ -15,23 +15,18 @@ export default class Input extends Component {
     onChange = event => {
         event.persist();
 
-        this.setState(state => ({
+        this.setState({
             value: event.target.value
-        })) 
+        }, () => {
+            if ( this.props.formSubmitted ) {
+                this.validateField();        
+            }
 
-        if (this.props.formSubmitted ) {
-            this.validateField();        
-        }
+            this.props.onChange({
+                [this.props.name]: event.target.value
+            });
 
-        this.props.onChange({
-            [this.props.name]: event.target.value
-        });
-
-        
-    }
-
-    componentWillUpdate(nextProps) {
-        console.log(nextProps)
+        })
     }
 
     validateField = () => {
@@ -43,22 +38,24 @@ export default class Input extends Component {
             validators.forEach(validator => {
                 let status = validator(this.state.value);
 
-                if (status === true) {
-                    valid = true;
-                } else {
-                    valid = false;
+                if (status !== true) {
                     errorMessages.push(status);
                 }
             })
-        }
 
-        this.setState((state) => ({
+            valid = errorMessages.length == 0 ? true : false;
+        } else {
+            valid = true;
+        }
+        
+        this.setState({
             errorMessages,
             valid
-        })) 
+        }) 
+    }
 
-        // this.setState({
-        // })
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps)
     }
 
     render() {
@@ -71,7 +68,10 @@ export default class Input extends Component {
                     value={this.state.value} 
                     onChange={this.onChange} 
                     ref={this.props.name} 
-                    className={(this.props.formSubmitted && !this.state.valid) ? 'has-error' : ''} 
+                    className={
+                        (this.props.formSubmitted && !this.state.valid) || 
+                        (this.props.formSubmitted && typeof this.props.serverErrorType !== 'undefined' && this.props.serverErrorType.some(error => error == this.props.name)) ? 'has-error' : ''
+                    } 
                 />
                 { this.state.errorMessages.map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }
             </div>

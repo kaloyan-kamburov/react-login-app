@@ -62,3 +62,12 @@ input:invalid {
   cursor: pointer;
   font-size: 26px;
 }
+
+label {
+  float: left;
+  width: 100%;
+}
+
+.server-error {
+  color: red;
+}

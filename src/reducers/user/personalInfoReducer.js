@@ -3,11 +3,18 @@ import * as constants from '../../common/constants';
 
 const personalInfoReducer = (state = initialState.user.personalInfo, action) => {
     switch (action.type) {
-        case constants.USER_REGISTER: 
-            debugger
+        case constants.USER_REGISTER:
             return {
                 ...state,
                 ...action.payload
+            }
+            break;
+        case constants.USER_REGISTER_ERROR:
+        debugger
+            return {
+                ...state,
+                serverErrorMsg: action.payload.errorMsg,
+                serverErrorType: action.payload.errorType
             }
             break;
         case constants.USER_INFO_CHANGE:

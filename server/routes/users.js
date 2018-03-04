@@ -20,7 +20,7 @@ router.post('/register', async (req, res, next) => {
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password
-    });
+    }); 
 
     try {
         const user = await User.getUser(req.body.username, req.body.email);
@@ -40,15 +40,15 @@ router.post('/register', async (req, res, next) => {
             let errorType,
             msgText = () => {
                 if (user.username === req.body.username && user.email === req.body.email) {
-                    errorType = 'userAndEmail';
+                    errorType = ['username', 'email']
                     return 'Username and email exists';
                 }
                 if (user.username === req.body.username) {
-                    errorType = 'username';
+                    errorType = ['username'];
                     return 'Username exists';
                 }
                 if (user.email === req.body.email) {
-                    errorType = 'email';
+                    errorType = ['email'];
                     return 'Email exists';
                 }
             }

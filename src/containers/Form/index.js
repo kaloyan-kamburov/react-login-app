@@ -6,55 +6,94 @@ class Form extends Component {
     constructor(props) {
         super(props);
 
+        console.log(props)
+
         this.state = {
             pristine: true,
             formSubmitted: false,
-            formData: {}
+            formData: {},
+            serverErrorMsg: '',
+            serverErrorType: ''
         }
     }
 
     onSubmit = event => {
         event.preventDefault();
-        this.setState(state => ({
+        this.setState({
             formSubmitted: true
-        }));
-        
-        this.validateForm(() => {
-            if (Object.keys(this.refs).every(key => this.refs[key].state.valid)) {
-                this.props.onSubmit(this.state.formData);
-            }
+        }, () => {
+            this.validateForm(() => {
+                //TODO: fix this dirty hack mofo...
+                setTimeout(() => {
+                    if ( Object.keys(this.refs).every(key => this.refs[key].state.valid) ) {
+                        this.props.onSubmit(this.state.formData);
+                    }
+                }, 1);                
+            });
+        });
+    }
+
+    renderServerError = error => {
+        return <span className='server-error'>{error}</span>
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            serverErrorMsg: nextProps.user.personalInfo.serverErrorMsg,            
+            serverErrorType: nextProps.user.personalInfo.serverErrorType
         });
     }
 
     onChange = payload => {
-        this.setState(state => ({
-            pristine: false,
-            formData: {
+        let formData;
+
+        if (!payload.hasOwnProperty('passwordConfirm')) {
+            formData = {
                 ...this.state.formData,
                 ...payload
             }
+         } else {
+            formData = {
+                ...this.state.formData
+            }
+        }
+
+        this.setState(state => ({
+            pristine: false,
+            formData
         }));
-        this.props.onChange(payload)
         
+        if (!payload.hasOwnProperty('password') || !payload.hasOwnProperty('passwordConfirm')) {
+            this.props.onChange(payload);
+        } 
     }
-    
 
     validateForm = (callback) => {
-        Object.keys(this.refs).forEach(key => {
-            console.log(this.refs[key])
+        let fieldsLength = Object.keys(this.refs).length
+        Object.keys(this.refs).forEach((key, index) => {
             this.refs[key].validateField();
+            if (index + 1 >= fieldsLength) {
+                callback();
+            }
         });
-        callback();
     }
 
     render() {
         return(
             <form onSubmit={this.onSubmit} noValidate>
+                {this.renderServerError(this.state.serverErrorMsg)}
                 {
                     React.Children.map(this.props.children, (child, i) => {
-                        return React.cloneElement(child, { onChange: this.onChange, formSubmitted: this.state.formSubmitted, ref: 'child' + i, valid: false });
+                        return React.cloneElement(child, { 
+                            onChange: this.onChange, 
+                            formSubmitted: this.state.formSubmitted,
+                            serverErrorType: this.state.serverErrorType,
+                            ref: 'child' + i, 
+                            valid: false 
+                        });
                     })
                 }
+                <br/>
                 <button type='submit' disabled={ this.state.pristine ? 'disabled' : '' }>Submit</button>
             </form>
         )
