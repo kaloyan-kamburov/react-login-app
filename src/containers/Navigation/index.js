@@ -4,6 +4,7 @@ import Navigation from '../../components/Navigation';
 
 const mapStateToProps = state => {
     return {
+        ...state
         //email: state.user.personal_info.email.value
     }
 }

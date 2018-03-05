@@ -31,6 +31,7 @@ class RegisterContainer extends Component {
     }
 
     render() {
+        // console.log(this.props)
         return(
             <Form 
                 onSubmit={this.onSubmit}

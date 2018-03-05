@@ -11,7 +11,6 @@ import Routes from './containers/Routes'
 
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
-import axios from 'axios';
 import { getUserPersonalInfoFromToken } from './common/auth/jwtHelper';
 import * as actionTypes from './common/constants';
 
@@ -25,10 +24,10 @@ const store = createStore(
 )
 sagaMiddleware.run(rootSaga);
 
-if (localStorage.getItem('loginAppToken')) {
-	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
-	axios.defaults.headers.common['Content-type'] = 'application/json';
-}
+// if (localStorage.getItem('loginAppToken')) {
+// 	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
+// 	axios.defaults.headers.common['Content-type'] = 'application/json';
+// }
 
 class App extends Component {
 

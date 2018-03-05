@@ -26,7 +26,8 @@ export default class Navigation extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             activeRoute: nextProps.activeRoute
-        })
+        });
+        console.log(nextProps)
     }
 
     logout = () => {
@@ -48,7 +49,7 @@ export default class Navigation extends React.Component {
     }
 
     renderMenuItem = (element, authOnly) => {
-        if (authOnly && this.props.email) {
+        if (authOnly && typeof this.props.user.personalInfo === 'undefined') {
             return element;
         }
         return;
@@ -57,10 +58,10 @@ export default class Navigation extends React.Component {
     
 
     render() {
+        // console.log(this.props)
         // console.log(this.props)  onClick={() => this.changeActiveState(name)}s
         return (
             <div>
-                {this.props.email}
                 <Container>
                     <Nav className="align-items-center">
                         <NavbarBrand tag={Link} to="/">

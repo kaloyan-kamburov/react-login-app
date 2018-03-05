@@ -1,5 +1,6 @@
 import initialState from './initialState';
 import * as actionTypes from '../common/constants';
+import { debug } from 'util';
 
 const userReducer = (state = initialState.user, action) => {
     switch (action.type) {
@@ -46,6 +47,7 @@ const userReducer = (state = initialState.user, action) => {
         case actionTypes.USER_REGISTER:
             return state;
         case actionTypes.USER_REGISTERED:
+        debugger;
         case actionTypes.USER_LOGGED:
             localStorage.setItem('loginAppToken', action.payload.token);
             return Object.assign({}, state, {

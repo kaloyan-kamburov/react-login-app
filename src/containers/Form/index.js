@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import * as constants from '../../common/constants'
+import * as constants from '../../common/constants';
+import { Redirect } from 'react-router-dom';
 
 class Form extends Component {
     constructor(props) {
         super(props);
-
-        console.log(props)
 
         this.state = {
             pristine: true,
@@ -79,6 +78,10 @@ class Form extends Component {
     }
 
     render() {
+        console.log(this.props.user.personalInfo)
+        if (this.props.user.personalInfo.token) {
+            return <Redirect to=''/>;
+        }
         return(
             <form onSubmit={this.onSubmit} noValidate>
                 {this.renderServerError(this.state.serverErrorMsg)}

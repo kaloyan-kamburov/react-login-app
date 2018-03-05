@@ -1,29 +1,32 @@
 import initialState from '../initialState';
 import * as constants from '../../common/constants';
+import * as helpers from '../../common/helpers';
 
 const personalInfoReducer = (state = initialState.user.personalInfo, action) => {
     switch (action.type) {
-        case constants.USER_REGISTER:
+        case constants.USER_REGISTERED:
+            localStorage.setItem('token', action.payload.token);
+            helpers.setAxiosHeaders(action.payload.token);
+
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
             }
-            break;
+        break;
         case constants.USER_REGISTER_ERROR:
-        debugger
             return {
                 ...state,
                 serverErrorMsg: action.payload.errorMsg,
                 serverErrorType: action.payload.errorType
             }
-            break;
+        break;
         case constants.USER_INFO_CHANGE:
             return {
                 ...state,
                 ...action.payload
             }
 
-            break;
+        break;
         default:
             return state;
     }
