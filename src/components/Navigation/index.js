@@ -27,13 +27,11 @@ export default class Navigation extends React.Component {
         this.setState({
             activeRoute: nextProps.activeRoute
         });
-        console.log(nextProps)
     }
 
     logout = () => {
         this.props.onLogout();
     }
-  
 
     renderLink = (name, path, authOnly, authHidden) => {
         if ((!authOnly && authHidden && !this.props.email) || (authOnly && this.props.email)) {
@@ -68,7 +66,7 @@ export default class Navigation extends React.Component {
                             Home
                         </NavbarBrand> 
                         {this.renderLink("Register", "/register", false, true)}
-                        {this.renderLink("Profile", "/profile", true, false)}
+                        {this.renderLink("Profile", "/profile", false, true)}
                         {this.renderLink("Login", "/login", false, true)}
                         {this.renderMenuItem(
                             <NavItem onClick={() => this.logout()} className="ml-auto">

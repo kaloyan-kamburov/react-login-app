@@ -1,12 +1,10 @@
 import decode from 'jwt-decode';
 
-export function getUserPersonalInfoFromToken(state) {
-    if (localStorage.getItem('loginAppToken')) {
-        return decode(localStorage.getItem('loginAppToken'));
+export function getUserIdFromToken(state) {
+    if (localStorage.getItem('token')) {
+        return decode(localStorage.getItem('token'))._doc._id;
     }
     return false;
-
-    
 }
 
 export function getTokenExpirationDate(token) {

@@ -108,6 +108,7 @@ router.post('/register', async (req, res, next) => {
     
 });
 
+// Authenticate
 router.post('/authenticate', async (req, res, next) => {
     try {
         const user = await User.getUser(req.body.userOrEmail, req.body.userOrEmail);
@@ -145,6 +146,30 @@ router.post('/authenticate', async (req, res, next) => {
     }
 });
 
+
+router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const user = await User.getUserById(req.params.id)
+        if (user) {
+            return res.json({
+                success: true,                
+                user
+            });
+        } else {
+            return res.json({
+                success: false,
+                msg: 'User not found'
+            });
+        }
+    } catch(error) {
+        return res.json({
+            success: false, 
+            msg: 'Error getting user', 
+            err: err
+        })
+    }
+});
+
 // router.put('/:id/update', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     
 //     console.log(req.params.id)
@@ -155,13 +180,12 @@ router.post('/authenticate', async (req, res, next) => {
 //     // })
 // });
 
-
 router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-        User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
-            if (err) throw err;
-            res.send('User updated.');
-        })
-    });
+    User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
+        if (err) throw err;
+        res.send('User updated.');
+    })
+});
 
 // // authenticate
 // router.post('/authenticate', (req, res, next) => {

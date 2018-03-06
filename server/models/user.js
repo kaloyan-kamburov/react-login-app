@@ -53,7 +53,7 @@ module.exports.getUser = function(username, email) {
 }
 
 module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback); 
+    return User.findById(id, callback); 
 }
 
 module.exports.getAllUsers = function(callback) {

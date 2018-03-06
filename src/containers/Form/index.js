@@ -78,7 +78,6 @@ class Form extends Component {
     }
 
     render() {
-        console.log(this.props.user.personalInfo)
         if (this.props.user.personalInfo.token) {
             return <Redirect to=''/>;
         }

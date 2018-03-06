@@ -1,4 +1,4 @@
-import { takeEvery, put, call } from 'redux-saga/effects';
+import { takeEvery, takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 
 import * as constants from '../common/constants'
@@ -24,9 +24,8 @@ export function* userLoginSaga(action) {
     try {
         const newUserData = yield call(() => 
             axios.post(constants.API_URL + '/users/authenticate', {
-                userOrEmail: action.payload.userOrEmail,
-                password: action.payload.password,
-                token: action.payload.token
+                userOrEmail: action.payload.username,
+                password: action.payload.password
             })  
         )
         if (newUserData.data.success) {
@@ -36,6 +35,29 @@ export function* userLoginSaga(action) {
         }
     } catch(error) {
         yield put({ type: constants.USER_LOGIN_ERROR });
+    }
+}
+
+export function* userSetPersonalInfoSaga(action) {
+    try {
+        const user = yield call(() =>
+            axios.get(constants.API_URL + '/users/' + action.payload)
+        )
+        if (user.data.success) {
+                yield put({ type: constants.USER_SET_PERSONAL_INFO, payload: user.data });
+
+        }
+
+        console.log(user)
+        // if(newUserData.data.errorType) {
+        //     yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
+        // } else {
+        //     yield put({ type: constants.USER_REGISTERED, payload: newUserData.data })
+        // }
+       
+    } catch(error) {
+        console.log(error)
+        // yield put({ type: constants.USER_REGISTER_ERROR });
     }
 }
 
@@ -60,13 +82,17 @@ export function* userUpdateSaga(action) {
 
 
 export function* watchUserRegister() {
-    yield takeEvery(constants.USER_REGISTER, userRegisterSaga)
+    yield takeLatest(constants.USER_REGISTER, userRegisterSaga)
 }
 
 export function* watchUserLogin() {
-    yield takeEvery(constants.USER_LOGIN, userLoginSaga)
+    yield takeLatest(constants.USER_LOGIN, userLoginSaga)
+}
+
+export function* watchUserSetPersonalInfo() {
+    yield takeLatest(constants.USER_SET_PERSONAL_INFO_REQUEST, userSetPersonalInfoSaga)
 }
 
 export function* watchUserUpdate() {
-    yield takeEvery(constants.USER_UPDATE, userUpdateSaga)
+    yield takeLatest(constants.USER_UPDATE, userUpdateSaga)
 }

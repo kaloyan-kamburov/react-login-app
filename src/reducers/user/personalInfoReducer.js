@@ -4,15 +4,16 @@ import * as helpers from '../../common/helpers';
 
 const personalInfoReducer = (state = initialState.user.personalInfo, action) => {
     switch (action.type) {
+        case constants.USER_LOGGED:
         case constants.USER_REGISTERED:
             localStorage.setItem('token', action.payload.token);
             helpers.setAxiosHeaders(action.payload.token);
-
             return {
                 ...state,
-                ...action.payload,
+                ...action.payload.user
             }
         break;
+
         case constants.USER_REGISTER_ERROR:
             return {
                 ...state,
@@ -20,6 +21,13 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 serverErrorType: action.payload.errorType
             }
         break;
+
+        case constants.USER_SET_PERSONAL_INFO: 
+            return {
+                ...state,
+                ...action.payload.user
+            }
+        
         case constants.USER_INFO_CHANGE:
             return {
                 ...state,

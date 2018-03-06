@@ -7,20 +7,21 @@ import { Redirect } from 'react-router-dom';
 import isTokenExpired from './jwtHelper';
 
 
-const AuthGuard = (WrappedComponent, authFunc) => {
+const AuthGuard = (WrappedComponent, authEnabled = true) => {
     class Guarded extends Component {
         constructor(props) {
-            super(props)
+            super(props);
             this.state = {
-                token: localStorage.getItem('loginAppToken') || this.props.user.token
+                authorized: localStorage.getItem('token') && !isTokenExpired(localStorage.getItem('token'))
             }
         }
 
         render() {
-            if (this.state.token && !isTokenExpired(this.state.token)) {
-                return <WrappedComponent />
+            if ( (this.state.authorized && !authEnabled) || (!this.state.authorized && authEnabled) ) {
+                return <Redirect to='' />
             }
-            return <Redirect to='' />
+            return <WrappedComponent />
+
         }
     }
 
@@ -29,7 +30,8 @@ const AuthGuard = (WrappedComponent, authFunc) => {
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        //user: state.user
+        ...state
     }
 }
 

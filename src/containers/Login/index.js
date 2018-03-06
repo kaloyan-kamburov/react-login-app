@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../common/constants';
 
-import Register from '../../components/Register';
+import Login from '../../components/Login';
 import { Redirect } from 'react-router-dom';
 
+import AuthGuard from '../../common/auth/authGuard'
 
 
-class RegisterContainer extends Component {
+
+class LoginContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,12 +18,9 @@ class RegisterContainer extends Component {
         this.props.onSubmit(payload);
     }
 
-    render() {        
-        // if (!this.props.user.personalInfo.token) {
-        //     return(<Redirect to=''/>)
-        // }
+    render() {
         return(
-            <Register {...this.props} />
+            <Login {...this.props} />
         );
     }
 }
@@ -35,10 +34,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     onSubmit: payload => (
         dispatch({
-            type: constants.USER_REGISTER,
+            type: constants.USER_LOGIN,
             payload
         })
     )
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(LoginContainer), false);

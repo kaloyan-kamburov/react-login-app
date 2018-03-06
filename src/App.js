@@ -11,11 +11,12 @@ import Routes from './containers/Routes'
 
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
-import { getUserPersonalInfoFromToken } from './common/auth/jwtHelper';
+import { getUserIdFromToken } from './common/auth/jwtHelper';
 import * as actionTypes from './common/constants';
 
 
 import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
 
 const sagaMiddleware = createSagaMiddleWare();
 const store = createStore(
@@ -24,10 +25,10 @@ const store = createStore(
 )
 sagaMiddleware.run(rootSaga);
 
-// if (localStorage.getItem('loginAppToken')) {
-// 	axios.defaults.headers.common['Authorization'] = localStorage.getItem('loginAppToken')
-// 	axios.defaults.headers.common['Content-type'] = 'application/json';
-// }
+if (localStorage.getItem('token')) {
+	axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('token')
+	axios.defaults.headers.common['Content-type'] = 'application/json';
+}
 
 class App extends Component {
 
@@ -43,7 +44,7 @@ class App extends Component {
 		this.setState({
 			activeRoute: this.props.location.pathname
 		})
-		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO, payload: getUserPersonalInfoFromToken() })
+		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() })
 	}
 
 	componentDidUpdate(prevProps) {
