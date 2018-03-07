@@ -60,6 +60,7 @@ router.post('/register', async (req, res, next) => {
         }
 
     } catch (err) {
+        console.log('ERROR:')
         console.log(err)
         res.json({success: false, msg: '', err: err})
     }
@@ -134,6 +135,7 @@ router.post('/authenticate', async (req, res, next) => {
                     msg: 'Incorrect login credentials'
                 });
             } catch (error) {
+                console.log('ERROR:')
                 console.log(error)
                 return res.json({success: false, msg: '', error: error})
             }
@@ -141,12 +143,13 @@ router.post('/authenticate', async (req, res, next) => {
         }
         
     } catch(error) {
+        console.log('ERROR:')
         console.log(error)
         return res.json({success: false, msg: '', error: error})
     }
 });
 
-
+// Get user
 router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         const user = await User.getUserById(req.params.id)
@@ -168,6 +171,31 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
             err: err
         })
     }
+}); 
+
+//Update user
+router.put('/update/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const user = await User.updateUser(req.params.id, {$set: req.body});
+        if (user) {
+            return res.json({
+                success: true,                
+                user
+            });
+        } else {
+            return res.json({
+                success: false,
+                msg: 'User not found'
+            });
+        }
+
+    } catch(error) {
+        return res.json({
+            success: false,
+            error: error
+        })
+    }
+    
 });
 
 // router.put('/:id/update', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
@@ -180,12 +208,6 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 //     // })
 // });
 
-router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    User.updateUser(req.params.id, {$set: req.body}, (err, result) => {
-        if (err) throw err;
-        res.send('User updated.');
-    })
-});
 
 // // authenticate
 // router.post('/authenticate', (req, res, next) => {

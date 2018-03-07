@@ -44,11 +44,9 @@ export function* userSetPersonalInfoSaga(action) {
             axios.get(constants.API_URL + '/users/' + action.payload)
         )
         if (user.data.success) {
-                yield put({ type: constants.USER_SET_PERSONAL_INFO, payload: user.data });
+            yield put({ type: constants.USER_SET_PERSONAL_INFO, payload: user.data });
 
         }
-
-        console.log(user)
         // if(newUserData.data.errorType) {
         //     yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
         // } else {
@@ -62,21 +60,21 @@ export function* userSetPersonalInfoSaga(action) {
 }
 
 export function* userUpdateSaga(action) {
-    console.log(constants.API_URL + '/' + action.payload.id + '/users/update');
-
     try {
-        const newUserData = yield call(() => 
-            axios.put(constants.API_URL + '/users/update', {
-                ...action.payload
-            })  
-        )
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload._id, action.payload))
+        if (newUserData.data.success) {
+            yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.USER_UPDATE_ERROR, payload: newUserData.data });
+
+        }
         // if (newUserData.data.success) {
         //     yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
         // } else {
         //     yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
         // }
     } catch(error) {
-        // yield put({ type: constants.USER_LOGIN_ERROR });
+        //yield put({ type: constants.USER_UPDATE_ERROR });
     }
 }
 

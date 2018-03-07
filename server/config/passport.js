@@ -12,7 +12,6 @@ module.exports = function(passport) {
     opts.secretOrKey = secret;
     passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
         try {
-            console.log(jwt_payload)
             const user = await User.getUserById(jwt_payload._doc._id);
 
             if (user) {

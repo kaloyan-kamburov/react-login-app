@@ -5,6 +5,8 @@ import * as constants from '../../common/constants';
 import Register from '../../components/Register';
 import { Redirect } from 'react-router-dom';
 
+import AuthGuard from '../../common/auth/authGuard'
+
 
 
 class RegisterContainer extends Component {

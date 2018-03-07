@@ -43,15 +43,17 @@ class App extends Component {
 	componentWillMount() {
 		this.setState({
 			activeRoute: this.props.location.pathname
-		})
-		store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() })
+		}, () => {
+			store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() });
+		});
+		
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			this.setState({
 				activeRoute: this.props.location.pathname
-			})
+			});
 		}
 	}
 

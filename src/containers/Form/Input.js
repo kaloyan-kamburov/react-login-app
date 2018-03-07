@@ -15,16 +15,18 @@ export default class Input extends Component {
     onChange = event => {
         event.persist();
 
+        if (this.type !== 'password') {
+            this.props.onChange({
+                [this.props.name]: event.target.value
+            });
+        }
+
         this.setState({
             value: event.target.value
         }, () => {
             if ( this.props.formSubmitted ) {
                 this.validateField();        
             }
-
-            this.props.onChange({
-                [this.props.name]: event.target.value
-            });
 
         })
     }
@@ -36,26 +38,21 @@ export default class Input extends Component {
         
         if (validators.length) {
             validators.forEach(validator => {
-                let status = validator(this.state.value);
+                let validationType = this.props.type === 'password' ? this.state.value : this.props.value
+                let status = validator(validationType);
 
                 if (status !== true) {
                     errorMessages.push(status);
                 }
             })
-
-            valid = errorMessages.length == 0 ? true : false;
-        } else {
-            valid = true;
         }
+
+        valid = errorMessages.length == 0 ? true : false;
         
         this.setState({
             errorMessages,
             valid
-        }) 
-    }
-
-    componentWillReceiveProps(nextProps) {
-        // console.log(nextProps)
+        });
     }
 
     render() {
@@ -65,7 +62,7 @@ export default class Input extends Component {
                 <input 
                     name={this.props.name} 
                     type={this.props.type} 
-                    value={this.state.value} 
+                    value={this.props.type === 'password' ? this.state.value : this.props.value} 
                     onChange={this.onChange} 
                     ref={this.props.name} 
                     className={

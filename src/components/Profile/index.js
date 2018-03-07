@@ -15,20 +15,31 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         // console.log(props)
+        this.state = {
+            user: {
+                personalInfo: {}
+            }
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            user: {
+                personalInfo: {
+                    ...nextProps.user.personalInfo
+                }
+            }
+        })
+
     }
 
     render() {
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
+                passwordSend={true}
+                formData={this.state.user.personalInfo}
             >
-                <Input 
-                    type='text' 
-                    name='username'
-                    label='Username'
-                    value={this.props.user.personalInfo.username} 
-                    validators={[notEmpty, length(3, 24)]}
-                />
                 <Input 
                     type='text' 
                     name='firstname'

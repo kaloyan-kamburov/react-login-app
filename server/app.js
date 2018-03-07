@@ -2,11 +2,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const pport = require('passport');
+const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
 
-const passport = require('./config/passport')(pport)
+const passportInstance = require('./config/passport')(passport)
 
 
 //connect to db
@@ -40,10 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 //passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passportInstance.initialize());
+app.use(passportInstance.session());
 
-require('./config/passport')(passport);
+require('./config/passport')(passportInstance);
 
 app.use('/users', users);
 app.use('/products', products);

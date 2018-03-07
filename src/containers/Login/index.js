@@ -5,7 +5,7 @@ import * as constants from '../../common/constants';
 import Login from '../../components/Login';
 import { Redirect } from 'react-router-dom';
 
-import AuthGuard from '../../common/auth/authGuard'
+import AuthGuard from '../../common/auth/authGuard';
 
 
 

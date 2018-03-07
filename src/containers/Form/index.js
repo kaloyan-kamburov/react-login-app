@@ -10,7 +10,7 @@ class Form extends Component {
         this.state = {
             pristine: true,
             formSubmitted: false,
-            formData: {},
+            formData: props.formData,            
             serverErrorMsg: '',
             serverErrorType: ''
         }
@@ -18,6 +18,7 @@ class Form extends Component {
 
     onSubmit = event => {
         event.preventDefault();
+        
         this.setState({
             formSubmitted: true
         }, () => {
@@ -39,14 +40,17 @@ class Form extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             serverErrorMsg: nextProps.user.personalInfo.serverErrorMsg,            
-            serverErrorType: nextProps.user.personalInfo.serverErrorType
+            serverErrorType: nextProps.user.personalInfo.serverErrorType,
+            formData: {
+                ...nextProps.user.personalInfo
+            }
         });
     }
 
     onChange = payload => {
         let formData;
 
-        if (!payload.hasOwnProperty('passwordConfirm')) {
+        if (!payload.hasOwnProperty('passwordConfirm') || this.props.passwordSend) {
             formData = {
                 ...this.state.formData,
                 ...payload
@@ -57,10 +61,10 @@ class Form extends Component {
             }
         }
 
-        this.setState(state => ({
+        this.setState({
             pristine: false,
             formData
-        }));
+        });
         
         if (!payload.hasOwnProperty('password') || !payload.hasOwnProperty('passwordConfirm')) {
             this.props.onChange(payload);
@@ -78,9 +82,6 @@ class Form extends Component {
     }
 
     render() {
-        if (this.props.user.personalInfo.token) {
-            return <Redirect to=''/>;
-        }
         return(
             <form onSubmit={this.onSubmit} noValidate>
                 {this.renderServerError(this.state.serverErrorMsg)}
