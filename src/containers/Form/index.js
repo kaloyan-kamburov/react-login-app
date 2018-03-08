@@ -19,17 +19,13 @@ class Form extends Component {
     onSubmit = event => {
         event.preventDefault();
         
-        this.setState({
-            formSubmitted: true
-        }, () => {
-            this.validateForm(() => {
-                //TODO: fix this dirty hack mofo...
-                setTimeout(() => {
-                    if ( Object.keys(this.refs).every(key => this.refs[key].state.valid) ) {
-                        this.props.onSubmit(this.state.formData);
-                    }
-                }, 1);                
-            });
+        this.validateForm(() => {
+            //TODO: fix this dirty hack mofo...
+            setTimeout(() => {
+                if ( Object.keys(this.refs).every(key => this.refs[key].state.valid) ) {
+                    this.props.onSubmit(this.props.formData);
+                }
+            }, 1);                
         });
     }
 

@@ -177,10 +177,13 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         const user = await User.updateUser(req.params.id, {$set: req.body});
+        // console.log(user) 
+        // console.log('--------')
+        // console.log(req.body)
         if (user) {
             return res.json({
                 success: true,                
-                user
+                user: req.body
             });
         } else {
             return res.json({

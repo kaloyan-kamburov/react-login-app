@@ -38,7 +38,14 @@ export default class Profile extends Component {
             <Form 
                 onSubmit={this.props.onSubmit}
                 passwordSend={true}
-                formData={this.state.user.personalInfo}
+                formData={{
+                    firstname: this.state.user.personalInfo.firstname,
+                    lastname: this.state.user.personalInfo.lastname,
+                    address: this.state.user.personalInfo.address,
+                    phone: this.state.user.personalInfo.phone,
+                    email: this.state.user.personalInfo.email,
+                    _id: this.state.user.personalInfo._id,
+                }}
             >
                 <Input 
                     type='text' 
@@ -74,20 +81,6 @@ export default class Profile extends Component {
                     label='Email'
                     value={this.props.user.personalInfo.email} 
                     validators={[notEmpty, email]}
-                />
-                <Input 
-                    type='password' 
-                    name='password' 
-                    label='Password'
-                    value=''
-                    validators={[notEmpty]}
-                />
-                <Input 
-                    type='password' 
-                    name='passwordConfirm'
-                    label='Confirm password'
-                    value=''
-                    validators={[comparePasswords('password', 'passwordConfirm')]}
                 />
             </Form>
         )
