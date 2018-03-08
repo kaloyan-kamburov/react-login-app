@@ -44,6 +44,9 @@ export default class Login extends Component {
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
+                serverErrorMsg={this.props.user.personalInfo.serverErrorMsg}
+                serverErrorType={this.props.user.personalInfo.serverErrorType}
+                formData={this.props.user.personalInfo}
             >
                 <Input 
                     type='text' 

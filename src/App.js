@@ -26,8 +26,7 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 if (localStorage.getItem('token')) {
-	axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('token')
-	axios.defaults.headers.common['Content-type'] = 'application/json';
+	axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('token');
 }
 
 class App extends Component {

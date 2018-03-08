@@ -7,7 +7,7 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
         case constants.USER_LOGGED:
         case constants.USER_REGISTERED:
             localStorage.setItem('token', action.payload.token);
-            helpers.setAxiosHeaders(action.payload.token);
+            helpers.setAxiosHeaders(localStorage.getItem('token'));
             return {
                 ...state,
                 ...action.payload.user
@@ -29,14 +29,16 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
             }
 
         case constants.USER_UPDATED: 
-        debugger
+        console.log({
+            ...state
+        })
             return {
                 ...state,
                 ...action.payload.user
             }
 
         case constants.USER_UPDATE_ERROR: 
-        debugger
+        
             return {
                 ...state,
                 ...action.payload.user

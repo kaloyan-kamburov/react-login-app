@@ -38,12 +38,11 @@ class Form extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
         this.setState({
-            serverErrorMsg: nextProps.user.personalInfo.serverErrorMsg,            
-            serverErrorType: nextProps.user.personalInfo.serverErrorType,
-            formData: {
-                ...nextProps.user.personalInfo
-            }
+            serverErrorMsg: nextProps.serverErrorMsg,            
+            serverErrorType: nextProps.serverErrorType,
+            formData: nextProps.formData
         });
     }
 
