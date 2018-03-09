@@ -53,8 +53,8 @@ router.post('/register', async (req, res, next) => {
             }
             return res.json({ 
                 success: false, 
-                errorMsg: msgText(),
-                errorType: errorType,
+                msg: msgText(),
+                errorType,
                 user: {}
             });
         }
@@ -176,26 +176,32 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 //Update user
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        const user = await User.updateUser(req.params.id, {$set: req.body});
-        // console.log(user) 
-        // console.log('--------')
-        // console.log(req.body)
-        if (user) {
-            return res.json({
-                success: true,                
-                user: req.body
-            });
-        } else {
-            return res.json({
-                success: false,
-                msg: 'User not found'
-            });
+        const userByEmail = await User.getUserByEmail(req.body.email);
+        if (userByEmail && userByEmail.id == req.params.id) {
+            const user = await User.updateUser(req.params.id, {$set: req.body});
+            if (user) {
+                return res.json({
+                    success: true,                
+                    user,
+                    msg: 'User updated'
+                });
+            } else {
+                return res.json({
+                    success: false,
+                    msg: 'User not found'
+                });
+            } 
         }
+        return res.json({
+            success: false,
+            msg: 'User email exists'
+        });
 
     } catch(error) {
         return res.json({
             success: false,
-            error: error
+            error: error,
+            msg: 'Error while updating user'
         })
     }
     

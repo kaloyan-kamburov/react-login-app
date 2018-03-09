@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../common/constants';
 import { Redirect } from 'react-router-dom';
+import { Alert } from 'reactstrap';
 
 class Form extends Component {
     constructor(props) {
@@ -12,12 +13,19 @@ class Form extends Component {
             formSubmitted: false,
             formData: props.formData,            
             serverErrorMsg: '',
-            serverErrorType: ''
+            serverErrorType: '',
+            serverMsg: '',
+            success: props.success,
+            msg: props.msg
         }
     }
 
     onSubmit = event => {
         event.preventDefault();
+
+        this.setState({
+            formSubmitted: true
+        })
         
         this.validateForm(() => {
             //TODO: fix this dirty hack mofo...
@@ -29,15 +37,24 @@ class Form extends Component {
         });
     }
 
-    renderServerError = error => {
-        return <span className='server-error'>{error}</span>
+
+    renderServerMsg = (msg, success) => {
+        if (msg && msg.length) {
+            return <Alert color={ success ? 'success' : 'danger' }>{msg}</Alert>
+        }
+    }
+
+    componentWillMount() {
+        this.props.onChange({
+            msg: ''
+        });
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-        this.setState({
-            serverErrorMsg: nextProps.serverErrorMsg,            
+        this.setState({     
             serverErrorType: nextProps.serverErrorType,
+            success: nextProps.success,
+            msg: nextProps.msg,
             formData: nextProps.formData
         });
     }
@@ -45,20 +62,8 @@ class Form extends Component {
     onChange = payload => {
         let formData;
 
-        if (!payload.hasOwnProperty('passwordConfirm') || this.props.passwordSend) {
-            formData = {
-                ...this.state.formData,
-                ...payload
-            }
-         } else {
-            formData = {
-                ...this.state.formData
-            }
-        }
-
         this.setState({
-            pristine: false,
-            formData
+            pristine: false
         });
         
         if (!payload.hasOwnProperty('password') || !payload.hasOwnProperty('passwordConfirm')) {
@@ -79,7 +84,7 @@ class Form extends Component {
     render() {
         return(
             <form onSubmit={this.onSubmit} noValidate>
-                {this.renderServerError(this.state.serverErrorMsg)}
+                {this.renderServerMsg(this.state.msg, this.state.success)}
                 {
                     React.Children.map(this.props.children, (child, i) => {
                         return React.cloneElement(child, { 

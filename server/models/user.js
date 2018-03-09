@@ -52,8 +52,16 @@ module.exports.getUser = function(username, email) {
     })
 }
 
-module.exports.getUserById = function(id, callback) {
-    return User.findById(id, callback); 
+module.exports.getUserById = function(id) {
+    return User.findById(id); 
+}
+
+module.exports.updateUser = function(id, body) { 
+    return User.findByIdAndUpdate(id, body, {new: true});
+}
+
+module.exports.getUserByEmail = function(email, callback) {
+    return User.findOne({email: email});
 }
 
 module.exports.getAllUsers = function(callback) {
@@ -65,10 +73,10 @@ module.exports.getUserByUsername = function(username, callback) {
     User.findOne(query, callback);
 }
 
-module.exports.getUserByEmail = function(email, callback) {
-    const query = {email: email};
-    User.findOne(query, callback);
-}
+// module.exports.getUserByEmail = function(email, callback) {
+//     const query = {email: email};
+//     User.findOne(query, callback);
+// }
 
 
 module.exports.addUser = async function(newUser) { 
@@ -82,16 +90,11 @@ module.exports.deleteUser = function(id, callback) {
     User.findByIdAndRemove(id, callback);
 }
 
-
-module.exports.updateUser = function(id, body, callback) { 
-    return User.findByIdAndUpdate(id, body, callback);
-}
-
 module.exports.changePassword = function(id, password, callback) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
-            User.findByIdAndUpdate(id, {password: hash}, callback);
+            User.findByIdAndUpdate(id, {password: hash}, {new: true});
         });
     });
 }

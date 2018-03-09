@@ -19,7 +19,8 @@ export default class Register extends Component {
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
-                serverErrorMsg={this.props.user.personalInfo.serverErrorMsg}
+                msg={this.props.user.personalInfo.msg}
+                success={this.props.user.personalInfo.success}
                 serverErrorType={this.props.user.personalInfo.serverErrorType}
                 formData={this.props.user.personalInfo}
             >

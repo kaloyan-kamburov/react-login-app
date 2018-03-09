@@ -30,14 +30,14 @@ export default class Profile extends Component {
                 }
             }
         })
-
     }
 
     render() {
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
-                passwordSend={true}
+                msg={this.props.user.personalInfo.msg}
+                success={this.props.user.personalInfo.success}
                 formData={{
                     firstname: this.state.user.personalInfo.firstname,
                     lastname: this.state.user.personalInfo.lastname,

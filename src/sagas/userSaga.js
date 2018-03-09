@@ -64,11 +64,9 @@ export function* userUpdateSaga(action) {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload._id, action.payload))
         
         if (newUserData.data.success) {
-            debugger
             yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
         } else {
             yield put({ type: constants.USER_UPDATE_ERROR, payload: newUserData.data });
-
         }
         // if (newUserData.data.success) {
         //     yield put({ type: constants.USER_LOGGED, payload: newUserData.data });

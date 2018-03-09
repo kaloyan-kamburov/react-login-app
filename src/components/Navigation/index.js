@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Router, withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
+import isTokenExpired from '../../common/auth/jwtHelper';
 
 import { FaSignOut } from 'react-icons/lib/fa'
 
@@ -12,9 +13,14 @@ export default class Navigation extends React.Component {
         super(props);
         
         this.state = {
-            activeRoute: this.props.activeRoute
+            activeRoute: this.props.activeRoute,
+            authorized: this.isAuthorized()
         }
 
+    }
+
+    isAuthorized = () => {
+        return !!(localStorage.getItem('token') && !isTokenExpired(localStorage.getItem('token')));
     }
     // toggleNavbar = () => {
         
@@ -25,7 +31,8 @@ export default class Navigation extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            activeRoute: nextProps.activeRoute
+            activeRoute: nextProps.activeRoute,
+            authorized: this.isAuthorized()
         });
     }
 
@@ -33,21 +40,22 @@ export default class Navigation extends React.Component {
         this.props.onLogout();
     }
 
-    renderLink = (name, path, authOnly, authHidden) => {
-        if ((!authOnly && authHidden && !this.props.email) || (authOnly && this.props.email)) {
-            return(
-                <NavItem>
-                    <NavLink className={this.state.activeRoute === path ? 'active' : ''} tag={Link} to={path}>
-                        {name}
-                    </NavLink>
-                </NavItem>
-            )
+    renderLink = (name, path, authHidden) => {
+        if ((authHidden && this.state.authorized) || (!authHidden && !this.state.authorized))  {
+            return;
         }
-        return;        
+
+        return(
+            <NavItem>
+                <NavLink className={this.state.activeRoute === path ? 'active' : ''} tag={Link} to={path}>
+                    {name}
+                </NavLink>
+            </NavItem>
+        );
     }
 
     renderMenuItem = (element, authOnly) => {
-        if (authOnly && typeof this.props.user.personalInfo === 'undefined') {
+        if (authOnly && this.state.authorized) {
             return element;
         }
         return;
@@ -56,6 +64,7 @@ export default class Navigation extends React.Component {
     
 
     render() {
+        
         // console.log(this.props)
         // console.log(this.props)  onClick={() => this.changeActiveState(name)}s
         return (
@@ -65,9 +74,9 @@ export default class Navigation extends React.Component {
                         <NavbarBrand tag={Link} to="/">
                             Home
                         </NavbarBrand> 
-                        {this.renderLink("Register", "/register", false, true)}
-                        {this.renderLink("Profile", "/profile", false, true)}
-                        {this.renderLink("Login", "/login", false, true)}
+                        {this.renderLink("Register", "/register", true)}
+                        {this.renderLink("Profile", "/profile", false)}
+                        {this.renderLink("Login", "/login", true)}
                         {this.renderMenuItem(
                             <NavItem onClick={() => this.logout()} className="ml-auto">
                                 <FaSignOut  className="btn-signout"/>

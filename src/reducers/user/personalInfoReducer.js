@@ -17,7 +17,8 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
         case constants.USER_REGISTER_ERROR:
             return {
                 ...state,
-                serverErrorMsg: action.payload.errorMsg,
+                msg: action.payload.msg,
+                success: action.payload.success,
                 serverErrorType: action.payload.errorType
             }
         break;
@@ -29,17 +30,21 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
             }
 
         case constants.USER_UPDATED: 
+        case constants.USER_UPDATE_ERROR:
+        case constants.USER_LOGIN_ERROR:
             return {
                 ...state,
-                msg: 'success',
-                ...action.payload
+                ...action.payload,
+                msg: action.payload.msg,
+                success: action.payload.success
             }
+        break;
 
-        case constants.USER_UPDATE_ERROR: 
-        
+        case constants.USER_LOGOUT:
+            localStorage.removeItem('token');
             return {
                 ...state,
-                ...action.payload.user
+                ...initialState
             }
         
         case constants.USER_INFO_CHANGE:
