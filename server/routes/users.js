@@ -203,8 +203,70 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), async 
             error: error,
             msg: 'Error while updating user'
         })
+    }    
+});
+
+router.put('/changepassword/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const user = await User.getUserById(req.params.id);
+
+        if (user) {
+            try {
+                const passCompare = await User.comparePassword(req.body.oldPassword, user.password);
+            
+                if (passCompare) {
+
+                    try {
+                        const newPass = await User.changePassword(req.params.id, req.body.newPassword);
+                    
+                        if (newPass) {
+                            return res.json({
+                                succes: true,
+                                msg: 'Password changed'
+                            });
+                        } else {
+                            return res.json({
+                                succes: false,
+                                msg: 'Password didn\'t changed'
+                            });
+                        }
+                    } catch (error) {
+                        return res.json({
+                            succes: false,
+                            msg: 'Password didn\'t updated'
+                        });
+
+                    }
+
+                } else {
+                    
+                    return res.json({
+                        succes: false,
+                        msg: 'Password doesn\'t match'
+                    });
+                }
+            } catch(error) {
+                return res.json({
+                    succes: false,
+                    msg: 'Error occured'
+                });
+            }
+        }
+
+        
+        
+        
+        
+
+    } catch (error) {
+
+        return res.json({
+            succes: false,
+            msg: 'User not found',
+            error
+        });
+
     }
-    
 });
 
 // router.put('/:id/update', passport.authenticate('jwt', {session: false}), async (req, res, next) => {

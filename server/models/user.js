@@ -90,15 +90,13 @@ module.exports.deleteUser = function(id, callback) {
     User.findByIdAndRemove(id, callback);
 }
 
-module.exports.changePassword = function(id, password, callback) {
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-            if (err) throw err;
-            User.findByIdAndUpdate(id, {password: hash}, {new: true});
-        });
-    });
+module.exports.changePassword = async function(id, password) {
+    const genSalt = await bcrypt.genSalt(10);
+    const genHash = await bcrypt.hash(password, genSalt);
+
+    return User.findByIdAndUpdate(id, {password: genHash}, {new: true});
 }
 
-module.exports.comparePassword = function(candidatePassword, hash) {
+module.exports.comparePassword = async function(candidatePassword, hash) {
     return bcrypt.compare(candidatePassword, hash);
 }

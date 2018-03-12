@@ -12,7 +12,6 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 ...state,
                 ...action.payload.user
             }
-        break;
 
         case constants.USER_REGISTER_ERROR:
             return {
@@ -21,7 +20,6 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 success: action.payload.success,
                 serverErrorType: action.payload.errorType
             }
-        break;
 
         case constants.USER_SET_PERSONAL_INFO: 
             return {
@@ -38,13 +36,17 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 msg: action.payload.msg,
                 success: action.payload.success
             }
-        break;
 
         case constants.USER_LOGOUT:
             localStorage.removeItem('token');
+            console.log({
+                ...state,
+                ...initialState.user.personalInfo
+            })
+            debugger
             return {
                 ...state,
-                ...initialState
+                ...initialState.user.personalInfo
             }
         
         case constants.USER_INFO_CHANGE:
@@ -53,7 +55,22 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 ...action.payload
             }
 
-        break;
+        case constants.USER_CHANGE_PASWORD_SUCCESS: 
+            debugger
+            return {
+                ...state,
+                ...action.payload
+            }
+        
+
+        case constants.USER_CHANGE_PASWORD_ERROR: 
+            debugger
+            return {
+                ...state,
+                ...action.payload
+            }
+            
+
         default:
             return state;
     }

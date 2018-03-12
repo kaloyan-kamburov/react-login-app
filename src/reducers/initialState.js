@@ -7,7 +7,10 @@ export default {
             address: '',
             phone: '', 
             email: '', 
-            password: ''
+            password: '',
+            oldPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
         },
         cartProducts: [],
         wishlist: [],

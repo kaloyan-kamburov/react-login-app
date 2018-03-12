@@ -78,6 +78,20 @@ export function* userUpdateSaga(action) {
     }
 }
 
+export function* userChangePasswordSaga(action) {
+    try {
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/changepassword/' + action.payload._id, action.payload))
+        if (newUserData.data.success) {
+            yield put({ type: constants.USER_CHANGE_PASWORD_SUCCESS, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.USER_CHANGE_PASWORD_ERROR, payload: newUserData.data });
+        }
+
+    } catch(error) {
+
+    }
+}
+
 
 export function* watchUserRegister() {
     yield takeLatest(constants.USER_REGISTER, userRegisterSaga)
@@ -93,4 +107,8 @@ export function* watchUserSetPersonalInfo() {
 
 export function* watchUserUpdate() {
     yield takeLatest(constants.USER_UPDATE, userUpdateSaga)
+}
+
+export function* watchUserChangePassword() {
+    yield takeLatest(constants.USER_CHANGE_PASSWORD, userChangePasswordSaga)
 }

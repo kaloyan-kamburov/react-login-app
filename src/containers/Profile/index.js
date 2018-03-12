@@ -13,12 +13,20 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: payload => (
+    onUpdateUserInfo: payload => (
         dispatch({
             type: constants.USER_UPDATE,
             payload
         })
-    )
+    ),
+    
+    onChangeUserPassword: payload => (
+        dispatch({
+            type: constants.USER_CHANGE_PASSWORD,
+            payload
+        })
+    ),
+    
 })
 
 export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Profile));

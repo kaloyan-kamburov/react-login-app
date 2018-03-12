@@ -43,4 +43,4 @@ const mapDispatchToProps = dispatch => ({
     )
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(RegisterContainer), false);

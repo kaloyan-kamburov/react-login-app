@@ -79,7 +79,9 @@ export default class Navigation extends React.Component {
                         {this.renderLink("Login", "/login", true)}
                         {this.renderMenuItem(
                             <NavItem onClick={() => this.logout()} className="ml-auto">
-                                <FaSignOut  className="btn-signout"/>
+                                <NavLink tag={Link} to='/'>
+                                    <FaSignOut  className="btn-signout"/>
+                                </NavLink>
                             </NavItem>,
                             true
                         )}
