@@ -35,12 +35,13 @@ export default class Profile extends Component {
     }
 
     render() {
+        console.log(this.props.user.personalInfo.changePasswordSuccess)
         return(
             <Row>
                 <Col xs='6'>
                     <Form 
                         onSubmit={this.props.onUpdateUserInfo}
-                        msg={this.props.user.personalInfo.msg}
+                        msg={this.props.user.personalInfo.msgUserInfoChanged}
                         success={this.props.user.personalInfo.success}
                         formData={{
                             firstname: this.state.user.personalInfo.firstname,
@@ -92,8 +93,7 @@ export default class Profile extends Component {
                     <Form
                         onSubmit={this.props.onChangeUserPassword}
                         msg={this.props.user.personalInfo.msgChangePassword}
-                        success={this.props.user.personalInfo.msgChangePasswordSuccess}
-                        privateState={true}
+                        success={this.props.user.personalInfo.changePasswordSuccess}
                         formData={{
                             oldPassword: this.props.user.personalInfo.oldPassword,
                             newPassword: this.props.user.personalInfo.newPassword,
@@ -107,7 +107,8 @@ export default class Profile extends Component {
                             label='Old password'
                             value={this.props.user.personalInfo.oldPassword} 
                             onChange={this.onChange}
-                            validators={[]}
+                            validators={[notEmpty]}
+                            class={(!!this.props.user.personalInfo.changePasswordSuccess) ? '' : 'has-error'}
                         />
                         <Input 
                             type='password'
@@ -115,7 +116,7 @@ export default class Profile extends Component {
                             label='New password'
                             value={this.props.user.personalInfo.newPassword} 
                             onChange={this.onChange}
-                            validators={[]}
+                            validators={[notEmpty]}
                         />
                         <Input 
                             type='password'

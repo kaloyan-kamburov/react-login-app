@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, Router, withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
-import isTokenExpired from '../../common/auth/jwtHelper';
+
+
+import { isAuthorized } from '../../common/auth/authFunctions';
 
 import { FaSignOut } from 'react-icons/lib/fa'
 
@@ -14,14 +16,11 @@ export default class Navigation extends React.Component {
         
         this.state = {
             activeRoute: this.props.activeRoute,
-            authorized: this.isAuthorized()
+            authorized: isAuthorized()
         }
 
     }
 
-    isAuthorized = () => {
-        return !!(localStorage.getItem('token') && !isTokenExpired(localStorage.getItem('token')));
-    }
     // toggleNavbar = () => {
         
     //     this.setState({
@@ -32,7 +31,7 @@ export default class Navigation extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             activeRoute: nextProps.activeRoute,
-            authorized: this.isAuthorized()
+            authorized: isAuthorized()
         });
     }
 

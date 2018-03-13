@@ -51,6 +51,7 @@ class Form extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
         this.setState({     
             serverErrorType: nextProps.serverErrorType,
             success: nextProps.success,
@@ -83,7 +84,7 @@ class Form extends Component {
 
     render() {
         return(
-            <form onSubmit={this.onSubmit} noValidate>
+            <form onSubmit={this.onSubmit} noValidate encType="multipart/form-data">
                 {this.renderServerMsg(this.state.msg, this.state.success)}
                 {
                     React.Children.map(this.props.children, (child, i) => {
@@ -92,7 +93,8 @@ class Form extends Component {
                             formSubmitted: this.state.formSubmitted,
                             serverErrorType: this.state.serverErrorType,
                             ref: 'child' + i, 
-                            valid: false 
+                            valid: false,
+                            class: (this.state.formSubmitted && !!child.props.class) ? child.props.class : ''
                         });
                     })
                 }

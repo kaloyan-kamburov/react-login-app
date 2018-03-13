@@ -8,7 +8,7 @@ export function getUserIdFromToken(state) {
 }
 
 export function getTokenExpirationDate(token) {
-    const decoded = decode(token);
+    const decoded = decode(token); 
 
     if (!decoded.exp) {
         return null;

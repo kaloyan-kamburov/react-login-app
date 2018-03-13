@@ -7,6 +7,7 @@ export default {
             address: '',
             phone: '', 
             email: '', 
+            avatar: '',
             password: '',
             oldPassword: '',
             newPassword: '',

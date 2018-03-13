@@ -6,7 +6,7 @@ import * as constants from '../common/constants'
 export function* userRegisterSaga(action) {
     try {
         const newUserData = yield call(() =>
-            axios.post(constants.API_URL + '/users/register', action.payload)
+            axios.post(constants.API_URL + '/users/register', action.payload, { headers: { 'Content-Type': 'multipart/form-data' } })
         )
         if(newUserData.data.errorType) {
             yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });

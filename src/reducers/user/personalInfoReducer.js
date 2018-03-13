@@ -16,7 +16,7 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
         case constants.USER_REGISTER_ERROR:
             return {
                 ...state,
-                msg: action.payload.msg,
+                msgUserRegister: action.payload.msg,
                 success: action.payload.success,
                 serverErrorType: action.payload.errorType
             }
@@ -29,48 +29,42 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
 
         case constants.USER_UPDATED: 
         case constants.USER_UPDATE_ERROR:
+            return {
+                ...state,
+                ...action.payload,
+                msgUserInfoChanged: action.payload.msg,
+                success: action.payload.success
+            }        
         case constants.USER_LOGIN_ERROR:
             return {
                 ...state,
                 ...action.payload,
-                msg: action.payload.msg,
-                success: action.payload.success
+                msgLoginError: action.payload.msg
             }
-
         case constants.USER_LOGOUT:
             localStorage.removeItem('token');
-            console.log({
-                ...state,
-                ...initialState.user.personalInfo
-            })
-            debugger
             return {
                 ...state,
                 ...initialState.user.personalInfo
-            }
-        
+            }        
         case constants.USER_INFO_CHANGE:
             return {
                 ...state,
                 ...action.payload
             }
-
         case constants.USER_CHANGE_PASWORD_SUCCESS: 
-            debugger
             return {
                 ...state,
-                ...action.payload
+                ...initialState.user.personalInfo,
+                changePasswordSuccess: true,
+                msgChangePassword: action.payload.msg
             }
-        
-
         case constants.USER_CHANGE_PASWORD_ERROR: 
-            debugger
             return {
                 ...state,
-                ...action.payload
+                changePasswordSuccess: false,
+                msgChangePassword: action.payload.msg
             }
-            
-
         default:
             return state;
     }

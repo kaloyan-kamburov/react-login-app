@@ -67,7 +67,8 @@ export default class Input extends Component {
                     ref={this.props.name} 
                     className={
                         (this.props.formSubmitted && !this.state.valid) || 
-                        (this.props.formSubmitted && typeof this.props.serverErrorType !== 'undefined' && this.props.serverErrorType.some(error => error == this.props.name)) ? 'has-error' : ''
+                        (this.props.formSubmitted && typeof this.props.serverErrorType !== 'undefined' && this.props.serverErrorType.some(error => error == this.props.name)) ? 'has-error' : '' ||
+                        this.props.class ? 'has-error' : ''
                     } 
                 />
                 { this.state.errorMessages.map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }

@@ -5,6 +5,8 @@ import Input from '../../containers/Form/Input';
 
 import { Redirect } from 'react-router-dom';
 
+import { isAuthorized } from '../../common/auth/authFunctions';
+
 import { 
     email, 
     notEmpty, 
@@ -21,30 +23,25 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false
+            authorized: isAuthorized()
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-        if(nextProps.user.personalInfo.email) {
-            this.setState({
-                loggedIn: true
-            })
-        }
+    componentWillReceiveProps() {
+        this.setState({
+            authorized: isAuthorized()
+        });
     }
+
 
     render() {
-        
-        if (this.state.loggedIn) {
-            return(
-                <Redirect to=''/>
-            )
+        if (this.state.authorized) {
+            return <Redirect to=''/>
         }
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
-                msg={this.props.user.personalInfo.msg}
+                msg={this.props.user.personalInfo.msgLoginError}
                 formData={{
                     username: this.props.user.personalInfo.username,
                     password: this.props.user.personalInfo.password
