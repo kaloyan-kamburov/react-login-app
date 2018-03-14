@@ -71,3 +71,7 @@ label {
 .server-error {
   color: red;
 }
+
+.avatar {
+  max-width: 150px;
+}

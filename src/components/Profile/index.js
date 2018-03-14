@@ -35,7 +35,7 @@ export default class Profile extends Component {
     }
 
     render() {
-        console.log(this.props.user.personalInfo.changePasswordSuccess)
+        console.log(this.state.user.personalInfo)
         return(
             <Row>
                 <Col xs='6'>
@@ -44,14 +44,23 @@ export default class Profile extends Component {
                         msg={this.props.user.personalInfo.msgUserInfoChanged}
                         success={this.props.user.personalInfo.success}
                         formData={{
+                            username: this.state.user.personalInfo.username,
                             firstname: this.state.user.personalInfo.firstname,
                             lastname: this.state.user.personalInfo.lastname,
                             address: this.state.user.personalInfo.address,
                             phone: this.state.user.personalInfo.phone,
                             email: this.state.user.personalInfo.email,
                             _id: this.state.user.personalInfo._id,
+                            avatar: this.props.user.personalInfo.avatar
                         }}
+                        encType='multipart/form-data'
                     >
+                        <Input 
+                            type='file' 
+                            name='avatar'
+                            label='Avatar'
+                            validators={[]}
+                        />
                         <Input 
                             type='text' 
                             name='firstname'
@@ -98,7 +107,7 @@ export default class Profile extends Component {
                             oldPassword: this.props.user.personalInfo.oldPassword,
                             newPassword: this.props.user.personalInfo.newPassword,
                             confirmNewPassword: this.props.user.personalInfo.confirmNewPassword,
-                            _id: this.state.user.personalInfo._id,
+                            _id: this.state.user.personalInfo._id
                         }}
                     >
                         <Input 

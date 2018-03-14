@@ -8,14 +8,38 @@ export default class Input extends Component {
         this.state = {
             value: props.value,
             valid: props.valid,
-            errorMessages: []
+            errorMessages: [],
+            imgUrl: props.img || ''
         }
     }
 
     onChange = event => {
         event.persist();
 
-        if (this.type !== 'password') {
+        if (this.props.type === 'file') {                
+            let reader = new FileReader(),
+            file = event.target.files[0] || ''
+
+            reader.onloadend = () => {
+                this.setState({
+                    imgUrl: reader.result
+                });
+            }
+
+            if (file !== '') {
+                reader.readAsDataURL(file);
+            } else {
+                this.setState({
+                    imgUrl: this.props.img || ''
+                });
+            }
+                
+          
+
+            this.props.onChange({
+                [this.props.name]: event.target.files[0]
+            });            
+        } else {
             this.props.onChange({
                 [this.props.name]: event.target.value
             });
@@ -27,8 +51,7 @@ export default class Input extends Component {
             if ( this.props.formSubmitted ) {
                 this.validateField();        
             }
-
-        })
+        });
     }
 
     validateField = () => {
@@ -56,9 +79,11 @@ export default class Input extends Component {
     }
 
     render() {
+        let img = this.state.imgUrl ? <img className='avatar' src={this.state.imgUrl} /> : '';
         return(
             <div>
-                <label>{this.props.label}</label>
+                <label>{this.props.label}</label>                
+                {img}
                 <input 
                     name={this.props.name} 
                     type={this.props.type} 

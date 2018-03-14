@@ -8,6 +8,7 @@ const config = require('./config/database');
 
 const passportInstance = require('./config/passport')(passport)
 
+global.__basedir = __dirname;
 
 //connect to db
 mongoose.connect(config.database);
@@ -21,6 +22,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.log('db error: ' + err);
 });
+const User = require('./models/user');
 
 const app = express();
 
@@ -36,12 +38,16 @@ app.use(cors());
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Body parser middlewaref
+//Body parser middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //passport middleware
 app.use(passportInstance.initialize());
 app.use(passportInstance.session());
+
 
 require('./config/passport')(passportInstance);
 

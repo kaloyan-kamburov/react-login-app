@@ -16,27 +16,19 @@ export default class Register extends Component {
         super(props);
     }
     render() {
-        let files = new FormData()
-        if (document.getElementsByName('avatar')[0]) {
-            files.append('file', document.getElementsByName('avatar')[0].files[0])
-        }
-        console.log(files)
         return(
             <Form 
                 onSubmit={this.props.onSubmit}
                 msg={this.props.user.personalInfo.msgUserRegister}
                 success={this.props.user.personalInfo.success}
                 serverErrorType={this.props.user.personalInfo.serverErrorType}
-                formData={{
-                    ...this.props.user.personalInfo,
-                    avatar: files
-                }}
+                formData={this.props.user.personalInfo}
+                encType='multipart/form-data'
             >
                 <Input 
                     type='file' 
                     name='avatar'
                     label='Avatar'
-                    value={this.props.user.personalInfo.avatar} 
                     validators={[]}
                 />
                 <Input 

@@ -23,15 +23,27 @@ class Form extends Component {
     onSubmit = event => {
         event.preventDefault();
 
+        let formValues;
+
         this.setState({
             formSubmitted: true
-        })
+        });
+
+        if (this.props.encType) {
+            formValues = new FormData();
         
+            Object.keys(this.props.formData).forEach(key => {
+                formValues.append(key, this.props.formData[key])
+            });
+        } else {
+            formValues = this.props.formData
+        }
+
         this.validateForm(() => {
             //TODO: fix this dirty hack mofo...
             setTimeout(() => {
                 if ( Object.keys(this.refs).every(key => this.refs[key].state.valid) ) {
-                    this.props.onSubmit(this.props.formData);
+                    this.props.onSubmit(formValues);
                 }
             }, 1);                
         });
@@ -61,8 +73,6 @@ class Form extends Component {
     }
 
     onChange = payload => {
-        let formData;
-
         this.setState({
             pristine: false
         });
@@ -84,7 +94,7 @@ class Form extends Component {
 
     render() {
         return(
-            <form onSubmit={this.onSubmit} noValidate encType="multipart/form-data">
+            <form onSubmit={this.onSubmit} noValidate encType={this.props.encType}>
                 {this.renderServerMsg(this.state.msg, this.state.success)}
                 {
                     React.Children.map(this.props.children, (child, i) => {

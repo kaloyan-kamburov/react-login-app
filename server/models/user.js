@@ -44,9 +44,6 @@ const UserSchema = mongoose.Schema({
 const User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUser = function(username, email) {
-    // return {email: 'test@test.com', username: 'test'} 
-    // console.log('username: ' + username) 
-    // console.log('email: ' + email)
     return User.findOne({ 
         $or: [
             {username: username}, 
@@ -75,12 +72,6 @@ module.exports.getUserByUsername = function(username, callback) {
     const query = {username: username};
     User.findOne(query, callback);
 }
-
-// module.exports.getUserByEmail = function(email, callback) {
-//     const query = {email: email};
-//     User.findOne(query, callback);
-// }
-
 
 module.exports.addUser = async function(newUser) { 
     const genSalt = await bcrypt.genSalt(10);
