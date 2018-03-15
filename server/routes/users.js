@@ -6,7 +6,7 @@ const config = require('../config/database');
 const fs = require('fs');
 const User = require('../models/user');
 const path = require('path');
-const multer = require('multer')
+const multer = require('multer');
 require('dotenv').config();
 const secret = process.env.SECRET;
 
@@ -26,7 +26,7 @@ const uploadRegister = multer({
         },
         filename: (req, file, callback) => {
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
-            req.body.avatar = global.__basedir + config.imagesFolder + req.body.username + '.'+ ext;
+            req.body.avatar = req.body.username + '.'+ ext;
             callback(null, req.body.username + '.'+ ext);
         }
     })
@@ -36,7 +36,7 @@ const uploadProfile = multer({
     fileFilter: async (req, file, callback) => {
         const userByEmail = await User.getUserByEmail(req.body.email); 
       
-        if(userByEmail && userByEmail._id == req.body._id) {
+        if(userByEmail && userByEmail._id == req.params.id) {
            return callback(null, true)
         }
         return callback(null, false)
@@ -48,7 +48,7 @@ const uploadProfile = multer({
         filename: (req, file, callback) => {
             console.log(req.body)
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
-            req.body.avatar = global.__basedir + config.imagesFolder + req.body.username + '.'+ ext;
+            req.body.avatar = req.body.username + '.'+ ext;
             callback(null, req.body.username + '.'+ ext);
         }
     })
@@ -174,11 +174,11 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 }); 
 
 //Update user
-router.put('/update/:id', uploadProfile.single('avatar'), passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadProfile.single('avatar'), async (req, res, next) => {
     try {
         const userByEmail = await User.getUserByEmail(req.body.email); 
-        if (userByEmail && userByEmail._id == req.body._id) {
-            const user = await User.updateUser(req.body._id, {$set: req.body});
+        if (userByEmail && userByEmail._id == req.params.id) {
+            const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
                 return res.json({
                     success: true,                
@@ -263,5 +263,22 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
 //         res.send('User deleted.');
 //     })
 // });
+
+
+router.get('/image/:id?:avatar', function(req, res) {
+    fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + req.query.avatar), (error, file) => {
+        if(error) {
+            res.json({
+                success: false,
+                error
+            });
+        }
+        let img = 'data:image/jpeg;base64,' + file.toString('base64');
+        res.json({
+            success: true,
+            file: img
+        })
+    });
+});
 
 module.exports = router;

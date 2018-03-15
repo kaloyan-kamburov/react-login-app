@@ -55,9 +55,9 @@ app.use('/users', users);
 app.use('/products', products);
 
 //Index route 
-app.get('/', (req, res) => {
-    res.send('invalid endpoint');
-});
+// app.get('/', (req, res) => {
+//     res.send('invalid endpoint');
+// });
 
 //start server
 app.listen(port, () => {

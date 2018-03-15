@@ -40,41 +40,51 @@ export function* userLoginSaga(action) {
 
 export function* userSetPersonalInfoSaga(action) {
     try {
-        const user = yield call(() =>
-            axios.get(constants.API_URL + '/users/' + action.payload)
-        )
+        const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
+        
         if (user.data.success) {
-            yield put({ type: constants.USER_SET_PERSONAL_INFO, payload: user.data });
+            try {
+                const img =  yield call(() => axios.get(constants.API_URL + '/users/image/' + action.payload, { params: {
+                    avatar: user.data.user.avatar 
+                }}))
 
+                yield put({ 
+                    type: constants.USER_SET_PERSONAL_INFO, 
+                    payload: {
+                        ...user.data,
+                        file: img.data.file
+                    } 
+                });
+            } catch (error) {
+
+            }
+
+            
+                yield put({ 
+                    type: constants.USER_SET_PERSONAL_INFO, 
+                    payload: {
+                        ...user.data,
+                        file: user[1].data.file
+                    } 
+                });
         }
-        // if(newUserData.data.errorType) {
-        //     yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
-        // } else {
-        //     yield put({ type: constants.USER_REGISTERED, payload: newUserData.data })
-        // }
        
     } catch(error) {
-        console.log(error)
-        // yield put({ type: constants.USER_REGISTER_ERROR });
+        yield put({ type: constants.USER_REGISTER_ERROR });
     }
 }
 
 export function* userUpdateSaga(action) {
     try {
-        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload._id, action.payload))
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('_id'), action.payload))
         
         if (newUserData.data.success) {
             yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
         } else {
             yield put({ type: constants.USER_UPDATE_ERROR, payload: newUserData.data });
         }
-        // if (newUserData.data.success) {
-        //     yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
-        // } else {
-        //     yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
-        // }
     } catch(error) {
-        //yield put({ type: constants.USER_UPDATE_ERROR });
+        yield put({ type: constants.USER_UPDATE_ERROR });
     }
 }
 

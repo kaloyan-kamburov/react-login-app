@@ -63,7 +63,6 @@ class Form extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         this.setState({     
             serverErrorType: nextProps.serverErrorType,
             success: nextProps.success,

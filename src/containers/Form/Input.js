@@ -9,7 +9,7 @@ export default class Input extends Component {
             value: props.value,
             valid: props.valid,
             errorMessages: [],
-            imgUrl: props.img || ''
+            imgUrl: props.img || props.file || ''
         }
     }
 
@@ -34,8 +34,6 @@ export default class Input extends Component {
                 });
             }
                 
-          
-
             this.props.onChange({
                 [this.props.name]: event.target.files[0]
             });            
@@ -79,7 +77,7 @@ export default class Input extends Component {
     }
 
     render() {
-        let img = this.state.imgUrl ? <img className='avatar' src={this.state.imgUrl} /> : '';
+        let img = this.state.imgUrl ? <img className='avatar' src={this.state.imgUrl} /> : <img className='avatar' src={this.props.file} />;
         return(
             <div>
                 <label>{this.props.label}</label>                

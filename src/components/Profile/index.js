@@ -35,7 +35,6 @@ export default class Profile extends Component {
     }
 
     render() {
-        console.log(this.state.user.personalInfo)
         return(
             <Row>
                 <Col xs='6'>
@@ -59,6 +58,7 @@ export default class Profile extends Component {
                             type='file' 
                             name='avatar'
                             label='Avatar'
+                            file={this.props.user.personalInfo.file}
                             validators={[]}
                         />
                         <Input 
