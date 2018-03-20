@@ -39,39 +39,38 @@ export function* userLoginSaga(action) {
 }
 
 export function* userSetPersonalInfoSaga(action) {
-    try {
-        const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
-        
-        if (user.data.success) {
-            try {
-                const img =  yield call(() => axios.get(constants.API_URL + '/users/image/' + action.payload, { params: {
-                    avatar: user.data.user.avatar 
-                }}))
-
-                yield put({ 
-                    type: constants.USER_SET_PERSONAL_INFO, 
-                    payload: {
-                        ...user.data,
-                        file: img.data.file
-                    } 
-                });
-            } catch (error) {
-
-            }
-
+    if (action.payload) {
+        try {
+            const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
             
+            if (user.data.success) {
                 yield put({ 
                     type: constants.USER_SET_PERSONAL_INFO, 
                     payload: {
                         ...user.data,
-                        file: user[1].data.file
+                        file: user.data.file,
                     } 
                 });
+                
+                // yield put({ 
+                //     type: constants.USER_SET_PERSONAL_INFO_ERROR, 
+                //     payload: {
+                //         ...user.data
+                //     } 
+                // });
+            }
+           
+        } catch(error) {
+            yield put({ 
+                type: constants.USER_SET_PERSONAL_INFO_ERROR
+            });
         }
-       
-    } catch(error) {
-        yield put({ type: constants.USER_REGISTER_ERROR });
+    } else {
+        yield put({ 
+            type: constants.USER_SET_PERSONAL_INFO_ERROR
+        });
     }
+    
 }
 
 export function* userUpdateSaga(action) {

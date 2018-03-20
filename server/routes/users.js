@@ -154,9 +154,13 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
     try {
         const user = await User.getUserById(req.params.id)
         if (user) {
-            return res.json({
-                success: true,                
-                user
+            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {
+                let img = file ? 'data:image/jpeg;base64,' + file.toString('base64') : null;
+                return res.json({
+                    success: true,
+                    user,
+                    file: img
+                })
             });
         } else {
             return res.json({
@@ -263,22 +267,5 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
 //         res.send('User deleted.');
 //     })
 // });
-
-
-router.get('/image/:id?:avatar', function(req, res) {
-    fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + req.query.avatar), (error, file) => {
-        if(error) {
-            res.json({
-                success: false,
-                error
-            });
-        }
-        let img = 'data:image/jpeg;base64,' + file.toString('base64');
-        res.json({
-            success: true,
-            file: img
-        })
-    });
-});
 
 module.exports = router;
