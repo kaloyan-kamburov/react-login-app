@@ -6,20 +6,20 @@ class Form extends Component {
     constructor(props) {
         super(props);
 
-        let errorsObj = {};
+        let errors = {},
+            formData = {};
 
         props.fields.forEach(field => {
-            errorsObj[field.name] = [];
-        })
+            errors[field.name] = [];
+            formData[field.name] = '';
+        });
 
         // Object.keys( props.formData).map(key => errorsObj[key] = []);
 
         this.state = {
-            formData: {
-                ...props.formData
-            },
+            formData,
             formValid: false,
-            errors: errorsObj  
+            errors,
         }
     } 
 
@@ -70,10 +70,10 @@ class Form extends Component {
     onSubmit = event => {
         event.preventDefault();
         let formValues;
-
+ 
         if (this.props.encType) {            
             formValues = new FormData();        
-            Object.keys(this.props.formData).forEach(key => {
+            Object.keys(this.state.formData).forEach(key => {
                 formValues.append(key, this.state.formData[key])
             });
         } else {
@@ -82,9 +82,17 @@ class Form extends Component {
         this.props.onSubmit(formValues)
     }
 
+    renderServerMsg = (msg) => {
+        if (msg && msg.length) {
+            return <Alert color={ 'danger' }>{msg}</Alert>
+            // return <Alert color={ success ? 'success' : 'danger' }>{msg}</Alert>
+        }
+    }
+
     render() {
         return(
             <form encType={this.props.encType} onSubmit={this.onSubmit}>
+                {this.renderServerMsg(this.props.msg, this.state.success)}
                 {
                     this.props.fields.map((field, i) => {
                         return(

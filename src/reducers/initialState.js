@@ -18,8 +18,14 @@ export default {
         orders: {
             pending: [],
             history: []
+        },
+        formMessages: {
+            msgRegisterFail: '',
+            msgLoginFail: '',
+            msgUserUpdate: '',
+            msgUserUpdateFail: ''
         } 
-    }, 
+    },
     products: {
         categories: [
             {
