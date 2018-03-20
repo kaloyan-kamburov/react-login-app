@@ -1,119 +1,112 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import * as constants from '../../common/constants';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
-
+ 
 class Form extends Component {
     constructor(props) {
         super(props);
 
+        let errorsObj = {};
+
+        props.fields.forEach(field => {
+            errorsObj[field.name] = [];
+        })
+
+        // Object.keys( props.formData).map(key => errorsObj[key] = []);
+
         this.state = {
-            pristine: true,
-            formSubmitted: false,
-            formData: props.formData,            
-            serverErrorMsg: '',
-            serverErrorType: '',
-            serverMsg: '',
-            success: props.success,
-            msg: props.msg
+            formData: {
+                ...props.formData
+            },
+            formValid: false,
+            errors: errorsObj  
         }
+    } 
+
+    onChange = event => {
+        event.persist();
+        this.setState((state) => {
+            return {
+                formData: {
+                    ...this.state.formData,
+                    [event.target.name]: event.target.value
+                }
+            }
+        }, this.validateField(event.target));
+    }
+
+    validateField = field => {
+        if (this.props.fields[parseInt(field.getAttribute('index'))].validators.length) {
+            let fieldErrors = [];
+
+            this.props.fields[parseInt(field.getAttribute('index'))].validators.forEach(validator => {
+                let status = validator(field.value);
+
+                if (status !== true) {
+                    fieldErrors.push(status)
+                }
+            });
+
+            this.setState((state) => {
+                return {
+                    errors: {
+                        ...this.state.errors,
+                        [field.name]: fieldErrors
+                    }
+                }
+            }, this.validateForm());
+        }
+    }
+
+    validateForm = () => {
+        //fix dis sh..
+        setTimeout(() => {
+            this.setState({
+                formValid: Object.keys(this.state.errors).every(key => this.state.errors[key].length == 0)
+            })            
+        }, 1);
     }
 
     onSubmit = event => {
         event.preventDefault();
-
         let formValues;
 
-        this.setState({
-            formSubmitted: true
-        });
-
-        if (this.props.encType) {
-            formValues = new FormData();
-        
+        if (this.props.encType) {            
+            formValues = new FormData();        
             Object.keys(this.props.formData).forEach(key => {
-                formValues.append(key, this.props.formData[key])
+                formValues.append(key, this.state.formData[key])
             });
         } else {
-            formValues = this.props.formData
+            formValues = this.state.formData;
         }
-
-        this.validateForm(() => {
-            //TODO: fix this dirty hack mofo...
-            setTimeout(() => {
-                if ( Object.keys(this.refs).every(key => this.refs[key].state.valid) ) {
-                    this.props.onSubmit(formValues);
-                }
-            }, 1);                
-        });
-    }
-
-
-    renderServerMsg = (msg, success) => {
-        if (msg && msg.length) {
-            return <Alert color={ success ? 'success' : 'danger' }>{msg}</Alert>
-        }
-    }
-
-    componentWillMount() {
-        this.props.onChange({
-            msg: ''
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({     
-            serverErrorType: nextProps.serverErrorType,
-            success: nextProps.success,
-            msg: nextProps.msg,
-            formData: nextProps.formData
-        });
-    }
-
-    onChange = payload => {
-        this.setState({
-            pristine: false
-        });
-        
-        if (!payload.hasOwnProperty('password') || !payload.hasOwnProperty('passwordConfirm')) {
-            this.props.onChange(payload);
-        } 
-    }
-
-    validateForm = (callback) => {
-        let fieldsLength = Object.keys(this.refs).length
-        Object.keys(this.refs).forEach((key, index) => {
-            this.refs[key].validateField();
-            if (index + 1 >= fieldsLength) {
-                callback();
-            }
-        });
+        this.props.onSubmit(formValues)
     }
 
     render() {
         return(
-            <form onSubmit={this.onSubmit} noValidate encType={this.props.encType}>
-                {this.renderServerMsg(this.state.msg, this.state.success)}
+            <form encType={this.props.encType} onSubmit={this.onSubmit}>
                 {
-                    React.Children.map(this.props.children, (child, i) => {
-                        return React.cloneElement(child, { 
-                            onChange: this.onChange, 
-                            formSubmitted: this.state.formSubmitted,
-                            serverErrorType: this.state.serverErrorType,
-                            ref: 'child' + i, 
-                            valid: false,
-                            class: (this.state.formSubmitted && !!child.props.class) ? child.props.class : ''
-                        });
+                    this.props.fields.map((field, i) => {
+                        return(
+                            <div key={i}>
+                                <label htmlFor={field.name}>{field.label}</label>
+                                <input 
+                                    type={field.type} 
+                                    name={field.name}
+                                    id={field.name}
+                                    onChange={this.onChange}
+                                    index={i}
+                                />
+                                { this.state.errors[field.name].map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }
+                            </div>
+                        );
                     })
                 }
-                <br/>
-                <button type='submit' disabled={ this.state.pristine ? 'disabled' : '' }>Submit</button>
+                <button type='submit' disabled={!this.state.formValid}>Submit</button>
             </form>
         )
     }
 }
-
 
 const mapStateToProps = state => {
     return {
@@ -121,13 +114,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    onChange: payload => (
-        dispatch({
-            type: constants.USER_INFO_CHANGE,
-            payload
-        })
-    )    
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps)(Form);

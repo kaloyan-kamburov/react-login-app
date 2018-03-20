@@ -118,8 +118,7 @@ router.post('/authenticate', async (req, res, next) => {
                 success: false,
                 msg: 'Incorrect login credentials'
             });
-        } else {
-            
+        } else {            
             try {
                 const isMatch = await User.comparePassword(req.body.password, user.password)
                 if (isMatch) {
@@ -135,16 +134,10 @@ router.post('/authenticate', async (req, res, next) => {
                     msg: 'Incorrect login credentials'
                 });
             } catch (error) {
-                console.log('ERROR:')
-                console.log(error)
                 return res.json({success: false, msg: '', error: error})
-            }
-           
-        }
-        
+            }           
+        }        
     } catch(error) {
-        console.log('ERROR:')
-        console.log(error)
         return res.json({success: false, msg: '', error: error})
     }
 });

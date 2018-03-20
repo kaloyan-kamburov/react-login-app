@@ -28,8 +28,7 @@ class RegisterContainer extends Component {
             authorized: isAuthorized()
         });
     }
-
-
+    
     render() {
         if (this.state.authorized) {
             return <Redirect to=''/>
