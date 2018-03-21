@@ -48,7 +48,6 @@ export function* userSetPersonalInfoSaga(action) {
                     type: constants.USER_SET_PERSONAL_INFO, 
                     payload: {
                         ...user.data,
-                        file: user.data.file,
                     } 
                 });
                 
@@ -75,7 +74,7 @@ export function* userSetPersonalInfoSaga(action) {
 
 export function* userUpdateSaga(action) {
     try {
-        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('_id'), action.payload))
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         
         if (newUserData.data.success) {
             yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
@@ -88,6 +87,7 @@ export function* userUpdateSaga(action) {
 }
 
 export function* userChangePasswordSaga(action) {
+    debugger
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/changepassword/' + action.payload._id, action.payload))
         if (newUserData.data.success) {

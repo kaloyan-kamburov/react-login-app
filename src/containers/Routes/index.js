@@ -12,8 +12,8 @@ class Routes extends Component {
                 <Switch>
                     <Route exact path="/" component={() => (<h1>Home</h1>)}/>
                     <Route path="/register" component={RegisterContainer}/>
-                    {/* <Route path="/login" component={LoginContainer}/> */}
-                    {/* <Route path="/profile" component={ProfileContainer}/>  */}
+                    <Route path="/login" component={LoginContainer}/>
+                    <Route path="/profile" component={ProfileContainer}/> 
                 </Switch>
             </div> 
         )

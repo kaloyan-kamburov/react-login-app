@@ -13,32 +13,71 @@ import {
     password 
 } from '../../common/validators';
 
-export default class Profile extends Component {
+export default class Login extends Component {
     constructor(props) {
         super(props);
-        // console.log(props)
+
         this.state = {
-            user: {
-                personalInfo: {}
-            }
+            id: props.user.personalInfo.id
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps.user.personalInfo.id)
         this.setState({
-            user: {
-                personalInfo: {
-                    ...nextProps.user.personalInfo
-                }
-            }
+            id: nextProps.user.personalInfo.id
         })
     }
 
     render() {
         return(
             <Row>
-                <Col xs='6'>
-                    <Form 
+                <Col xs='6'>                
+                    {/* <Form
+                        formData={this.props.user.personalInfo}
+                        msg={this.props.user.formMessages.msgUserUpdate}
+                        onSubmit={this.props.onUpdateUserInfo}
+                        encType='multipart/form-data'
+                        fields={[
+                            {
+                                type: 'file',
+                                label: 'Avatar',
+                                name: 'avatar',
+                                validators: []
+                            },
+                            {
+                                type: 'text',
+                                label: 'First name',
+                                name: 'firstname',
+                                validators: [notEmpty, length(3, 24)]
+                            },
+                            {
+                                type: 'text',
+                                label: 'Last name',
+                                name: 'lastname',
+                                validators: [notEmpty, length(3, 24)]
+                            },
+                            {
+                                type: 'text',
+                                label: 'Address',
+                                name: 'address',
+                                validators: [notEmpty]
+                            },
+                            {
+                                type: 'email',
+                                label: 'Email',
+                                name: 'email',
+                                validators: [notEmpty, email]
+                            },
+                            {
+                                type: 'number',
+                                label: 'Phone number',
+                                name: 'phone',
+                                validators: [notEmpty, length(3, 24)]
+                            }
+                        ]}
+                    /> */}
+                    {/* <Form 
                         onSubmit={this.props.onUpdateUserInfo}
                         msg={this.props.user.personalInfo.msgUserInfoChanged}
                         success={this.props.user.personalInfo.success}
@@ -96,10 +135,41 @@ export default class Profile extends Component {
                             value={this.props.user.personalInfo.email} 
                             validators={[notEmpty, email]}
                         />
-                    </Form>
+                    </Form> */}
                 </Col>
                 <Col xs='6'>
                     <Form
+                        msg={this.props.user.formMessages.msgUserChangePassword}
+                        onSubmit={this.props.onChangeUserPassword}
+                        fields={[
+                            {
+                                type: 'hidden',
+                                label: '',
+                                name: 'id',
+                                value: this.state.id,
+                                validators: []
+                            },
+                            {
+                                type: 'password',
+                                label: 'Old password',
+                                name: 'oldPassword',
+                                validators: [notEmpty]
+                            },
+                            {
+                                type: 'password',
+                                label: 'New password',
+                                name: 'newPassword',
+                                validators: [notEmpty]
+                            },
+                            {
+                                type: 'password',
+                                label: 'Confirm new password',
+                                name: 'confirmNewPassword',
+                                validators: [comparePasswords('newPassword', 'confirmNewPassword')]
+                            },
+                        ]}
+                    />
+                    {/* <Form
                         onSubmit={this.props.onChangeUserPassword}
                         msg={this.props.user.personalInfo.msgChangePassword}
                         success={this.props.user.personalInfo.changePasswordSuccess}
@@ -135,7 +205,7 @@ export default class Profile extends Component {
                             onChange={this.onChange}
                             validators={[comparePasswords('newPassword', 'confirmNewPassword')]}
                         />
-                    </Form>
+                    </Form> */}
                 </Col>
             </Row>
         )

@@ -7,69 +7,143 @@ class Form extends Component {
         super(props);
 
         let errors = {},
-            formData = {};
+            formData = props.formData || {},
+            images = {};
 
-        props.fields.forEach(field => {
-            errors[field.name] = [];
-            formData[field.name] = '';
-        });
-
-        // Object.keys( props.formData).map(key => errorsObj[key] = []);
+        if (Object.keys(formData).length) {
+            props.fields.forEach(field => {
+                if (field.type === 'file') {
+                    images[field.name] = formData[field.name];
+                }
+                errors[field.name] = [];
+            });            
+        } else {
+            props.fields.forEach(field => {
+                errors[field.name] = [];
+                formData[field.name] = '';
+            });
+        }
 
         this.state = {
             formData,
             formValid: false,
+            formSubmitted: false,
             errors,
+            images
         }
     } 
+    
+    componentWillReceiveProps(nextProps) {
+        let images = {};
+        this.props.fields.forEach(field => {
+            if (field.type === 'file') {
+                images[field.name] = nextProps.formData[field.name] || ''
+            }
+        })
+        this.setState({
+            formData: nextProps.formData ? nextProps.formData : this.state.formData,
+            images
+        });
+    }
 
     onChange = event => {
         event.persist();
-        this.setState((state) => {
-            return {
-                formData: {
-                    ...this.state.formData,
-                    [event.target.name]: event.target.value
-                }
+
+        if (event.target.type === 'file') {
+            let reader = new FileReader(),
+            file = event.target.files[0] || ''
+
+            reader.onloadend = () => {
+                this.setState({
+                    formData: {
+                        ...this.state.formData,
+                        [event.target.name]: event.target.files[0]
+                    },
+                    images: {
+                        [event.target.name]: reader.result
+                    }
+                });
             }
-        }, this.validateField(event.target));
-    }
 
-    validateField = field => {
-        if (this.props.fields[parseInt(field.getAttribute('index'))].validators.length) {
-            let fieldErrors = [];
-
-            this.props.fields[parseInt(field.getAttribute('index'))].validators.forEach(validator => {
-                let status = validator(field.value);
-
-                if (status !== true) {
-                    fieldErrors.push(status)
-                }
-            });
+            if (file !== '') {
+                reader.readAsDataURL(file);
+            } else {
+                console.log(this.state.images)
+                this.setState({
+                    formData: {
+                        ...this.state.formData,
+                        [event.target.name]: ''
+                    },
+                    images: {
+                        ...this.state.images,
+                        [event.target.name]: this.state.images[event.target.name]
+                    }
+                });
+            }
+                
+        } else {
 
             this.setState((state) => {
                 return {
+                    formData: {
+                        ...this.state.formData,
+                        [event.target.name]: event.target.value
+                    }
+                }
+            }, this.validateField(event.target));
+
+        }
+    }
+
+    validateField = field => {
+        if (this.props.fields[field.getAttribute('index')].validators.length > 0) {
+            let fieldErrors = [];
+
+            this.props.fields[field.getAttribute('index')].validators.forEach(validator => {
+                let status = validator(field.value);
+
+                if (status !== true) {
+                    fieldErrors.push(status);
+                }
+            });
+
+            //fix dis sh..
+            setTimeout(() => {
+                this.setState({
                     errors: {
                         ...this.state.errors,
                         [field.name]: fieldErrors
                     }
-                }
-            }, this.validateForm());
+                });
+            }, 1);
         }
     }
 
-    validateForm = () => {
+    validateForm = callback => {
+        // console.log(this.state.errors)
+        Object.keys(this.refs).forEach(key => {
+            this.validateField(this.refs[key])
+        });
+
         //fix dis sh..
         setTimeout(() => {
             this.setState({
                 formValid: Object.keys(this.state.errors).every(key => this.state.errors[key].length == 0)
-            })            
+            }, () => {
+                if (this.state.formValid) {
+                    callback();
+                }
+            });            
         }, 1);
     }
 
     onSubmit = event => {
         event.preventDefault();
         let formValues;
+
+        this.setState({
+            formSubmitted: true
+        })
  
         if (this.props.encType) {            
             formValues = new FormData();        
@@ -79,7 +153,12 @@ class Form extends Component {
         } else {
             formValues = this.state.formData;
         }
-        this.props.onSubmit(formValues)
+
+        this.validateForm(() => { return this.props.onSubmit(formValues) });
+        
+
+
+        //this.props.onSubmit(formValues)
     }
 
     renderServerMsg = (msg) => {
@@ -89,28 +168,68 @@ class Form extends Component {
         }
     }
 
+    renderFieldError = name => {
+        if (this.state.formSubmitted) {
+            return(
+                this.state.errors[name].map((msg, index) => <span className='error-msg' key={index}>{msg}</span> )
+            );
+        }
+    }
+
+    renderField = (field, index)  => {
+        if (field.type !== 'file') {
+            
+            return(
+                <input 
+                    type={field.type} 
+                    name={field.name}
+                    id={field.name}
+                    onChange={this.onChange}
+                    ref={field.name}
+                    index={index}
+                    value={this.state.formData[field.name]}
+                />
+            ) 
+        } else {
+            
+            return (
+                <div>
+                    <img className='avatar' src={this.state.images[field.name]} />
+                    <br/>
+                    <input 
+                        type={field.type} 
+                        name={field.name}
+                        id={field.name}
+                        onChange={this.onChange}
+                        ref={field.name}
+                        index={index}
+                    />
+                </div>
+            )
+        }
+        
+    }
+    
+
     render() {
+
         return(
             <form encType={this.props.encType} onSubmit={this.onSubmit}>
                 {this.renderServerMsg(this.props.msg, this.state.success)}
                 {
-                    this.props.fields.map((field, i) => {
+                    this.props.fields.map((field, index) => {
                         return(
-                            <div key={i}>
+                            <div key={index}>
                                 <label htmlFor={field.name}>{field.label}</label>
-                                <input 
-                                    type={field.type} 
-                                    name={field.name}
-                                    id={field.name}
-                                    onChange={this.onChange}
-                                    index={i}
-                                />
-                                { this.state.errors[field.name].map((msg, index) => <span className='error-msg' key={index}>{msg}</span> ) }
+                                {this.renderField(field, index)}
+                                
+                                { this.renderFieldError(field.name) }
                             </div>
                         );
                     })
                 }
-                <button type='submit' disabled={!this.state.formValid}>Submit</button>
+                <br/>
+                <button type='submit'>Submit</button>
             </form>
         )
     }

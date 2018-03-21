@@ -46,7 +46,6 @@ const uploadProfile = multer({
             callback(null, 'images/')
         },
         filename: (req, file, callback) => {
-            console.log(req.body)
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
             req.body.avatar = req.body.username + '.'+ ext;
             callback(null, req.body.username + '.'+ ext);
@@ -77,8 +76,17 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
                 return res.json({
                     success: true, 
                     msg: 'User registered',
-                    user: userAdd,
-                    token: token
+                    user: {
+                        username: userAdd.firstname,
+                        firstname: userAdd.firstname,
+                        lastname: userAdd.lastname,
+                        address: userAdd.address,
+                        phone: userAdd.phone, 
+                        email: userAdd.email, 
+                        avatar: userAdd.avatar,
+                        token
+                    },
+                    token
                 });
             }
         } else {
@@ -122,10 +130,21 @@ router.post('/authenticate', async (req, res, next) => {
             try {
                 const isMatch = await User.comparePassword(req.body.password, user.password)
                 if (isMatch) {
-                    const token = createToken(user);                        
+                    const token = createToken(user);     
+                    let file = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                    
                     return res.json({
-                        success: true,
-                        user,
+                        success: true,                        
+                        user: {
+                            id: user._id,
+                            username: user.firstname,
+                            firstname: user.firstname,
+                            lastname: user.lastname,
+                            address: user.address,
+                            phone: user.phone, 
+                            email: user.email, 
+                            avatar: file
+                        },
                         token
                     });
                 }
@@ -148,11 +167,20 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
         const user = await User.getUserById(req.params.id)
         if (user) {
             fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {
+                
                 let img = file ? 'data:image/jpeg;base64,' + file.toString('base64') : null;
                 return res.json({
                     success: true,
-                    user,
-                    file: img
+                    user: {
+                        id: user._id,
+                        username: user.firstname,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        address: user.address,
+                        phone: user.phone, 
+                        email: user.email, 
+                        avatar: img,
+                    }
                 })
             });
         } else {
@@ -174,14 +202,46 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadProfile.single('avatar'), async (req, res, next) => {
     try {
         const userByEmail = await User.getUserByEmail(req.body.email); 
+
+
         if (userByEmail && userByEmail._id == req.params.id) {
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
+                let file = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
                 return res.json({
-                    success: true,                
-                    user,
+                    success: true,
+                    user: {
+                        id: user._id,
+                        username: user._doc.username,
+                        firstname: user._doc.firstname,
+                        lastname: user._doc.lastname,
+                        address: user._doc.address,
+                        phone: user._doc.phone, 
+                        email: user._doc.email, 
+                        avatar: file
+                    },
                     msg: 'User updated'
                 });
+                
+
+                // return res.json({
+                //     success: true,                
+                //     user: {
+                //         id: user._id,
+                //         username: user.firstname,
+                //         firstname: user.firstname,
+                //         lastname: user.lastname,
+                //         address: user.address,
+                //         phone: user.phone, 
+                //         email: user.email, 
+                //         avatar: user.avatar, 
+                //         avatarBase64: img
+                //     },
+                //     msg: 'User updated'
+                // });
+
+                
+                
             } else {
                 return res.json({
                     success: false,

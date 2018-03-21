@@ -1,6 +1,7 @@
 export default {
     user: {
         personalInfo: {
+            id: '',
             username: '',
             firstname: '',
             lastname: '',
@@ -8,10 +9,10 @@ export default {
             phone: '', 
             email: '', 
             avatar: '',
-            password: '',
-            oldPassword: '',
-            newPassword: '',
-            confirmNewPassword: ''
+            // password: '',
+            // oldPassword: '',
+            // newPassword: '',
+            // confirmNewPassword: ''
         },
         cartProducts: [],
         wishlist: [],
@@ -20,10 +21,10 @@ export default {
             history: []
         },
         formMessages: {
-            msgRegisterFail: '',
-            msgLoginFail: '',
+            msgRegister: '',
+            msgLogin: '',
             msgUserUpdate: '',
-            msgUserUpdateFail: ''
+            msgUserChangePassword: ''
         } 
     },
     products: {

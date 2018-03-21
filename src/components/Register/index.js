@@ -17,13 +17,12 @@ export default class Register extends Component {
     }
 
     render() {
-        console.log(this.props)
         return(
             <div>
                 <h1>Register</h1>
                 <Form
                     // formData={this.props.user.personalInfo}
-                    msg={this.props.user.formMessages.msgRegisterFail}
+                    msg={this.props.user.formMessages.msgRegister}
                     onSubmit={this.props.onSubmit}
                     encType='multipart/form-data'
                     fields={[
@@ -80,7 +79,7 @@ export default class Register extends Component {
                             label: 'Password confirm',
                             name: 'passwordConfirm',
                             send: false,
-                            validators: [comparePasswords('password', 'passwordConfirm')]
+                            validators: [notEmpty, comparePasswords('password', 'passwordConfirm')]
                         },
                     ]}
                 />

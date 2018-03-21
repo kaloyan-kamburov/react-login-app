@@ -19,10 +19,6 @@ class RegisterContainer extends Component {
         }
     }
 
-    onSubmit = payload => {
-        this.props.onSubmit(payload);
-    }
-
     componentWillReceiveProps() {
         this.setState({
             authorized: isAuthorized()
