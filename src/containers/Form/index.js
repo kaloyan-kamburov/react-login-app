@@ -76,7 +76,7 @@ class Form extends Component {
                     },
                     images: {
                         ...this.state.images,
-                        [event.target.name + 'File']: ''
+                        [event.target.name + 'File']: reader.result
                     }
                 }, this.validateField(event.target));
             }
@@ -153,8 +153,7 @@ class Form extends Component {
             console.log('y')       
             Object.keys(this.state.formData).forEach(key => {
                 if (!key.endsWith('File')) { 
-                    formValues.append(key, this.state.formData[key])
-                    // console.log(formValues.values())
+                    formValues.append(key, this.state.formData[key]);
                 }
             });
         } else {

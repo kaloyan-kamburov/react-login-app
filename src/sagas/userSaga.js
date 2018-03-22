@@ -2,6 +2,7 @@ import { takeEvery, takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 
 import * as constants from '../common/constants'
+import { debug } from 'util';
 
 export function* userRegisterSaga(action) {
     try {
@@ -75,7 +76,7 @@ export function* userSetPersonalInfoSaga(action) {
 export function* userUpdateSaga(action) {
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
-        debugger
+        
         if (newUserData.data.success) {
             yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
         } else {
