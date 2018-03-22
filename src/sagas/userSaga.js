@@ -73,9 +73,9 @@ export function* userSetPersonalInfoSaga(action) {
 }
 
 export function* userUpdateSaga(action) {
+    
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
-        
         if (newUserData.data.success) {
             yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
         } else {
@@ -87,9 +87,8 @@ export function* userUpdateSaga(action) {
 }
 
 export function* userChangePasswordSaga(action) {
-    debugger
     try {
-        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/changepassword/' + action.payload._id, action.payload))
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/changepassword/' + action.payload.id, action.payload))
         if (newUserData.data.success) {
             yield put({ type: constants.USER_CHANGE_PASWORD_SUCCESS, payload: newUserData.data });
         } else {

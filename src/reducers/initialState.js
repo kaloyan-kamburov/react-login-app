@@ -9,6 +9,7 @@ export default {
             phone: '', 
             email: '', 
             avatar: '',
+            avatarFile: ''
             // password: '',
             // oldPassword: '',
             // newPassword: '',

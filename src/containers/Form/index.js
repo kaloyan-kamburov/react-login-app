@@ -13,7 +13,7 @@ class Form extends Component {
         if (Object.keys(formData).length) {
             props.fields.forEach(field => {
                 if (field.type === 'file') {
-                    images[field.name] = formData[field.name];
+                    images[field.name + 'File'] = formData[field.name + 'File'];
                 }
                 errors[field.name] = [];
             });            
@@ -37,7 +37,7 @@ class Form extends Component {
         let images = {};
         this.props.fields.forEach(field => {
             if (field.type === 'file') {
-                images[field.name] = nextProps.formData[field.name] || ''
+                images[field.name + 'File'] = nextProps.formData[field.name + 'File'] || ''
             }
         })
         this.setState({
@@ -60,7 +60,7 @@ class Form extends Component {
                         [event.target.name]: event.target.files[0]
                     },
                     images: {
-                        [event.target.name]: reader.result
+                        [event.target.name + 'File']: reader.result
                     }
                 });
             }
@@ -151,7 +151,10 @@ class Form extends Component {
                 formValues.append(key, this.state.formData[key])
             });
         } else {
-            formValues = this.state.formData;
+            formValues = {
+                ...this.state.formData,
+                ...this.props.hiddenData
+            }
         }
 
         this.validateForm(() => { return this.props.onSubmit(formValues) });
@@ -194,7 +197,7 @@ class Form extends Component {
             
             return (
                 <div>
-                    <img className='avatar' src={this.state.images[field.name]} />
+                    <img className='avatar' src={this.state.images[field.name + 'File']} />
                     <br/>
                     <input 
                         type={field.type} 

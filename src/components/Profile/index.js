@@ -13,27 +13,31 @@ import {
     password 
 } from '../../common/validators';
 
-export default class Login extends Component {
+export default class Profile extends Component {
     constructor(props) {
         super(props);
 
+
         this.state = {
-            id: props.user.personalInfo.id
+            id: props.id || ''
         }
+
+        this.bla = ''
+
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.user.personalInfo.id)
         this.setState({
             id: nextProps.user.personalInfo.id
         })
     }
 
     render() {
+        // console.log(this.props.user.personalInfo.id)
         return(
             <Row>
                 <Col xs='6'>                
-                    {/* <Form
+                    <Form
                         formData={this.props.user.personalInfo}
                         msg={this.props.user.formMessages.msgUserUpdate}
                         onSubmit={this.props.onUpdateUserInfo}
@@ -76,79 +80,16 @@ export default class Login extends Component {
                                 validators: [notEmpty, length(3, 24)]
                             }
                         ]}
-                    /> */}
-                    {/* <Form 
-                        onSubmit={this.props.onUpdateUserInfo}
-                        msg={this.props.user.personalInfo.msgUserInfoChanged}
-                        success={this.props.user.personalInfo.success}
-                        formData={{
-                            username: this.state.user.personalInfo.username,
-                            firstname: this.state.user.personalInfo.firstname,
-                            lastname: this.state.user.personalInfo.lastname,
-                            address: this.state.user.personalInfo.address,
-                            phone: this.state.user.personalInfo.phone,
-                            email: this.state.user.personalInfo.email,
-                            _id: this.state.user.personalInfo._id,
-                            avatar: this.props.user.personalInfo.avatar
-                        }}
-                        encType='multipart/form-data'
-                    >
-                        <Input 
-                            type='file' 
-                            name='avatar'
-                            label='Avatar'
-                            file={this.props.user.personalInfo.file}
-                            validators={[]}
-                        />
-                        <Input 
-                            type='text' 
-                            name='firstname'
-                            label='First name'
-                            value={this.props.user.personalInfo.firstname} 
-                            validators={[notEmpty, length(3, 24)]}
-                        />
-                        <Input 
-                            type='text' 
-                            name='lastname' 
-                            label='Last name'
-                            value={this.props.user.personalInfo.lastname}
-                            validators={[notEmpty, length(3, 24)]}
-                        />
-                        <Input 
-                            type='text' 
-                            name='address' 
-                            label='Address'
-                            value={this.props.user.personalInfo.address} 
-                            validators={[notEmpty]}
-                        />
-                        <Input 
-                            type='number' 
-                            name='phone' 
-                            label='Phone number'
-                            value={this.props.user.personalInfo.phone} 
-                            validators={[notEmpty]}
-                        />
-                        <Input 
-                            type='email' 
-                            name='email' 
-                            label='Email'
-                            value={this.props.user.personalInfo.email} 
-                            validators={[notEmpty, email]}
-                        />
-                    </Form> */}
+                    /> 
                 </Col>
                 <Col xs='6'>
                     <Form
                         msg={this.props.user.formMessages.msgUserChangePassword}
                         onSubmit={this.props.onChangeUserPassword}
+                        hiddenData={{
+                            id: this.state.id
+                        }}
                         fields={[
-                            {
-                                type: 'hidden',
-                                label: '',
-                                name: 'id',
-                                value: this.state.id,
-                                validators: []
-                            },
                             {
                                 type: 'password',
                                 label: 'Old password',
@@ -165,7 +106,7 @@ export default class Login extends Component {
                                 type: 'password',
                                 label: 'Confirm new password',
                                 name: 'confirmNewPassword',
-                                validators: [comparePasswords('newPassword', 'confirmNewPassword')]
+                                validators: [notEmpty, comparePasswords('newPassword', 'confirmNewPassword')]
                             },
                         ]}
                     />

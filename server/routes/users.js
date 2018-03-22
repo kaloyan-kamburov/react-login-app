@@ -54,7 +54,7 @@ const uploadProfile = multer({
 })
 
 //Register
-router.post('/register', uploadRegister.single('avatar'), async (req, res, next) => { 
+router.post('/register', uploadRegister.single('avatar'), async (req, res, next) => {
     const newUser = new User({
         username: req.body.username,
         avatar: req.body.avatar,
@@ -66,6 +66,8 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
         password: req.body.password,
     }); 
 
+    console.log(req.body)
+
     try {
         const user = await User.getUser(req.body.username, req.body.email);
         if (!user) {
@@ -73,18 +75,21 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
             if (userAdd) {
                 const token = createToken(userAdd);
 
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + userAdd.avatar), 'base64', (error, file) => {});
+                    
+
                 return res.json({
                     success: true, 
                     msg: 'User registered',
                     user: {
-                        username: userAdd.firstname,
+                        username: userAdd.username,
                         firstname: userAdd.firstname,
                         lastname: userAdd.lastname,
                         address: userAdd.address,
                         phone: userAdd.phone, 
                         email: userAdd.email, 
                         avatar: userAdd.avatar,
-                        token
+                        avatarFile: img
                     },
                     token
                 });
@@ -131,19 +136,20 @@ router.post('/authenticate', async (req, res, next) => {
                 const isMatch = await User.comparePassword(req.body.password, user.password)
                 if (isMatch) {
                     const token = createToken(user);     
-                    let file = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                    let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
                     
                     return res.json({
                         success: true,                        
                         user: {
                             id: user._id,
-                            username: user.firstname,
+                            username: user.username,
                             firstname: user.firstname,
                             lastname: user.lastname,
                             address: user.address,
                             phone: user.phone, 
                             email: user.email, 
-                            avatar: file
+                            avatar: user.avatar,
+                            avatarFile: img
                         },
                         token
                     });
@@ -173,13 +179,14 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
                     success: true,
                     user: {
                         id: user._id,
-                        username: user.firstname,
+                        username: user.username,
                         firstname: user.firstname,
                         lastname: user.lastname,
                         address: user.address,
                         phone: user.phone, 
                         email: user.email, 
-                        avatar: img,
+                        avatar: user.avatar,
+                        avatarFile: img
                     }
                 })
             });
@@ -207,7 +214,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         if (userByEmail && userByEmail._id == req.params.id) {
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
-                let file = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
                 return res.json({
                     success: true,
                     user: {
@@ -218,7 +225,8 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
                         address: user._doc.address,
                         phone: user._doc.phone, 
                         email: user._doc.email, 
-                        avatar: file
+                        avatar: user._doc.avatar,
+                        avatarFile: img
                     },
                     msg: 'User updated'
                 });
