@@ -28,7 +28,13 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
             return state
 
         case constants.USER_UPDATED: 
+        
+        return {
+            ...state,
+            ...action.payload.user
+        }   
         case constants.USER_UPDATE_ERROR:
+        debugger
             return {
                 ...state,
                 ...action.payload.user

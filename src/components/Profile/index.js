@@ -17,18 +17,18 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
 
+        console.log(props)
 
         this.state = {
-            id: props.id || ''
+            id: props.id || '',
+            avatar: props.avatar || ''
         }
-
-        this.bla = ''
-
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            id: nextProps.user.personalInfo.id
+            id: nextProps.user.personalInfo.id,
+            avatar: nextProps.user.personalInfo.avatar
         })
     }
 
@@ -41,6 +41,9 @@ export default class Profile extends Component {
                         formData={this.props.user.personalInfo}
                         msg={this.props.user.formMessages.msgUserUpdate}
                         onSubmit={this.props.onUpdateUserInfo}
+                        hiddenData={{
+                            avatar: this.state.avatar
+                        }}
                         encType='multipart/form-data'
                         fields={[
                             {

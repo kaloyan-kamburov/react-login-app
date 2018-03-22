@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
+import { debug } from 'util';
  
 class Form extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class Form extends Component {
                 this.setState({
                     formData: {
                         ...this.state.formData,
-                        [event.target.name]: event.target.files[0]
+                        [event.target.name]: file
                     },
                     images: {
                         [event.target.name + 'File']: reader.result
@@ -95,6 +96,7 @@ class Form extends Component {
     }
 
     validateField = field => {
+        console.log(this.state)
         if (this.props.fields[field.getAttribute('index')].validators.length > 0) {
             let fieldErrors = [];
 
@@ -149,7 +151,9 @@ class Form extends Component {
         if (this.props.encType) {            
             formValues = new FormData();        
             Object.keys(this.state.formData).forEach(key => {
-                formValues.append(key, this.state.formData[key])
+                if (!key.endsWith('File')) { 
+                    formValues.append(key, this.state.formData[key])
+                }
             });
         } else {
             formValues = {
@@ -158,6 +162,7 @@ class Form extends Component {
             }
         }
 
+        // debugger
         this.validateForm(() => { return this.props.onSubmit(formValues) });
         
 

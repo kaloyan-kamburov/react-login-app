@@ -73,7 +73,6 @@ export function* userSetPersonalInfoSaga(action) {
 }
 
 export function* userUpdateSaga(action) {
-    
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         if (newUserData.data.success) {

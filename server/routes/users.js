@@ -207,14 +207,15 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 
 //Update user
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadProfile.single('avatar'), async (req, res, next) => {
+    
     try {
         const userByEmail = await User.getUserByEmail(req.body.email); 
-
 
         if (userByEmail && userByEmail._id == req.params.id || !userByEmail) { 
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
-                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user._doc.avatar), 'base64', (error, file) => {});
+                
                 return res.json({
                     success: true,
                     user: {
@@ -262,6 +263,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
             msg: 'User email exists'
         });
     } catch(error) {
+        console.log(error)
         return res.json({
             success: false,
             error: error,
