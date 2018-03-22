@@ -211,7 +211,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         const userByEmail = await User.getUserByEmail(req.body.email); 
 
 
-        if (userByEmail && userByEmail._id == req.params.id) {
+        if (userByEmail && userByEmail._id == req.params.id || !userByEmail) {
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
                 let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
