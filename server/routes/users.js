@@ -66,8 +66,6 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
         password: req.body.password,
     }); 
 
-    console.log(req.body)
-
     try {
         const user = await User.getUser(req.body.username, req.body.email);
         if (!user) {

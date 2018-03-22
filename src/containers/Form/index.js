@@ -149,10 +149,12 @@ class Form extends Component {
         })
  
         if (this.props.encType) {            
-            formValues = new FormData();        
+            formValues = new FormData(); 
+            console.log('y')       
             Object.keys(this.state.formData).forEach(key => {
                 if (!key.endsWith('File')) { 
                     formValues.append(key, this.state.formData[key])
+                    // console.log(formValues.values())
                 }
             });
         } else {
