@@ -51,12 +51,7 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
             }
         case constants.USER_CHANGE_PASWORD_SUCCESS: 
             return {
-                ...state,
-                changePasswordSuccess: true,
-                msgChangePassword: action.payload.msg,
-                oldPassword: '',
-                newPassword: '',
-                confirmNewPassword: ''
+                ...state
             }
         case constants.USER_CHANGE_PASWORD_ERROR: 
             return {

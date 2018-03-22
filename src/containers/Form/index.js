@@ -62,13 +62,12 @@ class Form extends Component {
                     images: {
                         [event.target.name + 'File']: reader.result
                     }
-                });
+                }, this.validateField(event.target));
             }
 
             if (file !== '') {
                 reader.readAsDataURL(file);
             } else {
-                console.log(this.state.images)
                 this.setState({
                     formData: {
                         ...this.state.formData,
@@ -76,9 +75,9 @@ class Form extends Component {
                     },
                     images: {
                         ...this.state.images,
-                        [event.target.name]: this.state.images[event.target.name]
+                        [event.target.name + 'File']: ''
                     }
-                });
+                }, this.validateField(event.target));
             }
                 
         } else {
@@ -105,6 +104,8 @@ class Form extends Component {
                 if (status !== true) {
                     fieldErrors.push(status);
                 }
+
+                
             });
 
             //fix dis sh..
@@ -197,7 +198,8 @@ class Form extends Component {
             
             return (
                 <div>
-                    <img className='avatar' src={this.state.images[field.name + 'File']} />
+                    <img style={{display: this.state.images[field.name + 'File'] ? 'block' : 'none'}} className='avatar' src={this.state.images[field.name + 'File']} />
+                        
                     <br/>
                     <input 
                         type={field.type} 
