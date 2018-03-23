@@ -75,11 +75,13 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
 
                 let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + userAdd.avatar), 'base64', (error, file) => {});
                     
+                console.log(userAdd)
 
                 return res.json({
                     success: true, 
                     msg: 'User registered',
                     user: {
+                        id: userAdd._id,
                         username: userAdd.username,
                         firstname: userAdd.firstname,
                         lastname: userAdd.lastname,
@@ -228,26 +230,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
                         avatarFile: img
                     },
                     msg: 'User updated'
-                });
-                
-
-                // return res.json({
-                //     success: true,                
-                //     user: {
-                //         id: user._id,
-                //         username: user.firstname,
-                //         firstname: user.firstname,
-                //         lastname: user.lastname,
-                //         address: user.address,
-                //         phone: user.phone, 
-                //         email: user.email, 
-                //         avatar: user.avatar, 
-                //         avatarBase64: img
-                //     },
-                //     msg: 'User updated'
-                // });
-
-                
+                });                
                 
             } else {
                 return res.json({

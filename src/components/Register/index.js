@@ -8,7 +8,8 @@ import {
     notEmpty, 
     comparePasswords, 
     length, 
-    password 
+    password,
+    checkFileSize
 } from '../../common/validators';
 
 export default class Register extends Component {
@@ -21,8 +22,8 @@ export default class Register extends Component {
             <div>
                 <h1>Register</h1>
                 <Form
-                    // formData={this.props.user.personalInfo}
-                    msg={this.props.user.formMessages.msgRegister}
+                    msgSuccess={this.props.user.formMessages.msgRegisterSuccess}
+                    msgError={this.props.user.formMessages.msgRegisterError}
                     onSubmit={this.props.onSubmit}
                     encType='multipart/form-data'
                     fields={[
@@ -30,7 +31,7 @@ export default class Register extends Component {
                             type: 'file',
                             label: 'Avatar',
                             name: 'avatar',
-                            validators: [notEmpty]
+                            validators: [checkFileSize(200), notEmpty]
                         },
                         {
                             type: 'text',

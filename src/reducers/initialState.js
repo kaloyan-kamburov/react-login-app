@@ -22,10 +22,12 @@ export default {
             history: []
         },
         formMessages: {
-            msgRegister: '',
-            msgLogin: '',
-            msgUserUpdate: '',
-            msgUserChangePassword: ''
+            msgRegisterError: '',
+            msgLoginError: '',
+            msgUserUpdateSuccess: '',
+            msgUserUpdateError: '',
+            msgUserChangePasswordSuccess: '',
+            msgUserChangePasswordError: ''
         } 
     },
     products: {

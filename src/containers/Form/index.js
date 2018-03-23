@@ -38,7 +38,9 @@ class Form extends Component {
         let images = {};
         this.props.fields.forEach(field => {
             if (field.type === 'file') {
-                images[field.name + 'File'] = nextProps.formData[field.name + 'File'] || ''
+                if (typeof nextProps.formData !== 'undefined') {
+                    images[field.name + 'File'] = nextProps.formData[field.name + 'File'] || ''
+                }
             }
         })
         this.setState({
@@ -96,18 +98,15 @@ class Form extends Component {
     }
 
     validateField = field => {
-        console.log(this.state)
         if (this.props.fields[field.getAttribute('index')].validators.length > 0) {
             let fieldErrors = [];
 
             this.props.fields[field.getAttribute('index')].validators.forEach(validator => {
-                let status = validator(field.value);
+                let status = validator(field);
 
                 if (status !== true) {
                     fieldErrors.push(status);
                 }
-
-                
             });
 
             //fix dis sh..
@@ -123,7 +122,6 @@ class Form extends Component {
     }
 
     validateForm = callback => {
-        // console.log(this.state.errors)
         Object.keys(this.refs).forEach(key => {
             this.validateField(this.refs[key])
         });
@@ -149,8 +147,7 @@ class Form extends Component {
         })
  
         if (this.props.encType) {            
-            formValues = new FormData(); 
-            console.log('y')       
+            formValues = new FormData();
             Object.keys(this.state.formData).forEach(key => {
                 if (!key.endsWith('File')) { 
                     formValues.append(key, this.state.formData[key]);
@@ -165,16 +162,17 @@ class Form extends Component {
 
         // debugger
         this.validateForm(() => { return this.props.onSubmit(formValues) });
-        
-
-
-        //this.props.onSubmit(formValues)
     }
 
-    renderServerMsg = (msg) => {
+    renderServerErrorMsg = msg => {
         if (msg && msg.length) {
             return <Alert color={ 'danger' }>{msg}</Alert>
-            // return <Alert color={ success ? 'success' : 'danger' }>{msg}</Alert>
+        }
+    }
+
+    renderServerSuccessMsg = msg => {
+        if (msg && msg.length) {
+            return <Alert color={ 'success' }>{msg}</Alert>
         }
     }
 
@@ -200,8 +198,7 @@ class Form extends Component {
                     value={this.state.formData[field.name]}
                 />
             ) 
-        } else {
-            
+        } else {            
             return (
                 <div>
                     <img style={{display: this.state.images[field.name + 'File'] ? 'block' : 'none'}} className='avatar' src={this.state.images[field.name + 'File']} />
@@ -216,17 +213,15 @@ class Form extends Component {
                         index={index}
                     />
                 </div>
-            )
+            );
         }
-        
     }
-    
 
     render() {
-
         return(
             <form encType={this.props.encType} onSubmit={this.onSubmit}>
-                {this.renderServerMsg(this.props.msg, this.state.success)}
+                {this.renderServerErrorMsg(this.props.msgError)}
+                {this.renderServerSuccessMsg(this.props.msgSuccess)}
                 {
                     this.props.fields.map((field, index) => {
                         return(

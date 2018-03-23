@@ -18,7 +18,7 @@ export default class Login extends Component {
             <div>
                 <h1>Login</h1>
                 <Form
-                    msg={this.props.user.formMessages.msgLogin}
+                    msgError={this.props.user.formMessages.msgLoginError}
                     onSubmit={this.props.onSubmit}
                     fields={[
                         {

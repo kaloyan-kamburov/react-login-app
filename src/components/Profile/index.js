@@ -39,7 +39,8 @@ export default class Profile extends Component {
                 <Col xs='6'>                
                     <Form
                         formData={this.props.user.personalInfo}
-                        msg={this.props.user.formMessages.msgUserUpdate}
+                        msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
+                        msgError={this.props.user.formMessages.msgUserUpdateError}
                         onSubmit={this.props.onUpdateUserInfo}
                         hiddenData={{
                             avatar: this.state.avatar
@@ -87,7 +88,8 @@ export default class Profile extends Component {
                 </Col>
                 <Col xs='6'>
                     <Form
-                        msg={this.props.user.formMessages.msgUserChangePassword}
+                        msgSuccess={this.props.user.formMessages.msgUserChangePasswordSuccess}
+                        msgError={this.props.user.formMessages.msgUserChangePasswordError}
                         onSubmit={this.props.onChangeUserPassword}
                         hiddenData={{
                             id: this.state.id
