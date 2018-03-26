@@ -24,6 +24,7 @@ export default class Register extends Component {
                 <Form
                     msgSuccess={this.props.user.formMessages.msgRegisterSuccess}
                     msgError={this.props.user.formMessages.msgRegisterError}
+                    errorTypes={this.props.user.formMessages.formErrorTypes}
                     onSubmit={this.props.onSubmit}
                     encType='multipart/form-data'
                     fields={[

@@ -2,12 +2,25 @@ import initialState from '../initialState';
 import * as constants from '../../common/constants';
 import * as helpers from '../../common/helpers';
 
+const resetFormMessages = () => {
+	return {
+		msgRegisterError: '',
+		msgLoginError: '',
+		msgUserUpdateSuccess: '',
+		msgUserUpdateError: '',
+		msgUserChangePasswordSuccess: '',
+		msgUserChangePasswordError: '',
+		formErrorTypes: []
+	}
+}
+
 const formMessagesReducer = (state = initialState.user.formMessages, action) => {
 	switch (action.type) {
 		case constants.USER_REGISTER_ERROR:
 			return {
 				...state,
-				msgRegisterError: action.payload.msg
+				msgRegisterError: action.payload.msg,
+				formErrorTypes: action.payload.errorType
 			}
 		case constants.USER_LOGIN_ERROR:
 		// debugger
@@ -18,32 +31,40 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 		case constants.USER_LOGGED:
 			return {
 				...state,
-				msgLoginError: ''
+				...resetFormMessages()
 			}
 		case constants.USER_UPDATED:
 			return {
 				...state,
+				...resetFormMessages(),
 				msgUserUpdateSuccess: action.payload.msg,
-				msgUserUpdateError: ''
 			}
 		case constants.USER_UPDATE_ERROR:
 			return {
 				...state,
 				msgUserUpdateSuccess: '',
-				msgUserUpdateError: action.payload.msg
+				...resetFormMessages(),
+				msgUserUpdateError: action.payload.msg,
+				formErrorTypes: action.payload.errorType
 			}
 		
 		case constants.USER_CHANGE_PASWORD_SUCCESS:
 			return {
 				...state,
-				msgUserChangePasswordSuccess: action.payload.msg,
-				msgUserChangePasswordError: ''
+				...resetFormMessages(),
+				msgUserChangePasswordSuccess: action.payload.msg
 			}
 		case constants.USER_CHANGE_PASWORD_ERROR:
 			return {
 				...state,
-				msgUserChangePasswordSuccess: '',
-				msgUserChangePasswordError: action.payload.msg
+				...resetFormMessages(),
+				msgUserChangePasswordError: action.payload.msg,
+				formErrorTypes: action.payload.errorType
+			}
+		case constants.ROUTE_CHANGED:
+			return{
+				...state,
+				...resetFormMessages()
 			}
 		default:
 			return state;

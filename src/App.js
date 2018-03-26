@@ -50,6 +50,7 @@ class App extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
+			store.dispatch({ type: actionTypes.ROUTE_CHANGED });
 			this.setState({
 				activeRoute: this.props.location.pathname
 			});

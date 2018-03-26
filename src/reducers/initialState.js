@@ -8,12 +8,7 @@ export default {
             address: '',
             phone: '', 
             email: '', 
-            avatar: '',
-            // avatarFile: ''
-            // password: '',
-            // oldPassword: '',
-            // newPassword: '',
-            // confirmNewPassword: ''
+            avatar: ''
         },
         cartProducts: [],
         wishlist: [],
@@ -27,8 +22,9 @@ export default {
             msgUserUpdateSuccess: '',
             msgUserUpdateError: '',
             msgUserChangePasswordSuccess: '',
-            msgUserChangePasswordError: ''
-        } 
+            msgUserChangePasswordError: '',
+            formErrorTypes: []
+        },
     },
     products: {
         categories: [

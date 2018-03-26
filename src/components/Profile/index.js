@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Form from '../../containers/Form';
 import Input from '../../containers/Form/Input';
 
+import { isAdmin } from '../../common/auth/authFunctions';
+
 import { Row, Col } from 'reactstrap';
 
 import { 
@@ -17,8 +19,6 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.state = {
             id: props.id || '',
             avatar: props.avatar || ''
@@ -32,65 +32,89 @@ export default class Profile extends Component {
         })
     }
 
+    renderForm = () => {
+        if (isAdmin(localStorage.getItem('token'))) {
+            return <Form
+                formData={this.props.user.personalInfo}
+                msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
+                msgError={this.props.user.formMessages.msgUserUpdateError}
+                errorTypes={this.props.user.formMessages.formErrorTypes}
+                onSubmit={this.props.onUpdateUserInfo}
+                fields={[
+                    {
+                        type: 'email',
+                        label: 'Email',
+                        name: 'email',
+                        validators: [notEmpty, email]
+                    }
+                ]}
+            />;
+        }
+
+        return <Form
+            formData={this.props.user.personalInfo}
+            msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
+            msgError={this.props.user.formMessages.msgUserUpdateError}
+            errorTypes={this.props.user.formMessages.formErrorTypes}
+            onSubmit={this.props.onUpdateUserInfo}
+            hiddenData={{
+                avatar: this.state.avatar
+            }}
+            encType='multipart/form-data'
+            fields={[
+                {
+                    type: 'file',
+                    label: 'Avatar',
+                    name: 'avatar',
+                    validators: []
+                },
+                {
+                    type: 'text',
+                    label: 'First name',
+                    name: 'firstname',
+                    validators: [notEmpty, length(3, 24)]
+                },
+                {
+                    type: 'text',
+                    label: 'Last name',
+                    name: 'lastname',
+                    validators: [notEmpty, length(3, 24)]
+                },
+                {
+                    type: 'text',
+                    label: 'Address',
+                    name: 'address',
+                    validators: [notEmpty]
+                },
+                {
+                    type: 'email',
+                    label: 'Email',
+                    name: 'email',
+                    validators: [notEmpty, email]
+                },
+                {
+                    type: 'number',
+                    label: 'Phone number',
+                    name: 'phone',
+                    validators: [notEmpty, length(3, 24)]
+                }
+            ]}
+        /> 
+    }
+
     render() {
         // console.log(this.props.user.personalInfo.id)
         return(
             <Row>
                 <Col xs='6'>                
-                    <Form
-                        formData={this.props.user.personalInfo}
-                        msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
-                        msgError={this.props.user.formMessages.msgUserUpdateError}
-                        onSubmit={this.props.onUpdateUserInfo}
-                        hiddenData={{
-                            avatar: this.state.avatar
-                        }}
-                        encType='multipart/form-data'
-                        fields={[
-                            {
-                                type: 'file',
-                                label: 'Avatar',
-                                name: 'avatar',
-                                validators: []
-                            },
-                            {
-                                type: 'text',
-                                label: 'First name',
-                                name: 'firstname',
-                                validators: [notEmpty, length(3, 24)]
-                            },
-                            {
-                                type: 'text',
-                                label: 'Last name',
-                                name: 'lastname',
-                                validators: [notEmpty, length(3, 24)]
-                            },
-                            {
-                                type: 'text',
-                                label: 'Address',
-                                name: 'address',
-                                validators: [notEmpty]
-                            },
-                            {
-                                type: 'email',
-                                label: 'Email',
-                                name: 'email',
-                                validators: [notEmpty, email]
-                            },
-                            {
-                                type: 'number',
-                                label: 'Phone number',
-                                name: 'phone',
-                                validators: [notEmpty, length(3, 24)]
-                            }
-                        ]}
-                    /> 
+                    {this.renderForm()}
                 </Col>
                 <Col xs='6'>
                     <Form
                         msgSuccess={this.props.user.formMessages.msgUserChangePasswordSuccess}
                         msgError={this.props.user.formMessages.msgUserChangePasswordError}
                         onSubmit={this.props.onChangeUserPassword}
+                        errorTypes={this.props.user.formMessages.formErrorTypes}
                         hiddenData={{
                             id: this.state.id
                         }}

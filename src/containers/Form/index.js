@@ -185,12 +185,12 @@ class Form extends Component {
     }
 
     renderField = (field, index)  => {
-        if (field.type !== 'file') {
-            
+        if (field.type !== 'file') {            
             return(
                 <input 
                     type={field.type} 
                     name={field.name}
+                    className={ (this.props.errorTypes && this.props.errorTypes.some(error => { return field.name === error })) ? 'has-error' : '' }
                     id={field.name}
                     onChange={this.onChange}
                     ref={field.name}
@@ -207,6 +207,7 @@ class Form extends Component {
                     <input 
                         type={field.type} 
                         name={field.name}
+                        className={ this.props.errorTypes.some(error => { field.name === error }) ? 'has-error' : '' }    
                         id={field.name}
                         onChange={this.onChange}
                         ref={field.name}

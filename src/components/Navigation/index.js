@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, Router, withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 
 
-import { isAuthorized } from '../../common/auth/authFunctions';
+import { isAuthorized, isAdmin } from '../../common/auth/authFunctions';
 
 import { FaSignOut } from 'react-icons/lib/fa'
+import { isatty } from 'tty';
 
 
-export default class Navigation extends React.Component {
+export default class Navigation extends Component {
     
     constructor(props) {
         super(props);
         
         this.state = {
             activeRoute: this.props.activeRoute,
-            authorized: isAuthorized()
+            authorized: isAuthorized(),
+            adminLogged: isAdmin()
         }
 
     }
@@ -31,7 +33,8 @@ export default class Navigation extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             activeRoute: nextProps.activeRoute,
-            authorized: isAuthorized()
+            authorized: isAuthorized(),
+            adminLogged: isAdmin()
         });
     }
 
@@ -39,8 +42,11 @@ export default class Navigation extends React.Component {
         this.props.onLogout();
     }
 
-    renderLink = (name, path, authHidden) => {
-        if ((authHidden && this.state.authorized) || (!authHidden && !this.state.authorized))  {
+    renderLink = (name, path, authHidden, adminOnly) => {
+        if ((authHidden && this.state.authorized) || //the link is VISIBLE ONLY when you're authorized 
+            (!authHidden && !this.state.authorized) || //the link is NOT VISIBLE when you're authorized
+            (!authHidden && adminOnly && this.state.authorized && !this.state.adminLogged) //the link is VISIBLE ONLY when you're logged as admin
+        )  {
             return;
         }
 
@@ -76,6 +82,7 @@ export default class Navigation extends React.Component {
                         {this.renderLink("Register", "/register", true)}
                         {this.renderLink("Profile", "/profile", false)}
                         {this.renderLink("Login", "/login", true)}
+                        {this.renderLink("Users", "/users", false, true)}
                         {this.renderMenuItem(
                             <NavItem onClick={() => this.logout()} className="ml-auto">
                                 <NavLink tag={Link} to='/'>

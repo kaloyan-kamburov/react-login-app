@@ -34,9 +34,10 @@ const UserSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
+        required: true
     },
-    isAdmin: {
-        type: Boolean,
+    roles: {
+        type: Array,
         required: false
     }
 });

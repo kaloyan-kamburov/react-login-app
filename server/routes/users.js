@@ -64,6 +64,7 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
+        roles: ["user"]
     }); 
 
     try {
@@ -117,8 +118,8 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
                 user: {}
             });
         }
-    } catch (err) {
-        res.json({success: false, msg: '', err: err})
+    } catch (error) {
+        res.json({success: false, msg: '', error: error})
     }
 });
 
@@ -135,7 +136,20 @@ router.post('/authenticate', async (req, res, next) => {
             try {
                 const isMatch = await User.comparePassword(req.body.password, user.password)
                 if (isMatch) {
-                    const token = createToken(user);     
+                    const token = createToken(user);
+
+                    let adminCheck = role => {
+                        return role === 'admin';
+                    }
+
+                    if (user.roles.some(adminCheck)) {
+                        return res.json({
+                            success: true,
+                            user,
+                            token
+                        })
+                    }
+
                     let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
                     
                     return res.json({
@@ -149,16 +163,22 @@ router.post('/authenticate', async (req, res, next) => {
                             phone: user.phone, 
                             email: user.email, 
                             avatar: user.avatar,
-                            avatarFile: img
+                            avatarFile: img || ''
                         },
                         token
                     });
+                    
+
+
+
+                    
                 }
                 return res.json({
                     success: false,
                     msg: 'Incorrect login credentials'
                 });
             } catch (error) {
+                console.log(error)
                 return res.json({success: false, msg: '', error: error})
             }           
         }        
@@ -241,7 +261,8 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         }
         return res.json({
             success: false,
-            msg: 'User email exists'
+            msg: 'User email exists',
+            errorType: ['email']
         });
     } catch(error) {
         console.log(error)
@@ -284,7 +305,8 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
                 } else {
                     return res.json({
                         success: false,
-                        msg: 'Old password doesn\'t match'
+                        msg: 'Old password doesn\'t match',
+                        errorType: ['oldPassword']
                     });
                 }
             } catch(error) {

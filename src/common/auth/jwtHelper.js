@@ -25,9 +25,6 @@ export function getTokenExpirationDate(token) {
     } catch(error) {        
         return new Date(0)
     }
-    
-
-    
 }
 
 export default function isTokenExpired(token) {
@@ -42,8 +39,4 @@ export default function isTokenExpired(token) {
 
         return !(date.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)))
     }
-
-
-
-    
 }
