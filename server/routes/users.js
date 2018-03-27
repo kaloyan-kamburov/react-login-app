@@ -53,6 +53,7 @@ const uploadProfile = multer({
     })
 })
 
+
 //Register
 router.post('/register', uploadRegister.single('avatar'), async (req, res, next) => {
     const newUser = new User({
@@ -186,7 +187,7 @@ router.post('/authenticate', async (req, res, next) => {
         return res.json({success: false, msg: '', error: error})
     }
 });
-
+ 
 //Get user
 router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
@@ -324,7 +325,6 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
         });
     }
 });
-
  
 // //delete user
 // router.delete('/:id/delete', passport.authenticate('jwt', {session: false}), (req, res, next) => {

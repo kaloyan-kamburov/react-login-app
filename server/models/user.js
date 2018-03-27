@@ -65,8 +65,8 @@ module.exports.getUserByEmail = function(email, callback) {
     return User.findOne({email: email});
 }
 
-module.exports.getAllUsers = function(callback) {
-    User.find({}, callback);
+module.exports.getAllUsers = function() {
+    return User.find({}).where('roles').nin(['admin']);
 }
 
 module.exports.getUserByUsername = function(username, callback) {

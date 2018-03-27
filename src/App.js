@@ -44,6 +44,7 @@ class App extends Component {
 			activeRoute: this.props.location.pathname
 		}, () => {
 			store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() });
+			this.onRouteChanged(this.props.location.pathname)
 		});
 		
 	}
@@ -53,12 +54,18 @@ class App extends Component {
 			store.dispatch({ type: actionTypes.ROUTE_CHANGED });
 			this.setState({
 				activeRoute: this.props.location.pathname
-			});
+			}, this.onRouteChanged(this.props.location.pathname));
 		}
 	}
 
-	onRouteChanged() {
-		console.log("ROUTE CHANGED");
+	
+
+	onRouteChanged(route) {
+		console.log(route)
+		switch (route) {
+			case ('/users' || 'aa'):
+				store.dispatch({ type: actionTypes.USER_GET_ALL_REQUEST })
+		}
 	}
 
 

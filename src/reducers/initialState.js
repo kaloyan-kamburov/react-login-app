@@ -26,6 +26,9 @@ export default {
             formErrorTypes: []
         },
     },
+    admin: {
+        users: []
+    },
     products: {
         categories: [
             {

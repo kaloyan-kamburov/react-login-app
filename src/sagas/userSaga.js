@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as constants from '../common/constants'
 import { debug } from 'util';
 
+//sagas
 export function* userRegisterSaga(action) {
     try {
         const newUserData = yield call(() =>
@@ -101,7 +102,7 @@ export function* userChangePasswordSaga(action) {
     }
 }
 
-
+//watchers
 export function* watchUserRegister() {
     yield takeLatest(constants.USER_REGISTER, userRegisterSaga)
 }

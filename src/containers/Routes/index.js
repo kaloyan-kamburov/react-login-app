@@ -5,6 +5,7 @@ import RegisterContainer from '../../containers/Register/';
 import LoginContainer from '../../containers/Login/';
 import ProfileContainer from '../../containers/Profile/';
 import UsersContainer from '../../containers/Admin/Users/';
+import UserEditContainer from '../../containers/Admin/Users/edit';
 
 class Routes extends Component {
     render() {
@@ -15,7 +16,8 @@ class Routes extends Component {
                     <Route path="/register" component={RegisterContainer}/>
                     <Route path="/login" component={LoginContainer}/>
                     <Route path="/profile" component={ProfileContainer}/> 
-                    <Route path="/users" component={UsersContainer}/> 
+                    <Route exact path="/users" component={UsersContainer}/> 
+                    <Route path="/users/edit/:id" render={(props) => <UserEditContainer {...props} />}/> 
                 </Switch>
             </div> 
         )

@@ -80,8 +80,7 @@ const userReducer = (state = initialState.user, action) => {
                     errorMsg: ''
                 }
             }) 
-        case actionTypes.USER_UPDATE:    
-            debugger;
+        case actionTypes.USER_UPDATE:
             return Object.assign({}, state, {
                 token: localStorage.getItem('loginAppToken'),
                 loggedIn: true,
