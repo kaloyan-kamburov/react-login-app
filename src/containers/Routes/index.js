@@ -17,7 +17,7 @@ class Routes extends Component {
                     <Route path="/login" component={LoginContainer}/>
                     <Route path="/profile" component={ProfileContainer}/> 
                     <Route exact path="/users" component={UsersContainer}/> 
-                    <Route path="/users/edit/:id" render={(props) => <UserEditContainer {...props} />}/> 
+                    <Route path="/users/edit/:id" component={UserEditContainer} /> 
                 </Switch>
             </div> 
         )

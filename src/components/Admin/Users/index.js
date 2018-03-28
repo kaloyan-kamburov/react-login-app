@@ -21,7 +21,7 @@ export default class Users extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            users: nextProps.admin.users
+            users: nextProps.admin.users.all
         })
     }
 

@@ -15,8 +15,6 @@ class UserEditContainer extends Component {
         this.state = {
             authorized: isAuthorized()
         }
-
-        console.log(props)
     }
 
     componentWillReceiveProps() {
@@ -34,15 +32,21 @@ class UserEditContainer extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
+    return {  
         ...state
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    onSubmit: payload => (
+const mapDispatchToProps = dispatch => ({ 
+    getUser: payload => (
         dispatch({
-            type: constants.USER_LOGIN,
+            type: constants.USER_ADMIN_GET_REQUEST,
+            payload
+        })
+    ),
+    onUpdateUserInfo: payload => (
+        dispatch({
+            type: constants.USER_ADMIN_UPDATE_REQUEST,
             payload
         })
     )

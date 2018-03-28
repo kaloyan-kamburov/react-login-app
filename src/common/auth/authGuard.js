@@ -25,7 +25,7 @@ const AuthGuard = (WrappedComponent, authEnabled = true, adminOnly = false) => {
                 (this.state.authorized && !this.state.adminLogged && authEnabled && adminOnly) ) {
                 return <Redirect to='' />
             }
-            return <WrappedComponent />
+            return <WrappedComponent {...this.props}/>
 
         }
     }

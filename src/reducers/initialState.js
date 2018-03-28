@@ -27,7 +27,10 @@ export default {
         },
     },
     admin: {
-        users: []
+        users: {
+            all: [],
+            currentEditableUser: {}
+        }
     },
     products: {
         categories: [

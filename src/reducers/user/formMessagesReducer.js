@@ -34,12 +34,14 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 				...resetFormMessages()
 			}
 		case constants.USER_UPDATED:
+		case constants.USER_ADMIN_UPDATED:
 			return {
 				...state,
 				...resetFormMessages(),
 				msgUserUpdateSuccess: action.payload.msg,
 			}
 		case constants.USER_UPDATE_ERROR:
+		case constants.USER_ADMIN_UPDATE_ERROR:
 			return {
 				...state,
 				msgUserUpdateSuccess: '',

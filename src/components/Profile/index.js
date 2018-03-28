@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Form from '../../containers/Form';
-import Input from '../../containers/Form/Input';
 
 import { isAdmin } from '../../common/auth/authFunctions';
 

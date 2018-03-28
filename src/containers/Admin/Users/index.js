@@ -8,19 +8,10 @@ import { Redirect } from 'react-router-dom';
 import AuthGuard from '../../../common/auth/authGuard'; 
 import { isAuthorized } from '../../../common/auth/authFunctions';
 
+
 class UsersContainer extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            authorized: isAuthorized()
-        }
-    }
-
-    componentWillReceiveProps() {
-        this.setState({
-            authorized: isAuthorized()
-        });
     }
     
     render() {
@@ -37,9 +28,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: payload => (
+    getUser: payload => (
         dispatch({
-            type: constants.USER_LOGIN,
+            type: 'constants.USER_ADMIN_GET',
             payload
         })
     )
