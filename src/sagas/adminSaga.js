@@ -23,7 +23,7 @@ export function* userGetAllSaga(action) {
     }
 }
 
-export function* userGetSaga(action) {
+export function* userGetAdminSaga(action) {
     
     try {
         const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
@@ -33,10 +33,16 @@ export function* userGetSaga(action) {
                 type: constants.USER_ADMIN_SET,
                 payload: user.data
             }); 
+        } else {
+            yield put({ 
+                type: constants.USER_ADMIN_SET_ERROR
+            });
         }
 
     } catch (error) {
-        
+        yield put({ 
+            type: constants.USER_ADMIN_SET_ERROR
+        });
     }
 }
 
@@ -61,7 +67,7 @@ export function* watchUserGetAll() {
 }
 
 export function* watchUserGet() {
-    yield takeLatest(constants.USER_ADMIN_GET_REQUEST, userGetSaga)
+    yield takeLatest(constants.USER_ADMIN_GET_REQUEST, userGetAdminSaga)
 }
 
 export function* watchUserAdminUpdate() {

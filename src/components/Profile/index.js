@@ -104,79 +104,83 @@ export default class Profile extends Component {
     render() {
         // console.log(this.props.user.personalInfo.id)
         return(
-            <Row>
-                <Col xs='6'>                
-                    {this.renderForm()}
-                </Col>
-                <Col xs='6'>
-                    <Form
-                        msgSuccess={this.props.user.formMessages.msgUserChangePasswordSuccess}
-                        msgError={this.props.user.formMessages.msgUserChangePasswordError}
-                        onSubmit={this.props.onChangeUserPassword}
-                        errorTypes={this.props.user.formMessages.formErrorTypes}
-                        hiddenData={{
-                            id: this.state.id
-                        }}
-                        fields={[
-                            {
-                                type: 'password',
-                                label: 'Old password',
-                                name: 'oldPassword',
-                                validators: [notEmpty]
-                            },
-                            {
-                                type: 'password',
-                                label: 'New password',
-                                name: 'newPassword',
-                                validators: [notEmpty]
-                            },
-                            {
-                                type: 'password',
-                                label: 'Confirm new password',
-                                name: 'confirmNewPassword',
-                                validators: [notEmpty, comparePasswords('newPassword', 'confirmNewPassword')]
-                            },
-                        ]}
-                    />
-                    {/* <Form
-                        onSubmit={this.props.onChangeUserPassword}
-                        msg={this.props.user.personalInfo.msgChangePassword}
-                        success={this.props.user.personalInfo.changePasswordSuccess}
-                        formData={{
-                            oldPassword: this.props.user.personalInfo.oldPassword,
-                            newPassword: this.props.user.personalInfo.newPassword,
-                            confirmNewPassword: this.props.user.personalInfo.confirmNewPassword,
-                            _id: this.state.user.personalInfo._id
-                        }}
-                    >
-                        <Input 
-                            type='password'
-                            name='oldPassword'
-                            label='Old password'
-                            value={this.props.user.personalInfo.oldPassword} 
-                            onChange={this.onChange}
-                            validators={[notEmpty]}
-                            class={(!!this.props.user.personalInfo.changePasswordSuccess) ? '' : 'has-error'}
+            <div>
+                <h2>Profile</h2>
+                <Row>
+                
+                    <Col xs='6'>                
+                        {this.renderForm()}
+                    </Col>
+                    <Col xs='6'>
+                        <Form
+                            msgSuccess={this.props.user.formMessages.msgUserChangePasswordSuccess}
+                            msgError={this.props.user.formMessages.msgUserChangePasswordError}
+                            onSubmit={this.props.onChangeUserPassword}
+                            errorTypes={this.props.user.formMessages.formErrorTypes}
+                            hiddenData={{
+                                id: this.state.id
+                            }}
+                            fields={[
+                                {
+                                    type: 'password',
+                                    label: 'Old password',
+                                    name: 'oldPassword',
+                                    validators: [notEmpty]
+                                },
+                                {
+                                    type: 'password',
+                                    label: 'New password',
+                                    name: 'newPassword',
+                                    validators: [notEmpty]
+                                },
+                                {
+                                    type: 'password',
+                                    label: 'Confirm new password',
+                                    name: 'confirmNewPassword',
+                                    validators: [notEmpty, comparePasswords('newPassword', 'confirmNewPassword')]
+                                },
+                            ]}
                         />
-                        <Input 
-                            type='password'
-                            name='newPassword'
-                            label='New password'
-                            value={this.props.user.personalInfo.newPassword} 
-                            onChange={this.onChange}
-                            validators={[notEmpty]}
-                        />
-                        <Input 
-                            type='password'
-                            name='confirmNewPassword'
-                            label='Confirm new password'
-                            value={this.props.user.personalInfo.confirmNewPassword} 
-                            onChange={this.onChange}
-                            validators={[comparePasswords('newPassword', 'confirmNewPassword')]}
-                        />
-                    </Form> */}
-                </Col>
-            </Row>
+                        {/* <Form
+                            onSubmit={this.props.onChangeUserPassword}
+                            msg={this.props.user.personalInfo.msgChangePassword}
+                            success={this.props.user.personalInfo.changePasswordSuccess}
+                            formData={{
+                                oldPassword: this.props.user.personalInfo.oldPassword,
+                                newPassword: this.props.user.personalInfo.newPassword,
+                                confirmNewPassword: this.props.user.personalInfo.confirmNewPassword,
+                                _id: this.state.user.personalInfo._id
+                            }}
+                        >
+                            <Input 
+                                type='password'
+                                name='oldPassword'
+                                label='Old password'
+                                value={this.props.user.personalInfo.oldPassword} 
+                                onChange={this.onChange}
+                                validators={[notEmpty]}
+                                class={(!!this.props.user.personalInfo.changePasswordSuccess) ? '' : 'has-error'}
+                            />
+                            <Input 
+                                type='password'
+                                name='newPassword'
+                                label='New password'
+                                value={this.props.user.personalInfo.newPassword} 
+                                onChange={this.onChange}
+                                validators={[notEmpty]}
+                            />
+                            <Input 
+                                type='password'
+                                name='confirmNewPassword'
+                                label='Confirm new password'
+                                value={this.props.user.personalInfo.confirmNewPassword} 
+                                onChange={this.onChange}
+                                validators={[comparePasswords('newPassword', 'confirmNewPassword')]}
+                            />
+                        </Form> */}
+                    </Col>
+                </Row>
+            </div>
         )
     }
 }

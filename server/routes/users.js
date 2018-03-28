@@ -12,6 +12,7 @@ const secret = process.env.SECRET;
 
 const createToken = require('../utils/token');
 
+//upload middlewares
 const uploadRegister = multer({
     fileFilter: async (req, file, callback) => {
         const user = await User.getUser(req.body.username, req.body.email);
@@ -52,7 +53,6 @@ const uploadProfile = multer({
         }
     })
 })
-
 
 //Register
 router.post('/register', uploadRegister.single('avatar'), async (req, res, next) => {

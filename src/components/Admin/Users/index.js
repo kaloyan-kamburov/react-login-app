@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Table } from 'reactstrap';
 
 // export default class Login extends Component {
 //     constructor(props) {
@@ -24,17 +25,34 @@ export default class Users extends Component {
             users: nextProps.admin.users.all
         })
     }
-
+    
     renderUser = (user, index) => {
         let path = this.state.linkPath + user._id
         return(
-            <li key={index}>{user.username} <Link to={path}>Edit</Link></li>
+            <tr key={index}>
+                <td>{user.username}</td>
+                <td><Link to={path}>Edit</Link></td>
+            </tr>
         )
     }
 
     render() {
         return(
-            this.state.users.map((user, index) => this.renderUser(user, index))
+            <div>
+                <h2>Users</h2>
+                <Table>
+                    <thead>
+                        <tr>
+                            <td>Username</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.users.map((user, index) => this.renderUser(user, index))}
+                    </tbody>
+                </Table>
+            </div>
+            
         )
         
     }
