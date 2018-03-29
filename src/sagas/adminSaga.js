@@ -61,6 +61,16 @@ export function* userAdminUpdateSaga(action) {
     }
 }
 
+export function* userAdminSearchUserSaga(action) {
+    console.log(action.payload)
+    debugger
+    try {
+        
+    } catch(error) {
+
+    }
+}
+
 //watchers
 export function* watchUserGetAll() {
     yield takeLatest(constants.USER_ADMIN_GET_ALL_REQUEST, userGetAllSaga)
@@ -72,4 +82,8 @@ export function* watchUserGet() {
 
 export function* watchUserAdminUpdate() {
     yield takeLatest(constants.USER_ADMIN_UPDATE_REQUEST, userAdminUpdateSaga)
+}
+
+export function* watchUserAdminSearchUsers() {
+    yield takeLatest(constants.USER_ADMIN_SEARCH_USERS_REQUEST, userAdminSearchUserSaga)
 }

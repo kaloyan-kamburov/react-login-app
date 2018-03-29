@@ -1,13 +1,15 @@
 import initialState from '../initialState';
 import * as constants from '../../common/constants';
-import * as helpers from '../../common/helpers';
+import {
+    setAxiosHeaders
+} from '../../common/helpers';
 
 const personalInfoReducer = (state = initialState.user.personalInfo, action) => {
     switch (action.type) {
         case constants.USER_LOGGED:
         case constants.USER_REGISTERED:
             localStorage.setItem('token', action.payload.token);
-            helpers.setAxiosHeaders(localStorage.getItem('token'));
+            setAxiosHeaders(localStorage.getItem('token'));
             return {
                 ...state,
                 ...action.payload.user

@@ -28,9 +28,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    getUser: payload => (
+    searchUsers: payload => (
         dispatch({
-            type: 'constants.USER_ADMIN_GET',
+            type: constants.USER_ADMIN_SEARCH_USERS_REQUEST,
             payload
         })
     )

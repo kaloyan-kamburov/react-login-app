@@ -1,6 +1,5 @@
 import initialState from '../initialState';
 import * as constants from '../../common/constants';
-import * as helpers from '../../common/helpers';
 
 const resetFormMessages = () => {
 	return {
