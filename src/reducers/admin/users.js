@@ -26,6 +26,12 @@ const usersReducer = (state = initialState.admin.users, action) => {
             return {
                 ...state
             }
+
+        case constants.USER_ADMIN_SEARCH_USERS_SUCESS: 
+            return {
+                ...state
+            }
+
         default:
             return state;
     }

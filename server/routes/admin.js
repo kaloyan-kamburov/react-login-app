@@ -32,4 +32,30 @@ router.get('/users', passport.authenticate('jwt', {session: false}), async(req, 
     }
 });
 
+//Search users
+router.post('/searchUsers', passport.authenticate('jwt', {session: false}), async(req, res, next) => {
+    try {
+        let users = await User.getUserBySearchCriteria(req.body);
+        if (users) {
+            return res.json({
+                success: true,
+                users
+            })
+        } else {
+            res.json({
+                success: false,
+                msg: 'No users found'
+            })
+        }
+    } catch (error) {
+        res.json({
+            success: false,
+            msg: 'Error occured while searching users',
+            error
+        })
+
+    }
+
+});
+
 module.exports = router;

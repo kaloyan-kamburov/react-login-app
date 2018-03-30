@@ -77,7 +77,7 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
 
                 let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + userAdd.avatar), 'base64', (error, file) => {});
                     
-                console.log(userAdd)
+                // console.log(userAdd)
 
                 return res.json({
                     success: true, 

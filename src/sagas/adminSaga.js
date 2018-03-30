@@ -62,11 +62,20 @@ export function* userAdminUpdateSaga(action) {
 }
 
 export function* userAdminSearchUserSaga(action) {
-    console.log(action.payload)
-    debugger
     try {
+        const users = yield call(() => axios.post(constants.API_URL + '/admin/searchUsers', 
+            {
+                searchString: action.payload
+            } 
+        ))
         
+        if (users.data.success) {
+            yield put({ type: constants.USER_ADMIN_SEARCH_USERS_SUCESS, payload: users.data });
+        } else {
+            yield put({ type: constants.USER_ADMIN_SEARCH_USERS_ERROR, payload: users.data });
+        }
     } catch(error) {
+        yield put({ type: constants.USER_ADMIN_SEARCH_USERS_ERROR });
 
     }
 }

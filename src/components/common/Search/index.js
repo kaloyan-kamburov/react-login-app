@@ -16,15 +16,10 @@ export default class Search extends Component {
     onChange = event => {
         debounce(this.performSearch.bind(this, event.target.value), 1000)()
     };
-    
-    onChange2 = event => {
-        debounce(this.performSearch.bind(this, event.target.value), 1000)()
-    };
 
 
     performSearch = value => {
-        console.log(value)
-        // this.props.search(value);
+        this.props.search(value);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,7 +43,6 @@ export default class Search extends Component {
             <div>
                 <div>
                     <input type='text' onChange={this.onChange} />
-                    <input type='text' onChange={this.onChange2} />
                 </div>
                 <div className='searc-results'>
                     {this.renderResults(this.state.results)}

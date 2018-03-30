@@ -49,8 +49,6 @@ export default class Users extends Component {
         this.props.searchUsers(value);
     }
 
-
-
     render() {
         return(
             <div>

@@ -6,7 +6,8 @@ const config = require('../config/database');
 const UserSchema = mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     firstname: {
         type: String,
@@ -44,6 +45,16 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
+User.collection.ensureIndex({
+    username : 'text'
+}, function(error, res) {
+    if(error){
+        return console.error('failed ensureIndex with error', error);
+    }
+    console.log('ensureIndex succeeded with response', res);
+});    
+
+
 module.exports.getUser = function(username, email) {
     return User.findOne({ 
         $or: [
@@ -61,7 +72,7 @@ module.exports.updateUser = function(id, body) {
     return User.findByIdAndUpdate(id, body, {new: true});
 }
 
-module.exports.getUserByEmail = function(email, callback) {
+module.exports.getUserByEmail = function(email) {
     return User.findOne({email: email});
 }
 
@@ -72,6 +83,21 @@ module.exports.getAllUsers = function() {
 module.exports.getUserByUsername = function(username, callback) {
     const query = {username: username};
     User.findOne(query, callback);
+}
+
+module.exports.getUserBySearchCriteria = function(query) {
+    
+    // console.log(User.schema.paths)
+
+    console.log(query)
+
+    return User.find({ 'username': { $regex: new RegExp(query.searchString, 'i'), $options: '$i' }}) 
+    
+
+    // User.find({ $text : { $search: { $regex: query.searchString, $options: '$i' } } }, function (err, user) {
+    //     console.log('x: ')
+    //     console.log(user)
+    // });
 }
 
 module.exports.addUser = async function(newUser) { 
