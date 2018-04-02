@@ -64,9 +64,7 @@ export function* userAdminUpdateSaga(action) {
 export function* userAdminSearchUserSaga(action) {
     try {
         const users = yield call(() => axios.post(constants.API_URL + '/admin/searchUsers', 
-            {
-                searchString: action.payload
-            } 
+            action.payload
         ))
         
         if (users.data.success) {

@@ -45,14 +45,14 @@ const UserSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
-User.collection.ensureIndex({
-    username : 'text'
-}, function(error, res) {
-    if(error){
-        return console.error('failed ensureIndex with error', error);
-    }
-    console.log('ensureIndex succeeded with response', res);
-});    
+// User.collection.ensureIndex({
+//     username : 'text'
+// }, function(error, res) {
+//     if(error){
+//         return console.error('failed ensureIndex with error', error);
+//     }
+//     console.log('ensureIndex succeeded with response', res);
+// });    
 
 
 module.exports.getUser = function(username, email) {
@@ -85,13 +85,8 @@ module.exports.getUserByUsername = function(username, callback) {
     User.findOne(query, callback);
 }
 
-module.exports.getUserBySearchCriteria = function(query) {
-    
-    // console.log(User.schema.paths)
-
-    console.log(query)
-
-    return User.find({ 'username': { $regex: new RegExp(query.searchString, 'i'), $options: '$i' }}) 
+module.exports.getUserBySearchField = function(query) {
+    return User.find({ [query.searchField]: { $regex: new RegExp(query.searchValue, 'i'), $options: '$i' }}).where('roles').nin(['admin']);
     
 
     // User.find({ $text : { $search: { $regex: query.searchString, $options: '$i' } } }, function (err, user) {

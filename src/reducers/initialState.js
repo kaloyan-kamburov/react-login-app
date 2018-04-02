@@ -28,8 +28,9 @@ export default {
     },
     admin: {
         users: {
-            all: [],
-            currentEditableUser: {}
+            searchResults: [],
+            currentEditableUser: {},
+            searchField: 'username'
         }
     },
     products: {

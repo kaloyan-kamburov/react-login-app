@@ -35,7 +35,7 @@ router.get('/users', passport.authenticate('jwt', {session: false}), async(req, 
 //Search users
 router.post('/searchUsers', passport.authenticate('jwt', {session: false}), async(req, res, next) => {
     try {
-        let users = await User.getUserBySearchCriteria(req.body);
+        let users = await User.getUserBySearchField(req.body);
         if (users) {
             return res.json({
                 success: true,

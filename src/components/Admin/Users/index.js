@@ -15,8 +15,6 @@ export default class Users extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.state = {
             users: [],
             linkPath: '/users/edit/'
@@ -29,7 +27,7 @@ export default class Users extends Component {
     // }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+        // console.log(nextProps)
         // this.setState({
         //     users: nextProps.admin.users.all
         // })
@@ -45,41 +43,37 @@ export default class Users extends Component {
         )
     }
 
-    searchUsers = value => {
-        this.props.searchUsers(value);
+    searchUsers = searchValue => {
+        this.props.searchUsers({
+            searchValue,
+            searchField: this.props.admin.users.searchField
+        });
+    }
+
+    renderSearchResults = results => {
+        return results.map( result => {
+            return <tr key={result.username} className='result'><td>{result.username}</td></tr>
+        });
     }
 
     render() {
         return(
             <div>
                 <h2>Users</h2>
-                <Search search={value => this.searchUsers(value)} resultRenderFunction={this.renderUser}
-                        />
-                {/* <Table>
-                    <thead>
-                        <tr>
-                            <td>Username</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                        
-
-                    </tbody>
-                </Table> */}
+                <Search 
+                    search={searchValue => this.searchUsers(searchValue)} 
+                    changeSearchField={this.props.changeSearchField}
+                    searchField={this.props.admin.users.searchField}
+                    searchFields={['username', 'email', 'firstname', 'lastname']}
+                    searchResults={this.props.admin.users.searchResults}
+                    renderSearchResults={this.renderSearchResults}
+                    resultsContainerType={'table'}
+                />
+                <br />
                 
-                {/* <Table>
-                    <thead>
-                        <tr>
-                            <td>Username</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.users.map((user, index) => this.renderUser(user, index))}
-                    </tbody>
-                </Table> */}
+                
+               
             </div>
 
             

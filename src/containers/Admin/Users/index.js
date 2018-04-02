@@ -28,6 +28,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+    changeSearchField: payload => (
+        dispatch({
+            type: constants.USER_ADMIN_CHANGE_SEARCH_FIELD,
+            payload
+        })        
+    ),
     searchUsers: payload => (
         dispatch({
             type: constants.USER_ADMIN_SEARCH_USERS_REQUEST,
