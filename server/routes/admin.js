@@ -42,13 +42,13 @@ router.post('/searchUsers', passport.authenticate('jwt', {session: false}), asyn
                 users
             })
         } else {
-            res.json({
+            return res.json({
                 success: false,
                 msg: 'No users found'
             })
         }
     } catch (error) {
-        res.json({
+        return res.json({
             success: false,
             msg: 'Error occured while searching users',
             error

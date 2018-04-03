@@ -68,7 +68,14 @@ export function* userAdminSearchUserSaga(action) {
         ))
         
         if (users.data.success) {
-            yield put({ type: constants.USER_ADMIN_SEARCH_USERS_SUCESS, payload: users.data });
+            if (!action.payload.searchValue.length) {
+                yield put({ type: constants.USER_ADMIN_SEARCH_USERS_SUCESS, payload: {
+                    success: true,
+                    users: []
+                } });
+            } else {
+                yield put({ type: constants.USER_ADMIN_SEARCH_USERS_SUCESS, payload: users.data });
+            }
         } else {
             yield put({ type: constants.USER_ADMIN_SEARCH_USERS_ERROR, payload: users.data });
         }

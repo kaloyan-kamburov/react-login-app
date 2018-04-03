@@ -75,3 +75,25 @@ label {
 .avatar {
   max-width: 150px;
 }
+
+.list {
+  /* background: red; */
+}
+
+.list.table {
+  display: table;
+  table-layout: fixed;
+  text-align: left;
+}
+
+.list.table .list-item, .list.table .list-table-head {
+  display: table-row;
+}
+
+.list.table .list-item .list-item-property,
+.list.table .list-table-head > div  {
+  display: table-cell;
+  box-sizing: content-box;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8e8e8;
+}

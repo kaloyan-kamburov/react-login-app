@@ -32,20 +32,12 @@ export default class Search extends Component {
             searchField: nextProps.searchField,
             results: nextProps.searchResults
         });
-        // this.setState({
-        //     results: nextProps.results
-        // })
-    }
-
-    renderResults = () => {
-        
-        return this.props.renderSearchResults(this.state.results);
     }
 
     onChangeSearchField = event => {
         this.setState({
             searchValue: ''
-        })
+        });
         this.props.changeSearchField(event.target.value)
     }
 
@@ -76,10 +68,6 @@ export default class Search extends Component {
                 <br/>
                 <div>
                     <input type='text' value={this.state.searchValue} onChange={this.onSearchTextChange} />
-                </div>
-                <div className='search-results'>
-                    {this.props.children}
-                    {/* {this.renderResults()} */}
                 </div>
             </div>
         )
