@@ -30,7 +30,8 @@ export default {
         users: {
             searchResults: [],
             currentEditableUser: {},
-            searchField: 'username'
+            searchField: 'username',
+            searchValue: ''
         }
     },
     products: {
