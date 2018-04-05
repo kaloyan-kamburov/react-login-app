@@ -4,12 +4,6 @@ import * as constants from '../../common/constants';
 
 const usersReducer = (state = initialState.admin.users, action) => {
     switch (action.type) {
-        case constants.USER_ADMIN_SET_ALL:
-            return {
-                ...state,
-                all: action.payload.users
-            }
-        
         case constants.USER_ADMIN_SET:
             return {
                 ...state,
@@ -38,6 +32,17 @@ const usersReducer = (state = initialState.admin.users, action) => {
                 ...state,
                 searchResults: [],
                 searchField: action.payload
+            }
+
+        case constants.USER_ADMIN_DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                searchResults: [...state.searchResults.slice(0, n), ...state.searchResults.slice(n)],
+            }
+
+        case constants.USER_ADMIN_DELETE_USER_ERROR:
+            return {
+                ...state
             }
 
         default:

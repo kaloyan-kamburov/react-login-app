@@ -5,26 +5,7 @@ import * as constants from '../common/constants'
 // import { debug } from 'util';
 
 //sagas
-export function* userGetAllSaga(action) {
-    try {
-        const users = yield call(() => axios.get(constants.API_URL + '/admin/users/'));
-
-        if (users.data.success) {
-            yield put({ 
-                type: constants.USER_ADMIN_SET_ALL,
-                payload: {
-                    ...users.data,
-                } 
-            }); 
-        }
-
-    } catch (error) {
-        
-    }
-}
-
-export function* userGetAdminSaga(action) {
-    
+export function* userGetAdminSaga(action) {    
     try {
         const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
         
@@ -46,8 +27,7 @@ export function* userGetAdminSaga(action) {
     }
 }
 
-export function* userAdminUpdateSaga(action) {
-    
+export function* userAdminUpdateSaga(action) {    
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         
@@ -65,8 +45,8 @@ export function* userAdminSearchUserSaga(action) {
     try {
         const users = yield call(() => axios.post(constants.API_URL + '/admin/searchUsers', 
             action.payload
-        ))
-        
+        ));   
+
         if (users.data.success) {
             if (!action.payload.searchValue.length) {
                 yield put({ type: constants.USER_ADMIN_SEARCH_USERS_SUCESS, payload: {
@@ -85,11 +65,25 @@ export function* userAdminSearchUserSaga(action) {
     }
 }
 
-//watchers
-export function* watchUserGetAll() {
-    yield takeLatest(constants.USER_ADMIN_GET_ALL_REQUEST, userGetAllSaga)
+export function* userAdminDeleteUserSaga(action) {
+    try {
+        const userDelete = yield call(
+            () => axios.delete(constants.API_URL + '/admin/' + action.payload           
+        ));
+
+        if (userDelete.data.success) {
+            yield put({ type: constants.USER_ADMIN_DELETE_USER_SUCCESS, payload: userDelete.data });
+        } else {
+            yield put({ type: constants.USER_ADMIN_DELETE_USER_ERROR });
+
+        }
+    } catch(error) {
+        yield put({ type: constants.USER_ADMIN_DELETE_USER_ERROR });
+
+    }
 }
 
+//watchers
 export function* watchUserGet() {
     yield takeLatest(constants.USER_ADMIN_GET_REQUEST, userGetAdminSaga)
 }
@@ -100,4 +94,8 @@ export function* watchUserAdminUpdate() {
 
 export function* watchUserAdminSearchUsers() {
     yield takeLatest(constants.USER_ADMIN_SEARCH_USERS_REQUEST, userAdminSearchUserSaga)
+}
+
+export function* watchUserAdminDeleteUser() {
+    yield takeLatest(constants.USER_ADMIN_DELETE_USER_REQUEST, userAdminDeleteUserSaga)
 }

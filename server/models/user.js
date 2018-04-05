@@ -102,8 +102,8 @@ module.exports.addUser = async function(newUser) {
     return newUser.save();
 }
 
-module.exports.deleteUser = function(id, callback) {
-    User.findByIdAndRemove(id, callback);
+module.exports.deleteUser = function(id) {
+    return User.findByIdAndRemove(id);
 }
 
 module.exports.changePassword = async function(id, password) {

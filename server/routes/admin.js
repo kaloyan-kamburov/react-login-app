@@ -58,4 +58,30 @@ router.post('/searchUsers', passport.authenticate('jwt', {session: false}), asyn
 
 });
 
+//Delete user
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const userDelete = await User.deleteUser(req.params.id); 
+        
+        if (userDelete) {
+            return res.json({
+                success: true,
+                msg: 'User deleted'
+            })
+        } else {
+            return res.json({
+                success: false,
+                msg: 'User not found'
+            })
+        }
+
+    } catch(error) {
+        return res.json({
+            succes: false, 
+            error,
+            msg: 'Error while deleting user'
+        })
+    }
+})
+
 module.exports = router;

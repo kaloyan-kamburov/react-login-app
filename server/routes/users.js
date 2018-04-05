@@ -269,7 +269,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         console.log(error)
         return res.json({
             success: false,
-            error: error,
+            error,
             msg: 'Error while updating user'
         })
     }    

@@ -34,6 +34,12 @@ const mapDispatchToProps = dispatch => ({
             payload
         })        
     ),
+    deleteUser: payload => (
+        dispatch({
+            type: constants.USER_ADMIN_DELETE_USER_REQUEST,
+            payload
+        })
+    ),
     searchUsers: payload => (
         dispatch({
             type: constants.USER_ADMIN_SEARCH_USERS_REQUEST,

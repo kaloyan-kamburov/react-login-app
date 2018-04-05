@@ -6,6 +6,7 @@ import Search from '../../common/Search'
 export default class Users extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             users: [],
             linkPath: '/users/edit/'
@@ -29,7 +30,7 @@ export default class Users extends Component {
                     searchField={this.props.admin.users.searchField}
                     searchFields={['username', 'email', 'firstname', 'lastname']}
                 />
-                <UserList users={this.props.admin.users.searchResults} />
+                <UserList deleteUser={this.props.deleteUser} users={this.props.admin.users.searchResults} />
             </div>
         )
     }

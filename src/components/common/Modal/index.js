@@ -23,13 +23,29 @@ export default class Modal extends Component {
         })
     }
 
-    componentWillMount() {
-
-    }
-
     createMarkupForMsg = () => {
         return {
             __html: this.props.promptMsg
+        }
+    }
+
+    promptConfirmFunction = event => {
+        this.props.confirmFunction()
+    }
+
+    renderModalBody = () => {
+
+        switch(this.props.type) {
+            case 'prompt':
+                return  <div className='modal-body'>
+                            <div dangerouslySetInnerHTML={this.createMarkupForMsg()}></div>
+                            <div className='modal-buttons'>
+                                <button className='btn btn-primary' onClick={this.promptConfirmFunction}>Confirm</button>
+                                <button className='btn btn-secondary' onClick={this.closeModal}>Cancel</button>
+                            </div>
+                        </div>
+            default: 
+                return null;
         }
     }
 
@@ -43,18 +59,13 @@ export default class Modal extends Component {
                         <div className='modal-header'>
                             <FaClose onClick={this.closeModal} className='btn-close' />
                         </div>
-                        <div className='modal-body'>
-                            {/* <div dangerouslySetInnerHTML={this.createMarkupForMsg()}></div> */}
-                        </div>
-                        <div className='modal-footer'>
-                            <button className='btn btn-primary'>Confirm</button>
-                            <button className='btn btn-secondary' onClick={this.closeModal}>Cancel</button>
-                        </div>
+                        {this.renderModalBody()}
+                        <div className='modal-footer'></div>
                     </div>
                 </div>
             );
         }
-        return(<div></div>)
+        return null;
         
     }
 }

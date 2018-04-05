@@ -19,6 +19,7 @@ export default class UserList extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
+            modalVisible: false,
             users: nextProps.users
         })
     }
@@ -37,7 +38,8 @@ export default class UserList extends Component {
         this.setState({
             users: newUsers,
             sortCriteria: criteria,
-            sortDirectionDown            
+            sortDirectionDown,
+            modalVisible: false        
         });
     }
 
@@ -60,8 +62,6 @@ export default class UserList extends Component {
             } else {
                 className += ' up';
             }
-
-            console.log(className)
         }
 
         return className;
@@ -96,28 +96,32 @@ export default class UserList extends Component {
         // return string.
     }
 
-    deleteUser = userName => {
+    showDeleteUserModal = user => {
         this.setState({
-            userDelete: userName,
+            userDelete: user,
             modalVisible: true
         })
     }
 
-    userRenderFunction = (item, searchValue) => {
-        let path = this.state.linkPath + item._id
+    userRenderFunction = (user, searchValue) => {
+        let path = this.state.linkPath + user._id
         return (
-            <div className='list-item' key={item._id}>
-                <div className='list-item-property'>{item.username}</div>
-                <div className='list-item-property'>{item.firstname}</div>
-                <div className='list-item-property'>{item.lastname}</div>
-                <div className='list-item-property'>{item.email}</div>
+            <div className='list-item' key={user._id}>
+                <div className='list-item-property'>{user.username}</div>
+                <div className='list-item-property'>{user.firstname}</div>
+                <div className='list-item-property'>{user.lastname}</div>
+                <div className='list-item-property'>{user.email}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>
-                    <div onClick={() => this.deleteUser(item.username)}>Delete</div>
+                    <div onClick={() => this.showDeleteUserModal(user)}>Delete</div>
                 </div>
             </div>
 
         )
+    }
+
+    deleteUser = () => {
+        this.props.deleteUser(this.state.userDelete._id)
     }
 
     render() {
@@ -126,8 +130,9 @@ export default class UserList extends Component {
                 {this.renderData()}
                 <Modal 
                     show={this.state.modalVisible}
-                    type='propmpt' 
-                    promptMsg={`Are you sure you want to delete &lt;b&gt;${this.state.userDelete}&lt;/b&gt; ?`}
+                    type='prompt'
+                    confirmFunction={this.deleteUser}
+                    promptMsg={`Are you sure you want to delete user <b>${this.state.userDelete.username}</b> ?`}
                 />
             </div>
         )
