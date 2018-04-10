@@ -79,6 +79,22 @@ export function* userAdminDeleteUserSaga(action) {
     }
 }
 
+export function* userAdminChangeUserPassword(action) {
+    try {
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/admin/users/updatePassword/', action.payload))
+        debugger
+        if (newUserData.data.success) {
+            yield put({ type: constants.USER_ADMIN_CHANGE_USER_PASSWORD_SUCCESS, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.USER_ADMIN_CHANGE_USER_PASSWORD_ERROR, payload: newUserData.data });
+        }
+        
+        // const userChange
+    } catch(error) {
+
+    }
+}
+
 //watchers
 export function* watchUserGet() {
     yield takeLatest(constants.USER_ADMIN_GET_REQUEST, userGetAdminSaga)
@@ -94,4 +110,8 @@ export function* watchUserAdminSearchUsers() {
 
 export function* watchUserAdminDeleteUser() {
     yield takeLatest(constants.USER_ADMIN_DELETE_USER_REQUEST, userAdminDeleteUserSaga)
+}
+
+export function* watchUserAdminChangeUserPassword() {
+    yield takeLatest(constants.USER_ADMIN_CHANGE_USER_PASSWORD_REQUEST, userAdminChangeUserPassword)
 }

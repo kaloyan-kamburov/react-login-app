@@ -44,6 +44,12 @@ const mapDispatchToProps = dispatch => ({
             payload
         })
     ),
+    changeUserPassword: payload => (
+        dispatch({
+            type: constants.USER_ADMIN_CHANGE_USER_PASSWORD_REQUEST,
+            payload
+        })
+    ),
     onUpdateUserInfo: payload => (
         dispatch({
             type: constants.USER_ADMIN_UPDATE_REQUEST,

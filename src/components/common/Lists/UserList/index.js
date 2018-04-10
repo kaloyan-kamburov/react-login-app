@@ -127,8 +127,6 @@ export default class UserList extends Component {
     }
 
     render() {
-        console.log(this.props)
-
         return (
             <div className='list-users'>
                 {this.renderData()}

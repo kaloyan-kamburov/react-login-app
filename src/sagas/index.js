@@ -11,7 +11,8 @@ import {
     watchUserGet,
     watchUserAdminUpdate,
     watchUserAdminSearchUsers,
-    watchUserAdminDeleteUser
+    watchUserAdminDeleteUser,
+    watchUserAdminChangeUserPassword
 } from './adminSaga'
 
 
@@ -25,6 +26,7 @@ export default function* rootSaga() {
         watchUserGet(),
         watchUserAdminUpdate(),
         watchUserAdminSearchUsers(),
-        watchUserAdminDeleteUser()
+        watchUserAdminDeleteUser(),
+        watchUserAdminChangeUserPassword()
     ])
 }
