@@ -23,9 +23,7 @@ export default class UserList extends Component {
             users: nextProps.users
         })
     }
-
-
-
+    
     tableHeaderCellClick = criteria => {
         let newUsers = this.state.users.sort((obj1, obj2) => this.compare(obj1, obj2, criteria)),
             sortDirectionDown = true;
@@ -121,10 +119,16 @@ export default class UserList extends Component {
     }
 
     deleteUser = () => {
-        this.props.deleteUser(this.state.userDelete._id)
+        let userIndex = this.state.users.findIndex(user => user._id === this.state.userDelete._id)
+        this.props.deleteUser({
+            id: this.state.userDelete._id
+        })
+        this.props.deleteUserSuccess(userIndex)
     }
 
     render() {
+        console.log(this.props)
+
         return (
             <div className='list-users'>
                 {this.renderData()}

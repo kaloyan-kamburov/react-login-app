@@ -30,7 +30,10 @@ export default class Users extends Component {
                     searchField={this.props.admin.users.searchField}
                     searchFields={['username', 'email', 'firstname', 'lastname']}
                 />
-                <UserList deleteUser={this.props.deleteUser} users={this.props.admin.users.searchResults} />
+                <UserList 
+                    deleteUserSuccess={this.props.deleteUserSuccess}  
+                    deleteUser={this.props.deleteUser} 
+                    users={this.props.admin.users.searchResults} />
             </div>
         )
     }

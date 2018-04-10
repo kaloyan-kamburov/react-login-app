@@ -37,7 +37,7 @@ const usersReducer = (state = initialState.admin.users, action) => {
         case constants.USER_ADMIN_DELETE_USER_SUCCESS:
             return {
                 ...state,
-                searchResults: [...state.searchResults.slice(0, n), ...state.searchResults.slice(n)],
+                searchResults: [...state.searchResults.slice(0, action.payload), ...state.searchResults.slice(action.payload+1)],
             }
 
         case constants.USER_ADMIN_DELETE_USER_ERROR:

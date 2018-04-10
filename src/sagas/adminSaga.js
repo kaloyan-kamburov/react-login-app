@@ -68,14 +68,10 @@ export function* userAdminSearchUserSaga(action) {
 export function* userAdminDeleteUserSaga(action) {
     try {
         const userDelete = yield call(
-            () => axios.delete(constants.API_URL + '/admin/' + action.payload           
+            () => axios.delete(constants.API_URL + '/admin/' + action.payload.id                       
         ));
-
-        if (userDelete.data.success) {
-            yield put({ type: constants.USER_ADMIN_DELETE_USER_SUCCESS, payload: userDelete.data });
-        } else {
+        if (!userDelete.data.success) {
             yield put({ type: constants.USER_ADMIN_DELETE_USER_ERROR });
-
         }
     } catch(error) {
         yield put({ type: constants.USER_ADMIN_DELETE_USER_ERROR });

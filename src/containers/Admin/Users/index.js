@@ -31,12 +31,18 @@ const mapDispatchToProps = dispatch => ({
     changeSearchField: payload => (
         dispatch({
             type: constants.USER_ADMIN_CHANGE_SEARCH_FIELD,
-            payload
+            payload 
         })        
     ),
     deleteUser: payload => (
-        dispatch({
+        dispatch({ 
             type: constants.USER_ADMIN_DELETE_USER_REQUEST,
+            payload
+        })
+    ),
+    deleteUserSuccess: payload => (
+        dispatch({
+            type: constants.USER_ADMIN_DELETE_USER_SUCCESS,
             payload
         })
     ),
