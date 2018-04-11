@@ -13,7 +13,7 @@ export function* userRegisterSaga(action) {
         if(newUserData.data.errorType) {
             yield put({ type: constants.USER_REGISTER_ERROR, payload: newUserData.data });
         } else {
-            yield put({ type: constants.USER_REGISTERED, payload: newUserData.data })
+            yield put({ type: constants.USER_REGISTER_SUCCESS, payload: newUserData.data })
         }
        
     } catch(error) {
@@ -31,7 +31,7 @@ export function* userLoginSaga(action) {
             })  
         )
         if (newUserData.data.success) {
-            yield put({ type: constants.USER_LOGGED, payload: newUserData.data });
+            yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data });
         } else {
             yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
         }
@@ -47,18 +47,11 @@ export function* userSetPersonalInfoSaga(action) {
             
             if (user.data.success) {
                 yield put({ 
-                    type: constants.USER_SET_PERSONAL_INFO, 
+                    type: constants.USER_SET_PERSONAL_INFO_SUCCESS, 
                     payload: {
                         ...user.data,
                     } 
                 });
-                
-                // yield put({ 
-                //     type: constants.USER_SET_PERSONAL_INFO_ERROR, 
-                //     payload: {
-                //         ...user.data
-                //     } 
-                // });
             }
            
         } catch(error) {
@@ -79,7 +72,7 @@ export function* userUpdateSaga(action) {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         
         if (newUserData.data.success) {
-            yield put({ type: constants.USER_UPDATED, payload: newUserData.data });
+            yield put({ type: constants.USER_UPDATE_SUCCESS, payload: newUserData.data });
         } else {
             yield put({ type: constants.USER_UPDATE_ERROR, payload: newUserData.data });
         }
@@ -104,11 +97,11 @@ export function* userChangePasswordSaga(action) {
 
 //watchers
 export function* watchUserRegister() {
-    yield takeLatest(constants.USER_REGISTER, userRegisterSaga)
+    yield takeLatest(constants.USER_REGISTER_REQUEST, userRegisterSaga)
 }
 
 export function* watchUserLogin() {
-    yield takeLatest(constants.USER_LOGIN, userLoginSaga)
+    yield takeLatest(constants.USER_LOGIN_REQUEST, userLoginSaga)
 }
 
 export function* watchUserSetPersonalInfo() {
@@ -116,9 +109,9 @@ export function* watchUserSetPersonalInfo() {
 }
 
 export function* watchUserUpdate() {
-    yield takeLatest(constants.USER_UPDATE, userUpdateSaga)
+    yield takeLatest(constants.USER_UPDATE_REQUEST, userUpdateSaga)
 }
 
 export function* watchUserChangePassword() {
-    yield takeLatest(constants.USER_CHANGE_PASSWORD, userChangePasswordSaga)
+    yield takeLatest(constants.USER_CHANGE_PASSWORD_REQUEST, userChangePasswordSaga)
 }

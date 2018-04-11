@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     onSubmit: payload => (
         dispatch({
-            type: constants.USER_LOGIN,
+            type: constants.USER_LOGIN_REQUEST,
             payload
         })
     )

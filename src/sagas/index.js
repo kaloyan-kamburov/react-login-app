@@ -8,11 +8,11 @@ import {
 } from './userSaga';
 
 import {
-    watchUserGet,
-    watchUserAdminUpdate,
-    watchUserAdminSearchUsers,
-    watchUserAdminDeleteUser,
-    watchUserAdminChangeUserPassword
+    watchAdminGetUser,
+    watchAdminUpdate,
+    watchAdminSearchUsers,
+    watchAdminDeleteUser,
+    watchAdminChangeUserPassword
 } from './adminSaga'
 
 
@@ -23,10 +23,11 @@ export default function* rootSaga() {
         watchUserSetPersonalInfo(),
         watchUserUpdate(),
         watchUserChangePassword(),
-        watchUserGet(),
-        watchUserAdminUpdate(),
-        watchUserAdminSearchUsers(),
-        watchUserAdminDeleteUser(),
-        watchUserAdminChangeUserPassword()
+
+        watchAdminGetUser(),
+        watchAdminUpdate(),
+        watchAdminSearchUsers(),
+        watchAdminDeleteUser(),
+        watchAdminChangeUserPassword()
     ])
 }

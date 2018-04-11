@@ -40,19 +40,19 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({ 
     getUser: payload => (
         dispatch({
-            type: constants.USER_ADMIN_GET_REQUEST,
+            type: constants.ADMIN_GET_USER_REQUEST,
             payload
         })
     ),
     changeUserPassword: payload => (
         dispatch({
-            type: constants.USER_ADMIN_CHANGE_USER_PASSWORD_REQUEST,
+            type: constants.ADMIN_CHANGE_USER_PASSWORD_REQUEST,
             payload
         })
     ),
     onUpdateUserInfo: payload => (
         dispatch({
-            type: constants.USER_ADMIN_UPDATE_REQUEST,
+            type: constants.ADMIN_UPDATE_REQUEST,
             payload
         })
     )

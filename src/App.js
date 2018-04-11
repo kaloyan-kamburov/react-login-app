@@ -63,7 +63,7 @@ class App extends Component {
 	onRouteChanged(route) {
 		// switch (route) {
 		// 	case '/users':
-		// 		store.dispatch({ type: actionTypes.USER_ADMIN_GET_ALL_REQUEST })
+		// 		store.dispatch({ type: actionTypes.ADMIN_GET_ALL_USERS_REQUEST })
 		// }
 	}
 

@@ -32,7 +32,7 @@ export default class Profile extends Component {
     }
 
     renderForm = () => {
-        if (isAdmin(localStorage.getItem('token'))) {
+        if (isAdmin()) {
             return <Form
                 formData={this.props.user.personalInfo}
                 msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
@@ -42,7 +42,7 @@ export default class Profile extends Component {
                 fields={[
                     {
                         type: 'email',
-                        label: 'Email',
+                        label: 'Email', 
                         name: 'email',
                         validators: [notEmpty, email]
                     }

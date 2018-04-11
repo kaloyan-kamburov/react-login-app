@@ -8,6 +8,7 @@ const resetFormMessages = () => {
 		msgUserUpdateSuccess: '',
 		msgUserUpdateError: '',
 		msgUserChangePasswordSuccess: '',
+		msgUserChangePasswordError: '',
 		msgAdminChangeUserPasswordSuccess: '',
 		msgAdminChangeUserPasswordError: '',
 		msgAdminChangeUserPassword: '',
@@ -29,20 +30,20 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 				...state,
 				msgLoginError: action.payload.msg
 			}
-		case constants.USER_LOGGED:
+		case constants.USER_LOGIN_SUCCESS:
 			return {
 				...state,
 				...resetFormMessages()
 			}
-		case constants.USER_UPDATED:
-		case constants.USER_ADMIN_UPDATED:
+		case constants.USER_UPDATE_SUCCESS:
+		case constants.ADMIN_UPDATE_SUCCESS:
 			return {
 				...state,
 				...resetFormMessages(),
 				msgUserUpdateSuccess: action.payload.msg,
 			}
 		case constants.USER_UPDATE_ERROR:
-		case constants.USER_ADMIN_UPDATE_ERROR:
+		case constants.ADMIN_UPDATE_ERROR:
 			return {
 				...state,
 				...resetFormMessages(),
@@ -51,14 +52,14 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 			}
 
 			
-		case constants.USER_ADMIN_CHANGE_USER_PASSWORD_ERROR:
+		case constants.ADMIN_CHANGE_USER_PASSWORD_ERROR:
 			return {
 				...state,
 				...resetFormMessages(),
 				msgAdminChangeUserPasswordError: action.payload.msg
 			}
 		
-		case constants.USER_ADMIN_CHANGE_USER_PASSWORD_SUCCESS:
+		case constants.ADMIN_CHANGE_USER_PASSWORD_SUCCESS:
 			return {
 				...state,
 				...resetFormMessages(),

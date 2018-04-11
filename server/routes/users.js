@@ -235,8 +235,11 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         if (userByEmail && userByEmail._id == req.params.id || !userByEmail) { 
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
-                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user._doc.avatar), 'base64', (error, file) => {});
-                
+                let img = ''
+                if (user.roles.some(role => role !== 'admin')) {
+                    img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                }
+
                 return res.json({
                     success: true,
                     user: {
