@@ -82,7 +82,6 @@ export function* userAdminDeleteUserSaga(action) {
 export function* userAdminChangeUserPassword(action) {
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/admin/users/updatePassword/', action.payload))
-        debugger
         if (newUserData.data.success) {
             yield put({ type: constants.USER_ADMIN_CHANGE_USER_PASSWORD_SUCCESS, payload: newUserData.data });
         } else {
