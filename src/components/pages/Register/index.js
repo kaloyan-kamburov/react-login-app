@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Form from '../../containers/Form';
+import Form from '../../../containers/Form';
 // import Input from '../../containers/Form/Input'; 
 
 import { 
@@ -10,7 +10,7 @@ import {
     length, 
     password,
     checkFileSize
-} from '../../common/validators';
+} from '../../../common/validators';
 
 export default class Register extends Component {
     constructor(props) {

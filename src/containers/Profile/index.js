@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../common/constants';
 
-import Profile from '../../components/Profile';
+import Profile from '../../components/pages/Profile';
 import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../common/auth/authGuard';
@@ -58,4 +58,4 @@ const mapDispatchToProps = dispatch => ({
     
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(ProfileContainer));

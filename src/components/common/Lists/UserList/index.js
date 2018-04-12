@@ -134,7 +134,7 @@ export default class UserList extends Component {
                     show={this.state.modalVisible}
                     type='prompt'
                     confirmFunction={this.deleteUser}
-                    promptMsg={`Are you sure you want to delete user <b>${this.state.userDelete.username}</b> ?`}
+                    msg={`Are you sure you want to delete user <b>${this.state.userDelete.username}</b> ?`}
                 />
             </div>
         )

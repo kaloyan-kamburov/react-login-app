@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../../common/constants';
 
-import UserEdit from '../../../components/Admin/Users/edit';
+import UserEdit from '../../../components/pages/Admin/Users/edit';
 import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../../common/auth/authGuard'; 

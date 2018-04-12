@@ -25,7 +25,7 @@ export default class Modal extends Component {
 
     createMarkupForMsg = () => {
         return {
-            __html: this.props.promptMsg
+            __html: this.props.msg
         }
     }
 
@@ -44,14 +44,21 @@ export default class Modal extends Component {
                                 <button className='btn btn-secondary' onClick={this.closeModal}>Cancel</button>
                             </div>
                         </div>
+            case 'alert':
+                return  <div className='modal-body'>
+                            <div dangerouslySetInnerHTML={this.createMarkupForMsg()}></div>
+                            <div className='modal-buttons'>
+                                <button className='btn btn-primary' onClick={this.closeModal}>OK</button>
+                            </div>
+                        </div>
+
             default: 
                 return null;
         }
     }
 
     render() {
-        if (this.state.visible) {     
-            
+        if (this.state.visible) { 
             return(
                 <div className='modal-wrapper'>
                     <div className='modal-mask' onClick={this.closeModal}></div>

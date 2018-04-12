@@ -4,7 +4,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } f
 import { Container, Row, Col } from 'reactstrap';
 
 
-import { isAuthorized, isAdmin } from '../../common/auth/authFunctions';
+import { isAuthorized, isAdmin } from '../../../common/auth/authFunctions';
 
 import { FaSignOut } from 'react-icons/lib/fa'
 import { isatty } from 'tty';
@@ -13,7 +13,7 @@ import { isatty } from 'tty';
 export default class Navigation extends Component {
     
     constructor(props) {
-        super(props);
+        super(props); 
         
         this.state = {
             activeRoute: this.props.activeRoute,

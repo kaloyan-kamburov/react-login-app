@@ -6,7 +6,6 @@ const productsReducer = (state = initialState.products, action) => {
     switch (action.type) {
         case actionTypes.PRODUCTS_GET_ALL:
             return state;
-            debugger;
         default:
             return state;
     }

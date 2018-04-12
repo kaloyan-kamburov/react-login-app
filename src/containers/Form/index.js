@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
 import { debug } from 'util';
+import PropTypes from 'prop-types';
  
 class Form extends Component {
     constructor(props) {
@@ -240,6 +241,11 @@ class Form extends Component {
             </form>
         )
     }
+}
+
+Form.propTypes = {
+    
+    
 }
 
 const mapStateToProps = state => {

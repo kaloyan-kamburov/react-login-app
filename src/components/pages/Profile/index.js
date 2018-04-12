@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import Form from '../../containers/Form';
+import Form from '../../../containers/Form';
 
-import { isAdmin } from '../../common/auth/authFunctions';
+import { isAdmin } from '../../../common/auth/authFunctions';
 
 import { Row, Col } from 'reactstrap';
 
@@ -12,7 +12,7 @@ import {
     comparePasswords, 
     length, 
     password 
-} from '../../common/validators';
+} from '../../../common/validators';
 
 export default class Profile extends Component {
     constructor(props) {
@@ -102,7 +102,6 @@ export default class Profile extends Component {
     }
 
     render() {
-        // console.log(this.props.user.personalInfo.id)
         return(
             <div>
                 <h2>Profile</h2>
@@ -141,43 +140,6 @@ export default class Profile extends Component {
                                 },
                             ]}
                         />
-                        {/* <Form
-                            onSubmit={this.props.onChangeUserPassword}
-                            msg={this.props.user.personalInfo.msgChangePassword}
-                            success={this.props.user.personalInfo.changePasswordSuccess}
-                            formData={{
-                                oldPassword: this.props.user.personalInfo.oldPassword,
-                                newPassword: this.props.user.personalInfo.newPassword,
-                                confirmNewPassword: this.props.user.personalInfo.confirmNewPassword,
-                                _id: this.state.user.personalInfo._id
-                            }}
-                        >
-                            <Input 
-                                type='password'
-                                name='oldPassword'
-                                label='Old password'
-                                value={this.props.user.personalInfo.oldPassword} 
-                                onChange={this.onChange}
-                                validators={[notEmpty]}
-                                class={(!!this.props.user.personalInfo.changePasswordSuccess) ? '' : 'has-error'}
-                            />
-                            <Input 
-                                type='password'
-                                name='newPassword'
-                                label='New password'
-                                value={this.props.user.personalInfo.newPassword} 
-                                onChange={this.onChange}
-                                validators={[notEmpty]}
-                            />
-                            <Input 
-                                type='password'
-                                name='confirmNewPassword'
-                                label='Confirm new password'
-                                value={this.props.user.personalInfo.confirmNewPassword} 
-                                onChange={this.onChange}
-                                validators={[comparePasswords('newPassword', 'confirmNewPassword')]}
-                            />
-                        </Form> */}
                     </Col>
                 </Row>
             </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UserList from '../../common/Lists/UserList'
+import UserList from '../../../common/Lists/UserList'
 
-import Search from '../../common/Search'
+import Search from '../../../common/Search'
 
 export default class Users extends Component {
     constructor(props) {

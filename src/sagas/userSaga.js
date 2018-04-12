@@ -28,7 +28,10 @@ export function* userLoginSaga(action) {
             axios.post(constants.API_URL + '/users/authenticate', {
                 userOrEmail: action.payload.username,
                 password: action.payload.password
-            })  
+            })
+            // .catch(e => {
+            //     console.log(e)
+            // })
         )
         if (newUserData.data.success) {
             yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data });

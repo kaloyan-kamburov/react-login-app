@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import Form from '../../containers/Form';
+import Form from '../../../containers/Form';
 // import Input from '../../containers/Form/Input'; 
 
 import { 
     notEmpty, 
     password 
-} from '../../common/validators';
+} from '../../../common/validators';
 
 export default class Login extends Component {
     constructor(props) {

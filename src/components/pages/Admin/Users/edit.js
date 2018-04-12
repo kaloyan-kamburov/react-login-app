@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Form from '../../../containers/Form';
+import Form from '../../../../containers/Form';
 import { 
     email, 
     notEmpty, 
     comparePasswords, 
     length, 
     password 
-} from '../../../common/validators';
+} from '../../../../common/validators';
 import { Row, Col } from 'reactstrap';
 
 

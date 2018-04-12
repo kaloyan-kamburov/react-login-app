@@ -5,6 +5,7 @@ import { Link, Router, withRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
+import { connect } from 'react-redux'
 import rootReducer from './reducers'
 import Navigation from './containers/Navigation'
 import Routes from './containers/Routes'
@@ -14,9 +15,11 @@ import createSagaMiddleWare from 'redux-saga';
 import { getUserIdFromToken } from './common/auth/jwtHelper';
 import * as actionTypes from './common/constants';
 
-
 import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
+
+
+import Modal from './components/common/Modal';
 
 const sagaMiddleware = createSagaMiddleWare();
 const store = createStore(
@@ -27,7 +30,15 @@ sagaMiddleware.run(rootSaga);
 
 if (localStorage.getItem('token')) {
 	axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('token');
+	axios.interceptors.response.use(null, error => {
+		store.dispatch({ type: actionTypes.SERVER_ERROR, payload: error.message });
+		
+		//console.log(Object.assign({}, e))
+		// console.log(e.message)
+		// console.log(e)
+	})
 }
+
 
 class App extends Component {
 
@@ -35,13 +46,15 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			activeRoute: ''
+			activeRoute: '',
+			serverError: store.getState().server.error
 		}
 	}
 
 	componentWillMount() {
 		this.setState({
-			activeRoute: this.props.location.pathname
+			activeRoute: this.props.location.pathname,
+			serverError: store.getState().server.error
 		}, () => {
 			store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() });
 			this.onRouteChanged(this.props.location.pathname)
@@ -67,6 +80,8 @@ class App extends Component {
 		// }
 	}
 
+	
+
 
 	render() {
 		return (
@@ -78,6 +93,11 @@ class App extends Component {
 							<Col xs="12"><Routes /></Col>
 						</Row>
 					</Container>
+					<Modal 
+						show={store.getState().server.error}
+						type='alert'
+						msg={`Server is down. Please try again later.`}
+					/>
 				</div>
 			</Provider>
 		)

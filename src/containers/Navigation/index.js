@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import * as constants from '../../common/constants';
-import Navigation from '../../components/Navigation';
+import Navigation from '../../components/common/Navigation';
 
 const mapStateToProps = state => {
     return {
