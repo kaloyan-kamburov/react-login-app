@@ -55,6 +55,11 @@ require('./config/passport')(passportInstance);
 app.use('/users', users);
 app.use('/products', products);
 app.use('/admin', admin);
+app.use('/', (req, res, send) => {
+    res.end()
+});
+
+
 
 //Index route 
 // app.get('/', (req, res) => {

@@ -4,7 +4,8 @@ import {
     watchUserLogin,
     watchUserSetPersonalInfo, 
     watchUserUpdate,
-    watchUserChangePassword    
+    watchUserChangePassword,    
+    watchServerCheck
 } from './userSaga';
 
 import {
@@ -28,6 +29,8 @@ export default function* rootSaga() {
         watchAdminUpdate(),
         watchAdminSearchUsers(),
         watchAdminDeleteUser(),
-        watchAdminChangeUserPassword()
+        watchAdminChangeUserPassword(),
+        
+        // watchServerCheck(),
     ])
 }

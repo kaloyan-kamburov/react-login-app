@@ -25,10 +25,9 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 				formErrorTypes: action.payload.errorType
 			}
 		case constants.USER_LOGIN_ERROR:
-		// debugger
 			return {
 				...state,
-				msgLoginError: action.payload.msg
+				msgLoginError: (action.payload.msg || '')
 			}
 		case constants.USER_LOGIN_SUCCESS:
 			return {

@@ -29,11 +29,12 @@ export function* userLoginSaga(action) {
                 userOrEmail: action.payload.username,
                 password: action.payload.password
             })
-            // .catch(e => {
-            //     console.log(e)
-            // })
+            .catch(e => {
+                console.log(e)
+            })
         )
         if (newUserData.data.success) {
+            debugger
             yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data });
         } else {
             yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
@@ -98,6 +99,17 @@ export function* userChangePasswordSaga(action) {
     }
 }
 
+export function* serverCheckSaga(action) {  
+    try {
+        const serverCheck = yield call(() => axios.get(constants.API_URL));
+        if (typeof serverCheck !== 'undefined') {
+            yield put({ type: constants.SERVER_CHECK_SUCCESS });
+        }
+    } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+    }
+}
+
 //watchers
 export function* watchUserRegister() {
     yield takeLatest(constants.USER_REGISTER_REQUEST, userRegisterSaga)
@@ -117,4 +129,8 @@ export function* watchUserUpdate() {
 
 export function* watchUserChangePassword() {
     yield takeLatest(constants.USER_CHANGE_PASSWORD_REQUEST, userChangePasswordSaga)
+}
+
+export function* watchServerCheck() {
+    yield takeLatest(constants.SERVER_CHECK_REQUEST, serverCheckSaga)
 }

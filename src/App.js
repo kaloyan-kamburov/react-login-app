@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import './styles/App.css';
 import { Link, Router, withRouter } from 'react-router-dom';
 
+import * as screenActions from './reducers/';
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import rootReducer from './reducers'
 import Navigation from './containers/Navigation'
 import Routes from './containers/Routes'
+
 
 import rootSaga from './sagas';
 import createSagaMiddleWare from 'redux-saga';
@@ -30,12 +32,11 @@ sagaMiddleware.run(rootSaga);
 
 if (localStorage.getItem('token')) {
 	axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('token');
-	axios.interceptors.response.use(null, error => {
-		store.dispatch({ type: actionTypes.SERVER_ERROR, payload: error.message });
-		
-		//console.log(Object.assign({}, e))
-		// console.log(e.message)
-		// console.log(e)
+	axios.interceptors.response.use(/*success => {
+		console.log(success)
+		// store.dispatch({ type: actionTypes.SERVER_CHECK_SUCCESS, payload: success });
+	}*/ null, error => {
+		store.dispatch({ type: actionTypes.SERVER_CHECK_ERROR, payload: error.message });
 	})
 }
 
@@ -45,9 +46,10 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
+
 		this.state = {
 			activeRoute: '',
-			serverError: store.getState().server.error
+			serverError: ''
 		}
 	}
 
@@ -59,7 +61,18 @@ class App extends Component {
 			store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() });
 			this.onRouteChanged(this.props.location.pathname)
 		});
-		
+
+	}
+
+	componentDidMount() {
+		store.dispatch({ type: actionTypes.SERVER_CHECK_REQUEST, payload: '' });
+		store.subscribe(() => {
+			this.setState({
+				serverError: store.getState().server.error
+			})
+			
+		})
+
 	}
 
 	componentDidUpdate(prevProps) {
@@ -71,7 +84,7 @@ class App extends Component {
 		}
 	}
 
-	
+
 
 	onRouteChanged(route) {
 		// switch (route) {
@@ -80,8 +93,9 @@ class App extends Component {
 		// }
 	}
 
-	
-
+	componentWillUpdate() {
+		
+	}
 
 	render() {
 		return (
@@ -93,10 +107,10 @@ class App extends Component {
 							<Col xs="12"><Routes /></Col>
 						</Row>
 					</Container>
-					<Modal 
-						show={store.getState().server.error}
+					<Modal
+						show={this.state.serverError}
 						type='alert'
-						msg={`Server is down. Please try again later.`}
+						msg={this.state.serverError}
 					/>
 				</div>
 			</Provider>
@@ -104,4 +118,12 @@ class App extends Component {
 	}
 }
 
-export default withRouter(App)
+const mapStateToProps = state => {
+	console.log(state)
+	return {
+		...state
+	}
+}
+
+
+export default withRouter(App);
