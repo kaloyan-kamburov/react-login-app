@@ -7,7 +7,8 @@ const UserSchema = mongoose.Schema({
     username: {
         type: String,
         required: true,
-        index: true
+        index: true,
+        min: [6, 'Too few eggs']
     },
     firstname: {
         type: String,

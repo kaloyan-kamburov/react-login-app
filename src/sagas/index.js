@@ -31,6 +31,6 @@ export default function* rootSaga() {
         watchAdminDeleteUser(),
         watchAdminChangeUserPassword(),
         
-        // watchServerCheck(),
+        watchServerCheck(),
     ])
 }

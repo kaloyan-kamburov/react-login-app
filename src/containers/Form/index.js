@@ -35,6 +35,10 @@ class Form extends Component {
         }
     } 
     
+    /**
+     * 
+     * @param {*} nextProps - 
+     */
     componentWillReceiveProps(nextProps) {
         let images = {};
         this.props.fields.forEach(field => {
@@ -49,6 +53,10 @@ class Form extends Component {
         });
     }
 
+    /**
+     * Change the input content and perform the corresponding actions - validatione, set etc
+     * @param {Object} event - native form event
+     */
     onChange = event => {
         event.persist();
 
@@ -97,6 +105,9 @@ class Form extends Component {
         }
     }
 
+    /**
+     * @param {Object} field - form element
+     */
     validateField = field => {
         if (this.props.fields[field.getAttribute('index')].validators.length > 0) {
             let fieldErrors = [];
@@ -242,8 +253,14 @@ class Form extends Component {
 }
 
 Form.propTypes = {
-    
-    
+    onSubmit: PropTypes.func.isRequired,
+    fields: PropTypes.arrayOf(PropTypes.object).isRequired,
+    msgSuccess: PropTypes.string,
+    msgError: PropTypes.string,
+    errorTypes: PropTypes.array,
+    encType: PropTypes.string,
+    formData: PropTypes.object,
+    hiddenData: PropTypes.object
 }
 
 const mapStateToProps = state => {
