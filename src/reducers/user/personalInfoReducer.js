@@ -8,9 +8,10 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
     switch (action.type) {
         case constants.USER_LOGIN_SUCCESS:
         case constants.USER_REGISTER_SUCCESS:
-            console.log('dasdsa')
-            localStorage.setItem('token', action.payload.token);
-            setAxiosHeaders(localStorage.getItem('token'));
+            if (action.payload.token) {
+                localStorage.setItem('token', action.payload.token);
+                setAxiosHeaders(localStorage.getItem('token'));
+            }
             return {
                 ...state,
                 ...action.payload.user

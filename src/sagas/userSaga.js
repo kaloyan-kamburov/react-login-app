@@ -29,7 +29,7 @@ export function* userLoginSaga(action) {
                 password: action.payload.password
             })
         )
-        if (newUserData.data.success) {
+        if (typeof newUserData.data.success !== 'undefined') {
             yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data || '' });
         } else {
             yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data || '' });
@@ -57,9 +57,7 @@ export function* userSetPersonalInfoSaga(action) {
             }
            
         } catch(error) {
-            yield put({ 
-                type: constants.USER_SET_PERSONAL_INFO_ERROR
-            });
+            yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
         }
     } else {
         yield put({ 
@@ -79,7 +77,7 @@ export function* userUpdateSaga(action) {
             yield put({ type: constants.USER_UPDATE_ERROR, payload: newUserData.data });
         }
     } catch(error) {
-        yield put({ type: constants.USER_UPDATE_ERROR });
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
     }
 }
 
@@ -93,6 +91,7 @@ export function* userChangePasswordSaga(action) {
         }
 
     } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
 
     }
 }

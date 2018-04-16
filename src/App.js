@@ -33,9 +33,13 @@ sagaMiddleware.run(rootSaga);
 if (localStorage.getItem('token')) {
 	axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('token');
 
+	// axios.interceptors.request.use(config => {
+	// 	store.dispatch({ type: actionTypes.SERVER_CHECK_SUCCESS })
+	// 	return config;
+	// })
 	axios.interceptors.request.use(
 		null, 
-		// success => store.dispatch({ type: actionTypes.SERVER_CHECK_SUCCESS, payload: success }), 
+		// success => store.dispatch({ type: actionTypes.SERVER_CHECK_SUCCESS }), 
 		error => {
 			store.dispatch({ type: actionTypes.SERVER_CHECK_ERROR, payload: error.message });
 		}
@@ -100,10 +104,6 @@ class App extends Component {
 		// 	case '/users':
 		// 		store.dispatch({ type: actionTypes.ADMIN_GET_ALL_USERS_REQUEST })
 		// }
-	}
-
-	componentWillUpdate() {
-		
 	}
 
 	render() {

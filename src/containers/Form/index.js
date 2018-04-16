@@ -45,8 +45,7 @@ class Form extends Component {
             }
         })
         this.setState({
-            formData: nextProps.formData ? nextProps.formData : this.state.formData,
-            images
+            formData: nextProps.formData ? nextProps.formData : this.state.formData
         });
     }
 
