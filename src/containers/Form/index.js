@@ -161,8 +161,7 @@ class Form extends Component {
             }
         }
 
-        // debugger
-        this.validateForm(() => { return this.props.onSubmit(formValues) });
+        this.validateForm(() => this.props.onSubmit(formValues));
     }
 
     renderServerErrorMsg = msg => {

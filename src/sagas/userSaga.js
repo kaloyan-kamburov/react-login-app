@@ -17,8 +17,7 @@ export function* userRegisterSaga(action) {
         }
        
     } catch(error) {
-        // console.log(error)
-        yield put({ type: constants.USER_REGISTER_ERROR });
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
     }
 }
 
@@ -29,18 +28,17 @@ export function* userLoginSaga(action) {
                 userOrEmail: action.payload.username,
                 password: action.payload.password
             })
-            .catch(e => {
-                console.log(e)
-            })
         )
         if (newUserData.data.success) {
-            debugger
-            yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data });
+            yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data || '' });
         } else {
-            yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data });
+            yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data || '' });
+
         }
+        
+
     } catch(error) {
-        yield put({ type: constants.USER_LOGIN_ERROR });
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
     }
 }
 

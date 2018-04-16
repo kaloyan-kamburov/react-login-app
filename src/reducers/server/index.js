@@ -4,7 +4,7 @@ import * as actionTypes from '../../common/constants';
 const serverReducer = (state = initialState.server, action) => {
     switch (action.type) {
         case actionTypes.SERVER_CHECK_SUCCESS:
-            console.log(action)
+        case actionTypes.ROUTE_CHANGED:
             return {
                 ...state,
                 error: ''
