@@ -169,10 +169,6 @@ router.post('/authenticate', async (req, res, next) => {
                         token
                     });
                     
-
-
-
-                    
                 }
                 return res.json({
                     success: false,

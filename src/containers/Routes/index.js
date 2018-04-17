@@ -7,6 +7,7 @@ import LoginContainer from '../../containers/Login/';
 import ProfileContainer from '../../containers/Profile/';
 import UsersContainer from '../../containers/Admin/Users/';
 import UserEditContainer from '../../containers/Admin/Users/edit';
+import ProductsContainer from '../../containers/Admin/Products/';
 
 class Routes extends Component {
     render() {
@@ -19,6 +20,8 @@ class Routes extends Component {
                     <Route path='/profile' component={ProfileContainer}/> 
                     <Route exact path='/users' component={UsersContainer}/> 
                     <Route path='/users/edit/:id' component={UserEditContainer} /> 
+                    <Route path='/products/' component={ProductsContainer} /> 
+                    {/* <Route path='/products/new' component={UserEditContainer} />  */}
                     <Redirect to='/' />
                 </Switch>
             </div> 

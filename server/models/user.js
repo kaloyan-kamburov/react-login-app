@@ -6,29 +6,42 @@ const config = require('../config/database');
 const UserSchema = mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        required: [ true, 'Username is required'],
         index: true,
-        min: [6, 'Too few eggs']
+        min: 3,
+        max: 24
     },
     firstname: {
         type: String,
-        required: true
+        required: true,
+        min: 3,
+        max: 24
     },
     lastname: {
         type: String,
-        required: true
+        required: true,
+        min: 3,
+        max: 24
     },
     address: {
         type: String,
-        required: true
+        required: true,
+        min: 3,
+        max: 24
     },
     phone: {
-        type: String,
+        type: Number,
         required: true
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: function(value) {
+                return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)
+            },
+            message: 'Invalid email format'
+        }
     },
     password: {
         type: String,
@@ -44,8 +57,6 @@ const UserSchema = mongoose.Schema({
     }
 });
 
-const User = module.exports = mongoose.model('User', UserSchema);
-
 // User.collection.ensureIndex({
 //     username : 'text'
 // }, function(error, res) {
@@ -53,8 +64,9 @@ const User = module.exports = mongoose.model('User', UserSchema);
 //         return console.error('failed ensureIndex with error', error);
 //     }
 //     console.log('ensureIndex succeeded with response', res);
-// });    
+// });  
 
+const User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUser = function(username, email) {
     return User.findOne({ 

@@ -1,6 +1,6 @@
 import decode from 'jwt-decode';
 
-export function getUserIdFromToken(state) {
+export function getUserIdFromToken() {
     if (localStorage.getItem('token')) {
         try {
             const decoded = decode(localStorage.getItem('token'))._doc._id;

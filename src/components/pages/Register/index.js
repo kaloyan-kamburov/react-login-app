@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Form from '../../../containers/Form';
+import Form from '../../../components/common/Form';
 // import Input from '../../containers/Form/Input'; 
 
 import { 

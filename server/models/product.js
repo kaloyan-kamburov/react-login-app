@@ -5,6 +5,10 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    quantity: {
+        type: Number,
+        required: true
+    },    
     price: {
         type: Number,
         required: true
@@ -17,31 +21,39 @@ const ProductSchema = mongoose.Schema({
         type: Array,
         required: true
     },
+    variations: {
+        type: Array,
+        required: true,
+    },
     promoCodes: {
         type: Array,
         required: false
     }
 });
 
+// module.exports.getProductById = function(id, callback) {
+//     Product.findById(id, callback); 
+// }
+
+// module.exports.getAllProducts = function(callback) {
+//     Product.find({}, callback);
+// }
+
+// module.exports.addProduct = function(newProduct, callback) {
+//     Product.save(callback);
+// }
+
+// module.exports.deleteProduct = function(id, callback) {
+//     Product.findByIdAndRemove(id, callback);
+// }
+
+// module.exports.updateProduct = function(id, body, callback) { 
+//     Product.findByIdAndUpdate(id, body, callback);
+// }
+
+// module.exports.addProduct = async function(newProduct) {
+//     return newProduct.save();
+// }
+
 const Product = module.exports = mongoose.model('Product', ProductSchema);
-
-module.exports.getProductById = function(id, callback) {
-    Product.findById(id, callback); 
-}
-
-module.exports.getAllProducts = function(callback) {
-    Product.find({}, callback);
-}
-
-module.exports.addProduct = function(newProduct, callback) {
-    Product.save(callback);
-}
-
-module.exports.deleteProduct = function(id, callback) {
-    Product.findByIdAndRemove(id, callback);
-}
-
-module.exports.updateProduct = function(id, body, callback) { 
-    Product.findByIdAndUpdate(id, body, callback);
-}
 
