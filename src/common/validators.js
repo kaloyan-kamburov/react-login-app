@@ -20,7 +20,7 @@ export function length(min, max) {
             return 'This field must be at least ' + min + ' symbols long'
         }
 
-        if (input.value.length > max) {
+        if (max && input.value.length > max) {
             return 'This field must be at maximum ' + max + ' symbols long'
         }
         return true;

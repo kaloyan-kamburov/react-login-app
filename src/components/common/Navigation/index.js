@@ -82,8 +82,9 @@ export default class Navigation extends Component {
                         {this.renderLink("Register", "/register", true)}
                         {this.renderLink("Profile", "/profile", false)}
                         {this.renderLink("Login", "/login", true)}
-                        {this.renderLink("Users", "/users", false, true)}
-                        {this.renderLink("Products", "/products", false, true)}
+                        {this.renderLink("Users", "/admin/users", false, true)}
+                        {this.renderLink("Products", "/admin/products", false, true)}
+                        {this.renderLink("Categories", "/admin/categories", false, true)}
                         {this.renderMenuItem(
                             <NavItem onClick={() => this.logout()} className="ml-auto">
                                 <NavLink tag={Link} to='/'>

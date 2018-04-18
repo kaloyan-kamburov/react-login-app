@@ -23,12 +23,6 @@ class UserEditContainer extends Component {
         });
     }
 
-    render() {
-        return(
-            <UserEdit {...this.props} />
-        );
-    }
-
 }
 
 const mapStateToProps = state => {
@@ -58,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
     )
 })
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(UserEditContainer), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(UserEdit), true, true);

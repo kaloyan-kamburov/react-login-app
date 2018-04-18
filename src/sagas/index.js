@@ -16,6 +16,10 @@ import {
     watchAdminChangeUserPassword
 } from './adminSaga'
 
+import {
+    watchCategoryAdd
+} from './categorySaga';
+
 
 export default function* rootSaga() {
     yield all([
@@ -32,5 +36,7 @@ export default function* rootSaga() {
         watchAdminChangeUserPassword(),
         
         watchServerCheck(),
+
+        watchCategoryAdd()
     ])
 }

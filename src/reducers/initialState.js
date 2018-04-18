@@ -8,7 +8,8 @@ export default {
             address: '',
             phone: '', 
             email: '', 
-            avatar: ''
+            avatar: '',
+            avatarFile: ''
         },
         cartProducts: [],
         wishlist: [],
@@ -34,15 +35,18 @@ export default {
             searchValue: ''
         }
     },
-    products: {
-        categories: [
-            {
-                name: 'category1'
-            }
-        ],
-        
-    },
+    products: [],
+    categories: {},
     server: {
         error: ''
     }
 }
+
+/*
+    "cat1": {
+        id: ''
+        name: '',
+        desc: ''
+    }
+
+*/

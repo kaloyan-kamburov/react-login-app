@@ -49,7 +49,7 @@ export default class Profile extends Component {
                 ]}
             />;
         }
-
+        // console.log(this.state)
         return <Form
             formData={this.props.user.personalInfo}
             msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}

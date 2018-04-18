@@ -12,6 +12,7 @@ class Form extends Component {
             formData = props.formData || {},
             images = {};
 
+
         if (Object.keys(formData).length) {
             props.fields.forEach(field => {
                 if (field.type === 'file') {
@@ -195,36 +196,52 @@ class Form extends Component {
     }
 
     renderField = (field, index)  => {
-        if (field.type !== 'file') {            
-            return(
-                <input 
-                    type={field.type} 
-                    name={field.name}
-                    className={ (this.props.errorTypes && this.props.errorTypes.some(error => { return field.name === error })) ? 'has-error' : '' }
-                    id={field.name}
-                    onChange={this.onChange}
-                    ref={field.name}
-                    index={index}
-                    value={this.state.formData[field.name] || ''}
-                />
-            ) 
-        } else {            
-            return (
-                <div>
-                    <img style={{display: this.state.images[field.name + 'File'] ? 'block' : 'none'}} className='avatar' src={this.state.images[field.name + 'File']} />
-                        
-                    <br/>
+        switch (field.type) {
+            case 'textarea':
+                return(
+                    <textarea
+                        id={field.name}
+                        name={field.name}
+                        onChange={this.onChange}                        
+                        ref={field.name}
+                        index={index}
+                    >
+
+                    </textarea>
+                )
+            case 'file':
+                return(
+                    <div>
+                        <img 
+                            style={{display: (this.state.images[field.name + 'File'] || (this.props.formData && this.props.formData[field.name + 'File'])) ? 'block' : 'none'}} 
+                            className='avatar' 
+                            src={this.state.images[field.name + 'File'] ? this.state.images[field.name + 'File'] : ((this.props.formData && this.props.formData[field.name + 'File']) || '')} />
+                            
+                        <br/>
+                        <input 
+                            type={field.type} 
+                            name={field.name}
+                            className={ this.props.errorTypes.some(error => { field.name === error }) ? 'has-error' : '' }    
+                            id={field.name}
+                            onChange={this.onChange}
+                            ref={field.name}
+                            index={index}
+                        />
+                    </div>                    
+                ) 
+            default:
+                return(
                     <input 
                         type={field.type} 
                         name={field.name}
-                        className={ this.props.errorTypes.some(error => { field.name === error }) ? 'has-error' : '' }    
+                        className={ (this.props.errorTypes && this.props.errorTypes.some(error => { return field.name === error })) ? 'has-error' : '' }
                         id={field.name}
                         onChange={this.onChange}
                         ref={field.name}
                         index={index}
+                        value={this.state.formData[field.name] || ''}
                     />
-                </div>
-            );
+                )
         }
     }
 

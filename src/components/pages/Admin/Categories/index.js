@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Products extends Component {
+export default class Categories extends Component {
     constructor(props) {
         super(props);
     }
@@ -9,8 +9,8 @@ export default class Products extends Component {
     render() {
         return(
             <div>
-                <h2>Products</h2>
-                <Link to='/admin/products/add'>Add product</Link>
+                <h2>Categories</h2>
+                <Link to='/admin/categories/add'>Add category</Link>
             </div>
         )
     }

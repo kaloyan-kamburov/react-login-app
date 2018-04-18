@@ -23,9 +23,10 @@ const uploadRegister = multer({
     },
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
-            callback(null, 'images/')
+            callback(null, 'images/users/')
         },
         filename: (req, file, callback) => {
+            console.log(req.body)
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
             req.body.avatar = req.body.username + '.'+ ext;
             callback(null, req.body.username + '.'+ ext);
@@ -44,7 +45,7 @@ const uploadProfile = multer({
     },
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
-            callback(null, 'images/')
+            callback(null, 'images/users/')
         },
         filename: (req, file, callback) => {
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
@@ -75,7 +76,7 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
             if (userAdd) {
                 const token = createToken(userAdd);
 
-                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + userAdd.avatar), 'base64', (error, file) => {});
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/users/' + userAdd.avatar), 'base64', (error, file) => {});
                     
                 // console.log(userAdd)
 
@@ -151,7 +152,7 @@ router.post('/authenticate', async (req, res, next) => {
                         })
                     }
 
-                    let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                    let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/users/' + user.avatar), 'base64', (error, file) => {});
                     
                     return res.json({
                         success: true,                        
@@ -189,8 +190,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
     try {
         const user = await User.getUserById(req.params.id)
         if (user) {
-            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {
-                
+            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + '/users/' + user.avatar), 'base64', (error, file) => {
                 let img = file ? 'data:image/jpeg;base64,' + file.toString('base64') : null;
                 return res.json({
                     success: true,
@@ -229,11 +229,13 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         const userByEmail = await User.getUserByEmail(req.body.email); 
 
         if (userByEmail && userByEmail._id == req.params.id || !userByEmail) { 
+            console.log('BODYYYYYYYYYy')
+            console.log(req.body)
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
                 let img = ''
                 if (user.roles.some(role => role !== 'admin')) {
-                    img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + user.avatar), 'base64', (error, file) => {});
+                    img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/users/' + user.avatar), 'base64', (error, file) => {});
                 }
 
                 return res.json({

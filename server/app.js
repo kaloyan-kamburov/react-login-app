@@ -29,6 +29,7 @@ const app = express();
 const users = require('./routes/users');
 const products = require('./routes/products')
 const admin = require('./routes/admin')
+const categories = require('./routes/categories')
 
 //port Number
 const port = 8080;
@@ -55,6 +56,7 @@ require('./config/passport')(passportInstance);
 app.use('/users', users);
 app.use('/products', products);
 app.use('/admin', admin);
+app.use('/categories', categories);
 app.use('/', (req, res, send) => {
     res.end()
 });

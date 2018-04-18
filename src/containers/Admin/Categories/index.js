@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../../common/constants';
 
-import Products from '../../../components/pages/Admin/Products';
+import Categories from '../../../components/pages/Admin/Categories';
 import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../../common/auth/authGuard'; 
@@ -23,4 +23,4 @@ const mapDispatchToProps = dispatch => ({
     )
 });
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Products), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Categories), true, true);
