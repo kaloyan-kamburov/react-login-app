@@ -20,14 +20,18 @@ export default class CategoryAdd extends Component {
         event.preventDefault();
     }
 
+    componentDidMount() {
+        console.log(this.props)
+    }
+
     render() {
         return(
             <div>
                 <h2>Add new category</h2>
                 <Form
-                    msgSuccess={this.props.user.formMessages.msgRegisterSuccess}
-                    msgError={this.props.user.formMessages.msgRegisterError}
-                    errorTypes={this.props.user.formMessages.formErrorTypes}
+                    msgSuccess={this.props.formMessages.msgRegisterSuccess}
+                    msgError={this.props.formMessages.msgRegisterError}
+                    errorTypes={this.props.formMessages.formErrorTypes}
                     onSubmit={this.props.onCategoryAdd}
                     encType='multipart/form-data'
                     fields={[

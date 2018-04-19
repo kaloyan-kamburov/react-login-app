@@ -23,6 +23,16 @@ class UserEditContainer extends Component {
         });
     }
 
+    render() {
+        if (!this.state.authorized) {
+            return <Redirect to=''/>
+        }
+
+        return(
+            <UserEdit {...this.props} />
+        );
+    }
+
 }
 
 const mapStateToProps = state => {
@@ -52,4 +62,4 @@ const mapDispatchToProps = dispatch => ({
     )
 })
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(UserEdit), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(UserEditContainer), true, true);

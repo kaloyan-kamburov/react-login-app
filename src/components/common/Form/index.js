@@ -158,13 +158,19 @@ class Form extends Component {
             formSubmitted: true
         })
  
-        if (this.props.encType) {            
+        if (this.props.encType === 'multipart/form-data') {            
             formValues = new FormData();
             Object.keys(this.state.formData).forEach(key => {
-                if (!key.endsWith('File')) { 
+                if (!(this.state.formData[key] instanceof File)) { 
                     formValues.append(key, this.state.formData[key]);
                 }
             });
+            Object.keys(this.state.formData).forEach(key => {
+                if (this.state.formData[key] instanceof File) { 
+                    formValues.append(key, this.state.formData[key]);
+                }
+            });
+            
         } else {
             formValues = {
                 ...this.state.formData,

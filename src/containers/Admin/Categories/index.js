@@ -8,6 +8,31 @@ import { Redirect } from 'react-router-dom';
 import AuthGuard from '../../../common/auth/authGuard'; 
 import { isAuthorized } from '../../../common/auth/authFunctions';
 
+class CategoriesContainer extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            authorized: isAuthorized()
+        }
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            authorized: isAuthorized()
+        });
+    }
+
+    render() {
+        if (!this.state.authorized) {
+            return <Redirect to=''/>
+        }
+
+        return(
+            <Categories {...this.props} />
+        );
+    }
+} 
 const mapStateToProps = state => {
     return {
         ...state
@@ -23,4 +48,4 @@ const mapDispatchToProps = dispatch => ({
     )
 });
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Categories), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(CategoriesContainer), true, true);

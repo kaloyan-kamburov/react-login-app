@@ -41,9 +41,9 @@ export default class UserEdit extends Component {
                     <Col>
                         <Form
                             formData={this.state.user}
-                            msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
-                            msgError={this.props.user.formMessages.msgUserUpdateError}
-                            errorTypes={this.props.user.formMessages.formErrorTypes}
+                            msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
+                            msgError={this.props.formMessages.msgUserUpdateError}
+                            errorTypes={this.props.formMessages.formErrorTypes}
                             onSubmit={this.props.onUpdateUserInfo}
                             hiddenData={{
                                 avatar: this.state.avatar
@@ -91,8 +91,8 @@ export default class UserEdit extends Component {
                     </Col>
                     <Col>
                     <Form
-                            msgSuccess={this.props.user.formMessages.msgAdminChangeUserPasswordSuccess}
-                            msgError={this.props.user.formMessages.msgAdminChangeUserPasswordError}
+                            msgSuccess={this.props.formMessages.msgAdminChangeUserPasswordSuccess}
+                            msgError={this.props.formMessages.msgAdminChangeUserPasswordError}
                             onSubmit={this.props.changeUserPassword}
                             hiddenData={{
                                 id: this.state.user.id

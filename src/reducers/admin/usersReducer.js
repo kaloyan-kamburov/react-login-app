@@ -45,6 +45,14 @@ const usersReducer = (state = initialState.admin.users, action) => {
             return {
                 ...state
             }
+        case constants.USER_LOGOUT:
+            return state;
+        case constants.ROUTE_CHANGED:
+            return {
+                ...state,
+                searchField: initialState.admin.users.searchField,
+                searchResults: initialState.admin.users.searchResults
+            }
 
         default:
             return state;

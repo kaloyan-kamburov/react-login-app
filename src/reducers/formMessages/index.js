@@ -16,7 +16,7 @@ const resetFormMessages = () => {
 	}
 }
 
-const formMessagesReducer = (state = initialState.user.formMessages, action) => {
+const formMessagesReducer = (state = initialState.formMessages, action) => {
 	switch (action.type) {
 		case constants.USER_REGISTER_ERROR:
 			return {
@@ -24,7 +24,7 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 				msgRegisterError: (action.payload.msg || ''),
 				formErrorTypes: action.payload.errorType
 			}
-		case constants.USER_LOGIN_ERROR:
+		case constants.USER_LOGIN_ERROR:		
 			return {
 				...state,
 				msgLoginError: (action.payload.msg || '')
@@ -78,11 +78,14 @@ const formMessagesReducer = (state = initialState.user.formMessages, action) => 
 				msgUserChangePasswordError: (action.payload.msg || ''),
 				formErrorTypes: action.payload.errorType
 			}
+		case constants.USER_LOGOUT:
 		case constants.ROUTE_CHANGED:
 			return{
 				...state,
 				...resetFormMessages()
 			}
+			
+		
 		default:
 			return state;
 	}

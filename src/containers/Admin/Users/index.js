@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../../common/constants';
 
@@ -6,6 +7,32 @@ import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../../common/auth/authGuard'; 
 import { isAuthorized } from '../../../common/auth/authFunctions';
+
+class UsersContainer extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            authorized: isAuthorized()
+        }
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            authorized: isAuthorized()
+        });
+    }
+
+    render() {
+        if (!this.state.authorized) {
+            return <Redirect to=''/>
+        }
+
+        return(
+            <Users {...this.props} />
+        );
+    }
+} 
 
 const mapStateToProps = state => {
     return {
@@ -40,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
     )
 })
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Users), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(UsersContainer), true, true);

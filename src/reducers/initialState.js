@@ -16,16 +16,16 @@ export default {
         orders: {
             pending: [],
             history: []
-        },
-        formMessages: {
-            msgRegisterError: '',
-            msgLoginError: '',
-            msgUserUpdateSuccess: '',
-            msgUserUpdateError: '',
-            msgUserChangePasswordSuccess: '',
-            msgUserChangePasswordError: '',
-            formErrorTypes: []
-        },
+        }
+    },    
+    formMessages: {
+        msgRegisterError: '',
+        msgLoginError: '',
+        msgUserUpdateSuccess: '',
+        msgUserUpdateError: '',
+        msgUserChangePasswordSuccess: '',
+        msgUserChangePasswordError: '',
+        formErrorTypes: []
     },
     admin: {
         users: {

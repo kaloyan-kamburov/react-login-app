@@ -35,9 +35,9 @@ export default class Profile extends Component {
         if (isAdmin()) {
             return <Form
                 formData={this.props.user.personalInfo}
-                msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
-                msgError={this.props.user.formMessages.msgUserUpdateError}
-                errorTypes={this.props.user.formMessages.formErrorTypes}
+                msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
+                msgError={this.props.formMessages.msgUserUpdateError}
+                errorTypes={this.props.formMessages.formErrorTypes}
                 onSubmit={this.props.onUpdateUserInfo}
                 fields={[
                     {
@@ -52,9 +52,9 @@ export default class Profile extends Component {
         // console.log(this.state)
         return <Form
             formData={this.props.user.personalInfo}
-            msgSuccess={this.props.user.formMessages.msgUserUpdateSuccess}
-            msgError={this.props.user.formMessages.msgUserUpdateError}
-            errorTypes={this.props.user.formMessages.formErrorTypes}
+            msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
+            msgError={this.props.formMessages.msgUserUpdateError}
+            errorTypes={this.props.formMessages.formErrorTypes}
             onSubmit={this.props.onUpdateUserInfo}
             hiddenData={{
                 avatar: this.state.avatar
@@ -112,10 +112,10 @@ export default class Profile extends Component {
                     </Col>
                     <Col xs='6'>
                         <Form
-                            msgSuccess={this.props.user.formMessages.msgUserChangePasswordSuccess}
-                            msgError={this.props.user.formMessages.msgUserChangePasswordError}
+                            msgSuccess={this.props.formMessages.msgUserChangePasswordSuccess}
+                            msgError={this.props.formMessages.msgUserChangePasswordError}
                             onSubmit={this.props.onChangeUserPassword}
-                            errorTypes={this.props.user.formMessages.formErrorTypes}
+                            errorTypes={this.props.formMessages.formErrorTypes}
                             hiddenData={{
                                 id: this.state.id
                             }}

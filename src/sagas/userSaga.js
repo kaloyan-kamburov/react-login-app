@@ -29,7 +29,7 @@ export function* userLoginSaga(action) {
                 password: action.payload.password
             })
         )
-        if (typeof newUserData.data.success !== 'undefined') {
+        if (newUserData.data.success === true) {
             yield put({ type: constants.USER_LOGIN_SUCCESS, payload: newUserData.data || '' });
         } else {
             yield put({ type: constants.USER_LOGIN_ERROR, payload: newUserData.data || '' });

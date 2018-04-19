@@ -7,7 +7,7 @@ export default class UserList extends Component {
         super();
 
         this.state = {
-            linkPath: '/users/edit/',
+            linkPath: '/admin/users/edit/',
             users: props.users,
             sortCriteria: '',
             sortDirectionDown: true,
