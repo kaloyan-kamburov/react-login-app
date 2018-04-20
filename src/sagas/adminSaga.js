@@ -28,7 +28,7 @@ export function* adminGetUserSaga(action) {
 
 export function* watchAdminUpdateSaga(action) {  
     try {
-        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.id, action.payload))
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         
         if (newUserData.data.success) {
             yield put({ type: constants.ADMIN_UPDATE_SUCCESS, payload: newUserData.data });

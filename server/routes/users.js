@@ -227,8 +227,8 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
     
     try {
         const userByEmail = await User.getUserByEmail(req.body.email); 
-
-        if (userByEmail && userByEmail._id == req.params.id || !userByEmail) { 
+        console.log((userByEmail && userByEmail._id == req.params.id))
+        if ((userByEmail && userByEmail._id == req.params.id) || !userByEmail) { 
             const user = await User.updateUser(req.params.id, {$set: req.body});
             if (user) {
                 let img = ''
