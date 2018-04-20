@@ -12,6 +12,8 @@ const resetFormMessages = () => {
 		msgAdminChangeUserPasswordSuccess: '',
 		msgAdminChangeUserPasswordError: '',
 		msgAdminChangeUserPassword: '',
+		msgCategoryAddSuccess: '',
+		msgCategoryAddError: '',
 		formErrorTypes: []
 	}
 }
@@ -80,11 +82,25 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 			}
 		case constants.USER_LOGOUT:
 		case constants.ROUTE_CHANGED:
-			return{
+			return {
 				...state,
 				...resetFormMessages()
 			}
-			
+		
+		case constants.CATEGORY_ADD_ERROR:
+			return {
+				...state,
+				...resetFormMessages(),
+				formErrorTypes: action.payload.errorType,
+				msgCategoryAddError: action.payload.msg
+			}
+		
+		case constants.CATEGORY_ADD_SUCCESS:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgCategoryAddSuccess: action.payload.msg,
+			}
 		
 		default:
 			return state;

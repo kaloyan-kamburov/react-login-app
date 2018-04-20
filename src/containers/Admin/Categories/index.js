@@ -11,10 +11,12 @@ import { isAuthorized } from '../../../common/auth/authFunctions';
 class CategoriesContainer extends Component {
     constructor(props) {
         super(props);
+    }
 
-        this.state = {
+    componentWillMount() {
+        this.setState({
             authorized: isAuthorized()
-        }
+        });
     }
 
     componentWillReceiveProps() {

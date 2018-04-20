@@ -25,6 +25,8 @@ export default {
         msgUserUpdateError: '',
         msgUserChangePasswordSuccess: '',
         msgUserChangePasswordError: '',
+        msgCategoryAddSuccess: '',
+        msgCategoryAddError: '',
         formErrorTypes: []
     },
     admin: {
@@ -36,7 +38,9 @@ export default {
         }
     },
     products: [],
-    categories: {},
+    categories: {
+        categoryAdded: false
+    },
     server: {
         error: ''
     }

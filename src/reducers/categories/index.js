@@ -1,15 +1,28 @@
 import initialState from '../initialState';
-import * as actionTypes from '../../common/constants';
+import * as constants from '../../common/constants';
 
 const categoryReducer = (state = initialState.categories, action) => {
     switch (action.type) {
-        case actionTypes.CATEGORY_ADD_SUCCESS:
+        case constants.CATEGORY_ADD_SUCCESS:
             return {
                 ...state,
+                categoryAdded: true,
                 [action.payload.category.name]: action.payload.category
             }
-        case actionTypes.CATEGORY_ADD_ERROR:
-            return state;
+            
+        case constants.CATEGORY_ADD_ERROR:
+            return {
+                ...state,
+                categoryAdded: false,
+            }
+        
+        case constants.ROUTE_CHANGED: {
+            return {
+                ...state,
+                categoryAdded: false
+            }
+        }
+            
             
         default:
             return state;

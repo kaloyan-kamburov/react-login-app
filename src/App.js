@@ -93,8 +93,6 @@ class App extends Component {
 
 
 	onRouteChanged(route) {
-		
-
 		// this.setState({
 		// 	serverError: store.getState().server.error
 

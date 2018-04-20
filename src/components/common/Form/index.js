@@ -41,6 +41,9 @@ class Form extends Component {
      * @param {*} nextProps - 
      */
     componentWillReceiveProps(nextProps) {
+        if (this.props.triggerActionAfterSuccess) {
+            return this.props.actionAfterSuccess();
+        }
         let images = {};
         this.props.fields.forEach(field => {
             if (field.type === 'file') {
@@ -178,7 +181,9 @@ class Form extends Component {
             }
         }
 
-        this.validateForm(() => this.props.onSubmit(formValues));
+        this.validateForm(() => {          
+            return this.props.onSubmit(formValues)
+        });
     }
 
     renderServerErrorMsg = msg => {
@@ -283,7 +288,23 @@ Form.propTypes = {
     errorTypes: PropTypes.array,
     encType: PropTypes.string,
     formData: PropTypes.object,
-    hiddenData: PropTypes.object
+    hiddenData: PropTypes.object,
+    // actionAfterSuccess: function(props, propName, componentName) {
+    //     if (typeof props[propName] !== 'undefined' && typeof props['triggerActionAfterSuccess'] === 'undefined') {
+    //         throw Error('Property "triggerActionAfterSuccess" must be also declared');
+    //     }
+    //     if (typeof props[propName] !== 'undefined' && typeof props[propName] !== 'function') {
+    //         throw Error('Property "actionAfterSuccess" must be of type "function"');
+    //     }
+    // },
+    // triggerActionAfterSuccess:  function(props, propName, componentName) {
+    //     if (typeof props[propName] !== 'undefined' && typeof props['actionAfterSuccess'] === 'undefined') {
+    //         throw Error('Property "actionAfterSuccess" must be also declared');
+    //     }
+    //     if (typeof props[propName] !== 'undefined' && typeof props[propName] !== 'boolean') {
+    //         throw Error('Property "triggerActionAfterSuccess" must be of type "boolean"');
+    //     }
+    // }
 }
 
 const mapStateToProps = state => {

@@ -6,14 +6,16 @@ import * as constants from '../common/constants';
 //sagas
 export function* watchCategoryAddSaga(action) {
     // debugger
+
     try {
-        const newCategoryData = yield call(() =>
+        const newCategory = yield call(() =>
             axios.post(constants.API_URL + '/categories/add', action.payload, { headers: { 'Content-Type': 'multipart/form-data' } })
         )
-        if(newCategoryData.data.errorType) {
-            yield put({ type: constants.CATEGORY_ADD_ERROR, payload: newCategoryData.data });
+        
+        if(newCategory.data.errorType) {
+            yield put({ type: constants.CATEGORY_ADD_ERROR, payload: newCategory.data });
         } else {
-            yield put({ type: constants.CATEGORY_ADD_SUCCESS, payload: newCategoryData.data })
+            yield put({ type: constants.CATEGORY_ADD_SUCCESS, payload: newCategory.data })
         }
        
     } catch(error) {

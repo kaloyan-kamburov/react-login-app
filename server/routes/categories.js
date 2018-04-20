@@ -24,35 +24,12 @@ const uploadCreateCategory = multer({
             callback(null, 'images/categories/')
         },
         filename: (req, file, callback) => {
-            console.log(req)
-            console.log(file)
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
             req.body.avatar = req.body.name + '.'+ ext;
             callback(null, req.body.name + '.'+ ext);
         }
     })
-})
-
-// const uploadRegister = multer({
-//     fileFilter: async (req, file, callback) => {
-//         const user = await Category.getUser(req.body.username, req.body.email);
-//         if(user) {
-//            return callback(null, false)
-//         }
-//         return callback(null, true)
-//     },
-//     storage: multer.diskStorage({
-//         destination: (req, file, callback) => {
-//             callback(null, 'images/users/')
-//         },
-//         filename: (req, file, callback) => {
-//             console.log(req.body)
-//             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
-//             req.body.avatar = req.body.username + '.'+ ext;
-//             callback(null, req.body.username + '.'+ ext);
-//         }
-//     })
-// })
+});
 
 //Register
 router.post('/add',  uploadCreateCategory.single('avatar'), async (req, res, next) => {
@@ -84,6 +61,7 @@ router.post('/add',  uploadCreateCategory.single('avatar'), async (req, res, nex
             return res.json({
                 success: false, 
                 msg: 'Category exists',
+                errorType: ['name']
             });
         }
 
