@@ -17,7 +17,9 @@ import {
 } from './adminSaga'
 
 import {
-    watchCategoryAdd
+    watchCategoryAdd,
+    watchCategoryGet,
+    watchCategoryGetAll
 } from './categorySaga';
 
 
@@ -36,7 +38,9 @@ export default function* rootSaga() {
         watchAdminChangeUserPassword(),
         
         watchServerCheck(),
-
+        
+        watchCategoryGetAll(),
+        watchCategoryGet(),
         watchCategoryAdd()
     ])
 }

@@ -33,7 +33,8 @@ export default class Users extends Component {
                 <UserList 
                     deleteUserSuccess={this.props.deleteUserSuccess}  
                     deleteUser={this.props.deleteUser} 
-                    users={this.props.admin.users.searchResults} />
+                    users={this.props.admin.users.searchResults} 
+                />
             </div>
         )
     }

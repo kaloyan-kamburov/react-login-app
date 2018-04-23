@@ -18,6 +18,15 @@ const CategorySchema = mongoose.Schema({
 
 const Category = module.exports = mongoose.model('Category', CategorySchema);
 
+
+module.exports.getAll = async function() {
+    return Category.find({});
+}
+
+module.exports.getCategoryById = function(id) {
+    return Category.findById(id); 
+}
+
 module.exports.addCategory = async function(newCategory) { 
     return newCategory.save();
 }

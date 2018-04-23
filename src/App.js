@@ -65,6 +65,7 @@ class App extends Component {
 			serverError: store.getState().server.error
 		}, () => {
 			store.dispatch({ type: actionTypes.USER_SET_PERSONAL_INFO_REQUEST, payload: getUserIdFromToken() });
+			store.dispatch({ type: actionTypes.CATEGORY_GET_ALL_REQUEST });
 			this.onRouteChanged(this.props.location.pathname)
 		});
 

@@ -39,7 +39,9 @@ export default {
     },
     products: [],
     categories: {
-        categoryAdded: false
+        currentEditableCategory: {},
+        categoryAdded: false,
+        all: []
     },
     server: {
         error: ''

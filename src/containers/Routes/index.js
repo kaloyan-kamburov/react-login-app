@@ -10,6 +10,7 @@ import UsersContainer from '../../containers/Admin/Users/';
 import UserEditContainer from '../../containers/Admin/Users/edit';
 import CategoriesContainer from '../../containers/Admin/Categories/';
 import CategoryAddContainer from '../../containers/Admin/Categories/add';
+import CategoriesEditContainer from '../../containers/Admin/Categories/edit';
 import ProductsContainer from '../../containers/Admin/Products/';
 import ProductAddContainer from '../../containers/Admin/Products/add';
 
@@ -27,6 +28,7 @@ class Routes extends Component {
                     <Route path='/admin/users/edit/:id' component={UserEditContainer} />
                     
                     <Route exact path='/admin/categories/' component={CategoriesContainer} />
+                    <Route exact path='/admin/categories/edit/:id' component={CategoriesEditContainer} />
                     <Route path='/admin/categories/add/' component={CategoryAddContainer} />  
                     
                     <Route exact path='/admin/products/' component={ProductsContainer} /> 

@@ -216,6 +216,7 @@ class Form extends Component {
                         onChange={this.onChange}                        
                         ref={field.name}
                         index={index}
+                        value={this.state.formData[field.name] || ''}
                     >
 
                     </textarea>

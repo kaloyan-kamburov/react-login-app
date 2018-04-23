@@ -42,12 +42,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    changeSearchField: payload => (
-        dispatch({
-            type: constants.ADMIN_CHANGE_SEARCH_FIELD,
-            payload 
-        })        
-    )
+    // getAllCategories: payload => (
+    //     dispatch({
+    //         type: constants.CATEGORY_GET_ALL_REQUEST,
+    //         payload 
+    //     })        
+    // )
 });
 
 export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(CategoriesContainer), true, true);

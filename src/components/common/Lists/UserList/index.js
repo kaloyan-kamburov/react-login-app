@@ -4,7 +4,7 @@ import Modal from '../../Modal';
 
 export default class UserList extends Component {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
             linkPath: '/admin/users/edit/',
