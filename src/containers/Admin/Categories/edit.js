@@ -51,12 +51,6 @@ const mapDispatchToProps = dispatch => ({
             type: constants.CATEGORY_GET_REQUEST,
             payload
         })
-    ),
-    onUpdateUserInfo: payload => (
-        dispatch({
-            type: constants.ADMIN_UPDATE_REQUEST,
-            payload
-        })
     )
 })
 

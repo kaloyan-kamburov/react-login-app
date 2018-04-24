@@ -4,6 +4,20 @@ import axios from 'axios';
 import * as constants from '../common/constants'
 
 //sagas
+export function* adminUpdateInfoSaga(action) {
+    try {
+        const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.id, action.payload))
+        
+        if (newUserData.data.success) {
+            yield put({ type: constants.ADMIN_UPDATE_INFO_SUCCESS, payload: newUserData.data });
+        } else {
+            yield put({ type: constants.ADMIN_UPDATE_INFO_ERROR, payload: newUserData.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.ADMIN_UPDATE_USER_ERROR });
+    }
+}
+
 export function* adminGetUserSaga(action) {    
     try {
         const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
@@ -26,17 +40,17 @@ export function* adminGetUserSaga(action) {
     }
 }
 
-export function* watchAdminUpdateSaga(action) {  
+export function* adminUpdateUserSaga(action) {  
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
         
         if (newUserData.data.success) {
-            yield put({ type: constants.ADMIN_UPDATE_SUCCESS, payload: newUserData.data });
+            yield put({ type: constants.ADMIN_UPDATE_USER_SUCCESS, payload: newUserData.data });
         } else {
-            yield put({ type: constants.ADMIN_UPDATE_ERROR, payload: newUserData.data });
+            yield put({ type: constants.ADMIN_UPDATE_USER_ERROR, payload: newUserData.data });
         }
     } catch(error) {
-        yield put({ type: constants.ADMIN_UPDATE_ERROR });
+        yield put({ type: constants.ADMIN_UPDATE_USER_ERROR });
     }
 }
 
@@ -94,12 +108,16 @@ export function* adminChangeUserPassword(action) {
 }
 
 //watchers
+export function* watchAdminUpdateInfo() {
+    yield takeLatest(constants.ADMIN_UPDATE_INFO_REQUEST, adminUpdateInfoSaga)
+}
+
 export function* watchAdminGetUser() {
     yield takeLatest(constants.ADMIN_GET_USER_REQUEST, adminGetUserSaga)
 }
 
-export function* watchAdminUpdate() {
-    yield takeLatest(constants.ADMIN_UPDATE_REQUEST, watchAdminUpdateSaga)
+export function* watchAdminUpdateUser() {
+    yield takeLatest(constants.ADMIN_UPDATE_USER_REQUEST, adminUpdateUserSaga)
 }
 
 export function* watchAdminSearchUsers() {

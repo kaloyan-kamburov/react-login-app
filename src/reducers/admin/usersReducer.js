@@ -10,14 +10,14 @@ const usersReducer = (state = initialState.admin.users, action) => {
                 currentEditableUser: action.payload.user
             }
 
-        case constants.ADMIN_UPDATE_SUCCESS: 
+        case constants.ADMIN_UPDATE_USER_SUCCESS: 
         
             return {
                 ...state,
                 currentEditableUser: action.payload.user
             }
 
-        case constants.ADMIN_UPDATE_ERROR:
+        case constants.ADMIN_UPDATE_USER_ERROR:
             return {
                 ...state
             }

@@ -7,7 +7,6 @@ import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../common/auth/authGuard';
 import { isAuthorized } from '../../common/auth/authFunctions';
-import { isAdmin } from '../../common/auth/authFunctions';
 
 class ProfileContainer extends Component {
     constructor(props) {
@@ -44,7 +43,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     onUpdateUserInfo: payload => (
         dispatch({
-            type: isAdmin() ? constants.ADMIN_UPDATE_REQUEST : constants.USER_UPDATE_REQUEST,
+            type: constants.USER_UPDATE_REQUEST,
+            payload
+        })
+    ),
+
+    onUpdateAdminInfo: payload => (
+        dispatch({
+            type: constants.ADMIN_UPDATE_INFO_REQUEST,
             payload
         })
     ),

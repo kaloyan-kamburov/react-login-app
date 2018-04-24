@@ -9,8 +9,9 @@ import {
 } from './userSaga';
 
 import {
+    watchAdminUpdateInfo,
     watchAdminGetUser,
-    watchAdminUpdate,
+    watchAdminUpdateUser,
     watchAdminSearchUsers,
     watchAdminDeleteUser,
     watchAdminChangeUserPassword
@@ -25,6 +26,7 @@ import {
 
 export default function* rootSaga() {
     yield all([
+        watchAdminUpdateInfo(),
         watchUserRegister(),
         watchUserLogin(),
         watchUserSetPersonalInfo(),
@@ -32,7 +34,7 @@ export default function* rootSaga() {
         watchUserChangePassword(),
 
         watchAdminGetUser(),
-        watchAdminUpdate(),
+        watchAdminUpdateUser(),
         watchAdminSearchUsers(),
         watchAdminDeleteUser(),
         watchAdminChangeUserPassword(),

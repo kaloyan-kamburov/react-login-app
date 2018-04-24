@@ -35,10 +35,10 @@ export default class Profile extends Component {
         if (isAdmin()) {
             return <Form
                 formData={this.props.user.personalInfo}
-                msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
-                msgError={this.props.formMessages.msgUserUpdateError}
+                msgSuccess={this.props.formMessages.msgAdminUpdateInfoSuccess}
+                msgError={this.props.formMessages.msgAdminUpdateInfoError}
                 errorTypes={this.props.formMessages.formErrorTypes}
-                onSubmit={this.props.onUpdateUserInfo}
+                onSubmit={this.props.onUpdateAdminInfo}
                 fields={[
                     {
                         type: 'email',
