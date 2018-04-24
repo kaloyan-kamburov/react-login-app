@@ -11,7 +11,7 @@ export default class CategoryList extends Component {
             sortCriteria: '',
             sortDirectionDown: true,
             modalVisible: false,
-            userDelete: ''
+            categoryDelete: {}
             
         }
     }
@@ -22,23 +22,6 @@ export default class CategoryList extends Component {
             categories: nextProps.categories
         })
     }
-    
-    tableHeaderCellClick = criteria => {
-        let newCategories = this.state.categories.sort((obj1, obj2) => this.compare(obj1, obj2, criteria)),
-            sortDirectionDown = true;
-
-        if (this.state.sortCriteria == criteria && this.state.sortDirectionDown) {
-            sortDirectionDown = false;
-            newCategories.reverse();
-        }
-
-        this.setState({
-            categories: newCategories,
-            sortCriteria: criteria,
-            sortDirectionDown,
-            modalVisible: false        
-        });
-    }
 
     compare = (obj1, obj2, criteria) => {
         if (obj1[criteria] < obj2[criteria])
@@ -48,26 +31,10 @@ export default class CategoryList extends Component {
         return 0;
     }
 
-    setHeaderCriteriaClass = criteria => {
-        let className = '';
-
-        if (this.state.sortCriteria == criteria) {
-            className = 'active';
-
-            if (this.state.sortDirectionDown) {
-                className += ' down';
-            } else {
-                className += ' up';
-            }
-        }
-
-        return className;
-    }
-
     renderTableHeader = () => {
         return (
             <div className='list-table-head'>
-                <div className={this.setHeaderCriteriaClass('name')} onClick={() => this.tableHeaderCellClick('name')}>Name</div>
+                <div>Name</div>
                 <div>Action</div>
             </div>
         );
@@ -87,13 +54,9 @@ export default class CategoryList extends Component {
         return <div>No categories found</div>;        
     }
 
-    highlightFunction = (string, searchValue) => {
-        // return string.
-    }
-
-    showDeleteUserModal = user => {
+    showDeleteUserModal = category => {
         this.setState({
-            userDelete: user,
+            categoryDelete: category,
             modalVisible: true
         })
     }
@@ -111,14 +74,6 @@ export default class CategoryList extends Component {
         )
     }
 
-    deleteUser = () => {
-        let userIndex = this.state.categories.findIndex(user => user._id === this.state.userDelete._id)
-        this.props.deleteUser({
-            id: this.state.userDelete._id
-        })
-        this.props.deleteUserSuccess(userIndex)
-    }
-
     render() {
         return (
             <div className='list-users'>
@@ -126,8 +81,8 @@ export default class CategoryList extends Component {
                 <Modal 
                     show={this.state.modalVisible}
                     type='prompt'
-                    confirmFunction={this.deleteUser}
-                    msg={`Are you sure you want to delete user <b>${this.state.userDelete.username}</b> ?`}
+                    confirmFunction={() => this.props.deleteCategory(this.state.categoryDelete._id)}
+                    msg={`Are you sure you want to delete category <b>${this.state.categoryDelete.name}</b> ?`}
                 />
             </div>
         )

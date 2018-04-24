@@ -42,6 +42,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+    deleteCategory: payload => (
+        dispatch({
+            type: constants.CATEGORY_DELETE_REQUEST,
+            payload
+        })
+    )
     // getAllCategories: payload => (
     //     dispatch({
     //         type: constants.CATEGORY_GET_ALL_REQUEST,

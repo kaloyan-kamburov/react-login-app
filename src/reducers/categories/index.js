@@ -25,7 +25,7 @@ const categoryReducer = (state = initialState.categories, action) => {
                 categoryAdded: true,
                 all: {
                     ...state.all,
-                    [action.payload.category.id]: action.payload.category
+                    [action.payload.category._id]: action.payload.category
                 }
             }
             
@@ -43,6 +43,15 @@ const categoryReducer = (state = initialState.categories, action) => {
                     ...state.all,
                     [action.payload.category._id]: action.payload.category
                 }
+            }
+        
+        case constants.CATEGORY_DELETE_SUCCESS:
+            let categories = {
+                ...state
+            }            
+            delete categories.all[action.payload.category._id]
+            return {
+                ...categories
             }
         
         case constants.ROUTE_CHANGED: {

@@ -5,10 +5,6 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    quantity: {
-        type: Number,
-        required: true
-    },    
     price: {
         type: Number,
         required: true
@@ -21,15 +17,25 @@ const ProductSchema = mongoose.Schema({
         type: Array,
         required: true
     },
-    variations: {
-        type: Array,
-        required: true,
-    },
-    promoCodes: {
-        type: Array,
-        required: false
-    }
+    // variations: {
+    //     type: Array,
+    //     required: true,
+    // },
+    // promoCodes: {
+    //     type: Array,
+    //     required: false
+    // }
 });
+
+
+module.exports.getProductById = async function(id) {
+    return Product.findById(id); 
+}
+
+module.exports.addProduct = async function(newProduct) { 
+    return newProduct.save();
+}
+
 
 // module.exports.getProductById = function(id, callback) {
 //     Product.findById(id, callback); 

@@ -18,6 +18,7 @@ export default class Categories extends Component {
                 <Link to='/admin/categories/add'>Add category</Link>
                 <CategoryList 
                     categories={this.props.categories.all}
+                    deleteCategory={this.props.deleteCategory}
                 />
             </div>
         )

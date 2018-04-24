@@ -181,5 +181,32 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
     }    
 });
 
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const categoryDelete = await Category.deleteCategory(req.params.id); 
+        
+        if (categoryDelete) {
+            return res.json({
+                success: true,
+                msg: 'Category deleted',
+                category: categoryDelete
+            })
+        } else {
+            return res.json({
+                success: false,
+                msg: 'Category not found'
+            })
+        }
+
+    } catch(error) {
+        return res.json({
+            succes: false, 
+            error,
+            msg: 'Error while deleting category'
+        })
+    }
+})
+
+
 
 module.exports = router;

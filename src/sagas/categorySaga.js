@@ -89,6 +89,23 @@ export function* categoryUpdateSaga(action) {
     }
 }
 
+export function* categoryDeleteSaga(action) {
+    try {
+        const categoryDelete = yield call(
+            () => axios.delete(constants.API_URL + '/categories/' + action.payload                     
+        ));
+        if (categoryDelete.data.success) {
+            yield put({ type: constants.CATEGORY_DELETE_SUCCESS, payload: categoryDelete.data });
+        } else {
+            debugger
+            yield put({ type: constants.CATEGORY_DELETE_ERROR, payload: categoryDelete.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.ADMIN_DELETE_USER_ERROR, error });
+
+    }
+}
+
 //watchers
 export function* watchCategoryGetAll() {
     yield takeLatest(constants.CATEGORY_GET_ALL_REQUEST, categoryGetAllSaga)
@@ -104,4 +121,8 @@ export function* watchCategoryAdd() {
 
 export function* watchCategoryUpdate() {
     yield takeLatest(constants.CATEGORY_UPDATE_REQUEST, categoryUpdateSaga)
+}
+
+export function* watchCategoryDelete() {
+    yield takeLatest(constants.CATEGORY_DELETE_REQUEST, categoryDeleteSaga)
 }

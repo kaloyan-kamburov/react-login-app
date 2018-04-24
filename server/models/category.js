@@ -23,7 +23,7 @@ module.exports.getAll = async function() {
     return Category.find({});
 }
 
-module.exports.getCategoryById = function(id) {
+module.exports.getCategoryById = async function(id) {
     return Category.findById(id); 
 }
 
@@ -36,6 +36,10 @@ module.exports.getCategoryByName = async function(name) {
     return Category.findOne(query);
 }
 
-module.exports.updateCategory = function(id, body) { 
+module.exports.updateCategory = async function(id, body) { 
     return Category.findByIdAndUpdate(id, body, {new: true});
+}
+
+module.exports.deleteCategory = async function(id) {
+    return Category.findByIdAndRemove(id);
 }
