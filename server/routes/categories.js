@@ -5,20 +5,19 @@ const Category = require('../models/category');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const fs = require('fs');
-const User = require('../models/user');
 const path = require('path');
 const multer = require('multer');
 require('dotenv').config();
 const secret = process.env.SECRET;
 
 //upload middlewares
-const uploadCreateCategory = multer({
+const uploadCategory = multer({
     fileFilter: async (req, file, callback) => {
-        const category = await Category.getCategoryByName(req.body.name)
-        if(category) {
-           return callback(null, false)
+        const category = await Category.getCategoryByName(req.body.name);
+        if (!category || (category && req.body.id == category._id) ) {
+            return callback(null, true)
         }
-        return callback(null, true)
+        return callback(null, false);
     },
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
@@ -58,7 +57,6 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res,
 });
 
 //get single category
-
 router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         const category = await Category.getCategoryById(req.params.id)
@@ -92,7 +90,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 });
 
 //Add category
-router.post('/add',  uploadCreateCategory.single('avatar'), async (req, res, next) => {
+router.post('/add', uploadCategory.single('avatar'), async (req, res, next) => {
     try {
         const newCategory = new Category({
             name: req.body.name,
@@ -136,5 +134,52 @@ router.post('/add',  uploadCreateCategory.single('avatar'), async (req, res, nex
     }
     
 });
+
+router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadCategory.single('avatar'), async (req, res, next) => {
+    try {
+        const categoryByName = await Category.getCategoryByName(req.body.name); 
+
+        console.log(categoryByName)
+        
+        if (!categoryByName || (categoryByName && req.body.id == categoryByName._id) ) { 
+            const category = await Category.updateCategory(req.body.id, {$set: req.body})
+
+            if (category) {
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/categories/' + category.avatar), 'base64', (error, file) => {});
+
+                return res.json({
+                    success: true,
+                    category: {
+                        _id: category._id,
+                        name: category._doc.name,
+                        desc: category._doc.desc,
+                        avatar: category._doc.avatar,
+                        avatarFile: img
+                    },
+                    msg: 'Category updated'
+                });                
+                
+            } else {
+                return res.json({
+                    success: false,
+                    msg: 'Category not found'
+                });
+            } 
+        }
+        return res.json({
+            success: false,
+            msg: 'Category exists',
+            errorType: ['name']
+        });
+    } catch(error) {
+        console.log(error)
+        return res.json({
+            success: false,
+            error,
+            msg: 'Error while updating category'
+        })
+    }    
+});
+
 
 module.exports = router;

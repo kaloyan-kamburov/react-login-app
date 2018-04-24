@@ -15,7 +15,7 @@ export default class CategoryEdit extends Component {
         super(props);
 
         this.state = {
-            category: props.categories.currentEditableCategory
+            avatar: props.categories.currentEditableCategory.avatar
         }
 
     }
@@ -38,12 +38,13 @@ export default class CategoryEdit extends Component {
                 <Row>
                     <Col>
                         <Form
-                            formData={this.state.category}
-                            // msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
-                            msgError={this.props.formMessages.msgUserUpdateError}
+                            formData={this.props.categories.currentEditableCategory}
+                            msgSuccess={this.props.formMessages.msgCategoryUpdateSuccess}
+                            msgError={this.props.formMessages.msgCategoryUpdateError}
                             errorTypes={this.props.formMessages.formErrorTypes}
-                            onSubmit={this.props.onUpdateUserInfo}
+                            onSubmit={this.props.updateCategory}
                             hiddenData={{
+                                id: this.props.categories.currentEditableCategory.id,
                                 avatar: this.state.avatar
                             }}
                             encType='multipart/form-data'
@@ -52,7 +53,7 @@ export default class CategoryEdit extends Component {
                                     type: 'file',
                                     label: 'Category image',
                                     name: 'avatar',
-                                    validators: [checkFileSize(200), notEmpty]
+                                    validators: [checkFileSize(200)]
                                 },
                                 {
                                     type: 'text',

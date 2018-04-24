@@ -20,7 +20,8 @@ import {
 import {
     watchCategoryAdd,
     watchCategoryGet,
-    watchCategoryGetAll
+    watchCategoryGetAll,
+    watchCategoryUpdate
 } from './categorySaga';
 
 
@@ -43,6 +44,7 @@ export default function* rootSaga() {
         
         watchCategoryGetAll(),
         watchCategoryGet(),
-        watchCategoryAdd()
+        watchCategoryAdd(),
+        watchCategoryUpdate()
     ])
 }

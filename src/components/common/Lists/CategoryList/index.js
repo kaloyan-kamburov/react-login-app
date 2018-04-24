@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../../Modal';
 
-export default class UserList extends Component {
+export default class CategoryList extends Component {
     constructor(props) {
-        super();
-
+        super(props);
         this.state = {
             linkPath: '/admin/categories/edit/',
             categories: props.categories,
@@ -66,25 +65,26 @@ export default class UserList extends Component {
     }
 
     renderTableHeader = () => {
-        if (this.state.categories.length) {
-            return (
-                <div className='list-table-head'>
-                    <div className={this.setHeaderCriteriaClass('name')} onClick={() => this.tableHeaderCellClick('username')}>Name</div>
-                    <div>Action</div>
-                </div>
-            );
-        }
+        return (
+            <div className='list-table-head'>
+                <div className={this.setHeaderCriteriaClass('name')} onClick={() => this.tableHeaderCellClick('name')}>Name</div>
+                <div>Action</div>
+            </div>
+        );
     }
 
     renderData = () => {
-        return (
-            <div className='list table'>
-                {this.renderTableHeader()}
-                {this.state.categories.map(user => (
-                    this.categoryRenderFunction(user)
-                ))}
-            </div>
-        )
+        if (Object.keys(this.state.categories).length) {
+            return (
+                <div className='list table'>
+                    {this.renderTableHeader()}
+                    {Object.keys(this.state.categories).map(key => 
+                        this.categoryRenderFunction(this.state.categories[key])
+                    )}
+                </div>
+            );
+        }
+        return <div>No categories found</div>;        
     }
 
     highlightFunction = (string, searchValue) => {
@@ -98,17 +98,16 @@ export default class UserList extends Component {
         })
     }
 
-    categoryRenderFunction = (category, searchValue) => {
-        let path = this.state.linkPath + category._id
+    categoryRenderFunction = (category) => {
+        let path = this.state.linkPath + category._id;
         return (
-            <div className='list-item' key={category._id}>
+            <div className='list-item' key={category.name}>
                 <div className='list-item-property'>{category.name}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>
                     <div onClick={() => this.showDeleteUserModal(category)}>Delete</div>
                 </div>
             </div>
-
         )
     }
 

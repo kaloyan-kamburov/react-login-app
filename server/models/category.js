@@ -35,3 +35,7 @@ module.exports.getCategoryByName = async function(name) {
     const query = {name: name};
     return Category.findOne(query);
 }
+
+module.exports.updateCategory = function(id, body) { 
+    return Category.findByIdAndUpdate(id, body, {new: true});
+}

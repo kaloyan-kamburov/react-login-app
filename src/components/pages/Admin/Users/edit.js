@@ -44,7 +44,7 @@ export default class UserEdit extends Component {
                             msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
                             msgError={this.props.formMessages.msgUserUpdateError}
                             errorTypes={this.props.formMessages.formErrorTypes}
-                            onSubmit={this.props.onUpdateUserInfo}
+                            onSubmit={this.props.updateUserInfo}
                             hiddenData={{
                                 avatar: this.state.avatar
                             }}

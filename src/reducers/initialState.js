@@ -20,13 +20,20 @@ export default {
     },    
     formMessages: {
         msgRegisterError: '',
-        msgLoginError: '',
-        msgUserUpdateSuccess: '',
-        msgUserUpdateError: '',
-        msgUserChangePasswordSuccess: '',
-        msgUserChangePasswordError: '',
-        msgCategoryAddSuccess: '',
-        msgCategoryAddError: '',
+		msgLoginError: '',
+		msgUserUpdateSuccess: '',
+		msgUserUpdateError: '',
+		msgUserChangePasswordSuccess: '',
+		msgUserChangePasswordError: '',
+		msgAdminUpdateInfoSuccess: '',
+		msgAdminUpdateInfoError: '',
+		msgAdminChangeUserPasswordSuccess: '',
+		msgAdminChangeUserPasswordError: '',
+		msgAdminChangeUserPassword: '',
+		msgCategoryAddSuccess: '',
+		msgCategoryAddError: '',
+		msgCategoryUpdateSuccess: '',
+		msgCategoryUpdateError: '',
         formErrorTypes: []
     },
     admin: {
@@ -41,7 +48,7 @@ export default {
     categories: {
         currentEditableCategory: {},
         categoryAdded: false,
-        all: []
+        all: {}
     },
     server: {
         error: ''

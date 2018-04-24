@@ -41,21 +41,21 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    onUpdateUserInfo: payload => (
+    updateUserInfo: payload => (
         dispatch({
             type: constants.USER_UPDATE_REQUEST,
             payload
         })
     ),
 
-    onUpdateAdminInfo: payload => (
+    updateAdminInfo: payload => (
         dispatch({
             type: constants.ADMIN_UPDATE_INFO_REQUEST,
             payload
         })
     ),
     
-    onChangeUserPassword: payload => (
+    changeUserPassword: payload => (
         dispatch({
             type: constants.USER_CHANGE_PASSWORD_REQUEST,
             payload

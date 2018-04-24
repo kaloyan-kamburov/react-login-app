@@ -16,6 +16,8 @@ const resetFormMessages = () => {
 		msgAdminChangeUserPassword: '',
 		msgCategoryAddSuccess: '',
 		msgCategoryAddError: '',
+		msgCategoryUpdateSuccess: '',
+		msgCategoryUpdateError: '',
 		formErrorTypes: []
 	}
 }
@@ -102,6 +104,27 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 				...state,
 				...resetFormMessages(),
 				msgCategoryAddSuccess: action.payload.msg || '',
+			}
+		
+		case constants.CATEGORY_ADD_ERROR:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgCategoryAddError: action.payload.msg || '',
+			}
+		
+		case constants.CATEGORY_UPDATE_SUCCESS:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgCategoryUpdateSuccess: action.payload.msg || '',
+			}
+		
+		case constants.CATEGORY_UPDATE_ERROR:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgCategoryUpdateError: action.payload.msg || '',
 			}
 		
 		case constants.ADMIN_UPDATE_INFO_SUCCESS:

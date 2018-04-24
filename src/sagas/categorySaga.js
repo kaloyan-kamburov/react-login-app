@@ -26,32 +26,37 @@ export function* categoryGetAllSaga(action) {
 }
 
 export function* categoryGetSaga(action) {
-    try {
-        const category = yield call(() => axios.get(constants.API_URL + '/categories/' + action.payload))
-        
-        if (category.data.success) {
-            yield put({ 
-                type: constants.CATEGORY_GET_SUCCESS, 
-                payload: {
-                    ...category.data,
-                } 
-            });
-        } else {
-            yield put({ 
-                type: constants.CATEGORY_GET_ERROR, 
-                payload: {
-                    ...category.data,
-                } 
-            });
+    if (action.payload) {        
+        try {
+            const category = yield call(() => axios.get(constants.API_URL + '/categories/' + action.payload))
+            
+            if (category.data.success) {
+                yield put({ 
+                    type: constants.CATEGORY_GET_SUCCESS, 
+                    payload: {
+                        ...category.data,
+                    } 
+                });
+            } else {
+                yield put({ 
+                    type: constants.CATEGORY_GET_ERROR, 
+                    payload: {
+                        ...category.data,
+                    } 
+                });
 
+            }
+            
+        } catch(error) {
+            yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
         }
-        
-    } catch(error) {
-        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+    } else {
+        yield put({ 
+            type: constants.CATEGORY_GET_ERROR
+        });
     }
     
 }
-
 
 export function* categoryAddSaga(action) {
     try {
@@ -70,6 +75,20 @@ export function* categoryAddSaga(action) {
     }
 }
 
+export function* categoryUpdateSaga(action) {
+    try {
+        const categoryData = yield call(() => axios.put(constants.API_URL + '/categories/update/' + action.payload.get('id'), action.payload))
+        
+        if (categoryData.data.success) {
+            yield put({ type: constants.CATEGORY_UPDATE_SUCCESS, payload: categoryData.data });
+        } else {
+            yield put({ type: constants.CATEGORY_UPDATE_ERROR, payload: categoryData.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+    }
+}
+
 //watchers
 export function* watchCategoryGetAll() {
     yield takeLatest(constants.CATEGORY_GET_ALL_REQUEST, categoryGetAllSaga)
@@ -81,4 +100,8 @@ export function* watchCategoryGet() {
 
 export function* watchCategoryAdd() {
     yield takeLatest(constants.CATEGORY_ADD_REQUEST, categoryAddSaga)
+}
+
+export function* watchCategoryUpdate() {
+    yield takeLatest(constants.CATEGORY_UPDATE_REQUEST, categoryUpdateSaga)
 }

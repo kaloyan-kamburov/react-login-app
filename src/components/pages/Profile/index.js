@@ -38,7 +38,7 @@ export default class Profile extends Component {
                 msgSuccess={this.props.formMessages.msgAdminUpdateInfoSuccess}
                 msgError={this.props.formMessages.msgAdminUpdateInfoError}
                 errorTypes={this.props.formMessages.formErrorTypes}
-                onSubmit={this.props.onUpdateAdminInfo}
+                onSubmit={this.props.updateAdminInfo}
                 fields={[
                     {
                         type: 'email',
@@ -55,7 +55,7 @@ export default class Profile extends Component {
             msgSuccess={this.props.formMessages.msgUserUpdateSuccess}
             msgError={this.props.formMessages.msgUserUpdateError}
             errorTypes={this.props.formMessages.formErrorTypes}
-            onSubmit={this.props.onUpdateUserInfo}
+            onSubmit={this.props.updateUserInfo}
             hiddenData={{
                 avatar: this.state.avatar
             }}
@@ -114,7 +114,7 @@ export default class Profile extends Component {
                         <Form
                             msgSuccess={this.props.formMessages.msgUserChangePasswordSuccess}
                             msgError={this.props.formMessages.msgUserChangePasswordError}
-                            onSubmit={this.props.onChangeUserPassword}
+                            onSubmit={this.props.changeUserPassword}
                             errorTypes={this.props.formMessages.formErrorTypes}
                             hiddenData={{
                                 id: this.state.id

@@ -51,7 +51,15 @@ const mapDispatchToProps = dispatch => ({
             type: constants.CATEGORY_GET_REQUEST,
             payload
         })
+    ),
+
+    updateCategory: payload => (
+        dispatch({
+            type: constants.CATEGORY_UPDATE_REQUEST,
+            payload
+        })
     )
+    
 })
 
 export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(CategoryEditContainer), true, true);
