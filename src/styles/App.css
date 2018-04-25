@@ -161,3 +161,23 @@ label {
   float: right;
   cursor: pointer;
 }
+
+.checkbox-group {
+  float: left;
+  width: 100%;
+}
+
+.checkbox-group .field-wrapper {
+  float: left;
+  clear: both;
+}
+
+.checkbox-group input, .checkbox-group label {
+  float: left;
+  width: auto;
+}
+
+.checkbox-group input {
+  margin-top: 9px;
+  margin-right: 5px;
+}

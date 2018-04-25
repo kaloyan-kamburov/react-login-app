@@ -24,6 +24,9 @@ class Form extends Component {
             props.fields.forEach(field => {
                 errors[field.name] = [];
                 formData[field.name] = '';
+                if (field.type === 'checkboxGroup') {
+                    formData[field.name] = [];
+                }
             });
         }
 
@@ -64,56 +67,75 @@ class Form extends Component {
     onChange = event => {
         event.persist();
 
-        if (event.target.type === 'file') {
-            let reader = new FileReader(),
-            file = event.target.files[0] || ''
+        switch(event.target.type) {
+            case 'file':
+                let reader = new FileReader(),
+                file = event.target.files[0] || ''
 
-            reader.onloadend = () => {
-                this.setState({
-                    formData: {
-                        ...this.state.formData,
-                        [event.target.name]: file
-                    },
-                    images: {
-                        [event.target.name + 'File']: reader.result
-                    }
-                }, this.validateField(event.target));
-            }
+                reader.onloadend = () => {
+                    this.setState({
+                        formData: {
+                            ...this.state.formData,
+                            [event.target.name]: file
+                        },
+                        images: {
+                            [event.target.name + 'File']: reader.result
+                        }
+                    }, this.validateField(event.target));
+                }
 
-            if (file !== '') {
-                reader.readAsDataURL(file);
-            } else {
-                this.setState({
-                    formData: {
-                        ...this.state.formData,
-                        [event.target.name]: ''
-                    },
-                    images: {
-                        ...this.state.images,
-                        [event.target.name + 'File']: reader.result
+                if (file !== '') {
+                    reader.readAsDataURL(file);
+                } else {
+                    this.setState({
+                        formData: {
+                            ...this.state.formData,
+                            [event.target.name]: ''
+                        },
+                        images: {
+                            ...this.state.images,
+                            [event.target.name + 'File']: reader.result
+                        }
+                    }, this.validateField(event.target));
+                }
+            
+            case 'checkbox':
+                let checkboxValues = []
+            
+                document.getElementsByName(event.target.name).forEach(el => {
+                    if (el.checked) {
+                        checkboxValues.push(el.value)
                     }
-                }, this.validateField(event.target));
-            }
+                });
                 
-        } else {
-
-            this.setState((state) => {
-                return {
+                //fix dis sh..
+                setTimeout(() => {
+                    this.setState({
+                        formData: {
+                            ...this.state.formData,
+                            [event.target.name]: checkboxValues
+                        }
+                    })
+                    
+                }, 1);
+            default: 
+                
+                this.setState({
                     formData: {
                         ...this.state.formData,
                         [event.target.name]: event.target.value
                     }
-                }
-            }, this.validateField(event.target));
-
+                }, this.validateField(event.target));
         }
+
+        
     }
 
     /**
      * @param {Object} field - form element
      */
     validateField = field => {
-        if (this.props.fields[field.getAttribute('index')].validators.length > 0) {
+        if (field.getAttribute('index') && this.props.fields[field.getAttribute('index')].validators.length > 0) {
             let fieldErrors = [];
 
             this.props.fields[field.getAttribute('index')].validators.forEach(validator => {
@@ -206,6 +228,12 @@ class Form extends Component {
         }
     }
 
+    renderSelectMultiple = field => {
+        return(
+            <option></option>
+        )
+    }
+
     renderField = (field, index)  => {
         switch (field.type) {
             case 'textarea':
@@ -218,7 +246,6 @@ class Form extends Component {
                         index={index}
                         value={this.state.formData[field.name] || ''}
                     >
-
                     </textarea>
                 )
             case 'file':
@@ -240,7 +267,29 @@ class Form extends Component {
                             index={index}
                         />
                     </div>                    
-                ) 
+                )
+            case 'checkboxGroup':
+                return(
+                    <div className='checkbox-group'>
+                        {field.values.map( value => {
+                            return(
+                                <div className='field-wrapper' key={value[field.valueOption]}>
+                                    <input 
+                                        id={value[field.valueOption]} 
+                                        name={field.name} 
+                                        type='checkbox' 
+                                        value={value[field.valueOption]} 
+                                        key={value[field.valueOption]} 
+                                        onChange={this.onChange}
+                                    /> 
+                                    <label htmlFor={value[field.valueOption]}>{value[field.textOption]}</label>
+                                    
+                                </div>
+                            )
+                        } )}
+                    </div>
+                    
+                )
             default:
                 return(
                     <input 

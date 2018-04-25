@@ -44,7 +44,11 @@ export default {
             searchValue: ''
         }
     },
-    products: [],
+    products: {
+        currentEditableProduct: {},
+        productAdded: false,
+        all: []
+    },
     categories: {
         currentEditableCategory: {},
         categoryAdded: false,

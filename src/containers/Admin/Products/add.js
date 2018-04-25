@@ -14,10 +14,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({ 
-    onUpdateUserInfo: payload => (
+    productAdd: payload => (
         dispatch({
-            // type: constants.ADMIN_UPDATE_REQUEST,
-            // payload
+            type: constants.PRODUCT_ADD_REQUEST,
+            payload
         })
     )
 })

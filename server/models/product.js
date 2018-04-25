@@ -17,6 +17,10 @@ const ProductSchema = mongoose.Schema({
         type: Array,
         required: true
     },
+    avatar: {
+        type: String,
+        required: true
+    },
     // variations: {
     //     type: Array,
     //     required: true,

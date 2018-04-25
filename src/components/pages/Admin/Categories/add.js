@@ -16,10 +16,6 @@ import {
 export default class CategoryAdd extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            categoryAdded: props.categories.categoryAdded
-        }
     }
 
     render() {

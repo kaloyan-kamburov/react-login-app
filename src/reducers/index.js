@@ -4,6 +4,7 @@ import adimnReducer from './admin';
 import serverReducer from './server';
 import categoryReducer from './categories'
 import formMessagesReducer from './formMessages';
+import productsReducer from './products';
 
 
 import initialState from './initialState';
@@ -14,8 +15,8 @@ export default combineReducers({
     admin: adimnReducer,
     server: serverReducer,
     categories: categoryReducer,
-    formMessages: formMessagesReducer
-    // products: productsReducer
+    formMessages: formMessagesReducer,
+    products: productsReducer
 })
 
 
