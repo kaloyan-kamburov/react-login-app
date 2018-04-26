@@ -1,12 +1,49 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const Category = require('../models/category');
+const jwt = require('jsonwebtoken');
+const config = require('../config/database');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+require('dotenv').config();
+const secret = process.env.SECRET;
 
 const Product = require('../models/product');
 
+//upload middlewares
+const uploadProduct = multer({
+    fileFilter: async (req, file, callback) => {
+        const category = await Category.getCategoryByName(req.body.name);
+        if (!category || (category && req.body.id == category._id) ) {
+            return callback(null, true)
+        }
+        return callback(null, false);
+    },
+    storage: multer.diskStorage({
+        destination: (req, file, callback) => {
+            let productDir = req.body.name
+            fs.mkdirSync('images/products/' + productDir)
+            callback(null, 'images/products/' + productDir)
+        },
+        filename: (req, file, callback) => {
+            let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
+            req.body.avatar = req.body.name + '.'+ ext;
+            callback(null, req.body.name + '.'+ ext);
+        }
+    })
+});
+
 //Add category
-router.post('/add', async (req, res, next) => {
+router.post('/add', uploadProduct.single('productImage'), passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         console.log(req.body)
+
+        return res.json({
+            success: true, 
+            msg: 'Product created'
+        });
         // const newCategory = new Category({
         //     name: req.body.name,
         //     desc: req.body.desc,

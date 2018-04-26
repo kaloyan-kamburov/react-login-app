@@ -90,7 +90,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 });
 
 //Add category
-router.post('/add', uploadCategory.single('avatar'), async (req, res, next) => {
+router.post('/add', passport.authenticate('jwt', {session: false}), uploadCategory.single('avatar'), async (req, res, next) => {
     try {
         const newCategory = new Category({
             name: req.body.name,

@@ -38,7 +38,7 @@ export default class ProductAdd extends Component {
                             {
                                 type: 'file',
                                 label: 'Product image',
-                                name: 'avatar',
+                                name: 'productImage',
                                 validators: [checkFileSize(200), notEmpty]
                             },
                             {
