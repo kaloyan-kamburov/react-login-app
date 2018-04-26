@@ -25,6 +25,10 @@ import {
     watchCategoryDelete
 } from './categorySaga';
 
+import {
+    watchProductAdd
+} from './productSaga';
+
 
 export default function* rootSaga() {
     yield all([
@@ -47,6 +51,8 @@ export default function* rootSaga() {
         watchCategoryGet(),
         watchCategoryAdd(),
         watchCategoryUpdate(),
-        watchCategoryDelete()
+        watchCategoryDelete(),
+
+        watchProductAdd()
     ])
 }

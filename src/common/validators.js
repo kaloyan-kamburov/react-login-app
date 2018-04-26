@@ -14,6 +14,14 @@ export function notEmpty(input) {
     }
 }
 
+export function notEmptyCheckboxGroup(input) {
+    if (input.length > 0) {
+        return true;
+    } else {
+        return 'Must have at least one checkbox checked'
+    }
+}
+
 export function length(min, max) {
     let f = input => {
         if (input.value.length < min) {

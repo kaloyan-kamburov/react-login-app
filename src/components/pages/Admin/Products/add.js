@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { 
     email, 
     notEmpty, 
+    notEmptyCheckboxGroup,
     comparePasswords, 
     length, 
     password,
@@ -53,13 +54,13 @@ export default class ProductAdd extends Component {
                                 validators: [notEmpty, length(1, 24)]
                             },
                             {
-                                type: 'checkboxGroup',
+                                type: 'group-checkboxes',
                                 label: 'Categories',
                                 name: 'categories',
                                 values: this.categoriesToArray(),
                                 valueOption: '_id',
                                 textOption: 'name',
-                                validators: []
+                                validators: [notEmptyCheckboxGroup]
                             },
                             {
                                 type: 'textarea',

@@ -24,7 +24,7 @@ class Form extends Component {
             props.fields.forEach(field => {
                 errors[field.name] = [];
                 formData[field.name] = '';
-                if (field.type === 'checkboxGroup') {
+                if (field.type === 'group-checkboxes') {
                     formData[field.name] = [];
                 }
             });
@@ -127,19 +127,66 @@ class Form extends Component {
                     }
                 }, this.validateField(event.target));
         }
+    }
 
-        
+    onChangeCheckboxInGroup = (event, checkbox) => {
+        event.persist();
+
+        let checkboxValues = [
+            ...this.state.formData[event.target.name]
+        ]
+
+        if (event.target.checked) {
+            checkboxValues.push(event.target.value)
+        } else {
+            checkboxValues.splice(checkboxValues.indexOf(event.target.value), 1)
+        }
+
+        this.setState({
+            formData: {
+                ...this.state.formData,
+                [event.target.name]: checkboxValues
+            }
+        }, () => {
+            this.validateField(this.state.formData[event.target.name], true, event.target.dataset.indexgroup, event.target.name)
+        });        
     }
 
     /**
-     * @param {Object} field - form element
+     * @param {Object} fieldOrValue - form element or value (when you validate value from the state)
+     * @param {Boolean} group - determine if we should perform group validation
+     * @param {Number} fieldIndex - index of the field
+     * @param {String} errorName - determine the key of state.errors where we should put the errors 
      */
-    validateField = field => {
-        if (field.getAttribute('index') && this.props.fields[field.getAttribute('index')].validators.length > 0) {
-            let fieldErrors = [];
-
-            this.props.fields[field.getAttribute('index')].validators.forEach(validator => {
-                let status = validator(field);
+    validateField = (fieldOrValue, group = false, fieldIndex, errorName) => {
+        let errors = {
+            ...this.state.errors
+        }
+        let fieldErrors = [];
+        if (!group) {
+            if (fieldOrValue.getAttribute('index') && this.props.fields[fieldOrValue.getAttribute('index')].validators.length > 0) {
+                this.props.fields[fieldOrValue.getAttribute('index')].validators.forEach(validator => {
+                    let status = validator(fieldOrValue);
+    
+                    if (status !== true) {
+                        fieldErrors.push(status);
+                    }
+                });
+    
+                //fix dis sh..
+                setTimeout(() => {
+                    this.setState({
+                        errors: {
+                            ...this.state.errors,
+                            [fieldOrValue.name]: fieldErrors
+                        }
+                    });
+                }, 1);
+            }
+        } else {
+            this.props.fields[fieldIndex].validators.forEach(validator => {
+                
+                let status = validator(fieldOrValue);
 
                 if (status !== true) {
                     fieldErrors.push(status);
@@ -151,17 +198,23 @@ class Form extends Component {
                 this.setState({
                     errors: {
                         ...this.state.errors,
-                        [field.name]: fieldErrors
+                        [errorName]: fieldErrors
                     }
                 });
             }, 1);
-        }
+        }        
     }
 
     validateForm = callback => {
         Object.keys(this.refs).forEach(key => {
-            this.validateField(this.refs[key])
+            if (!this.refs[key].dataset.group) {
+                this.validateField(this.refs[key])
+            } else {
+                this.validateField(this.state.formData[key], true, this.refs[key].dataset.index, key)
+            }
         });
+
+
 
         //fix dis sh..
         setTimeout(() => {
@@ -203,7 +256,7 @@ class Form extends Component {
             }
         }
 
-        this.validateForm(() => {          
+        this.validateForm(() => {
             return this.props.onSubmit(formValues)
         });
     }
@@ -268,19 +321,25 @@ class Form extends Component {
                         />
                     </div>                    
                 )
-            case 'checkboxGroup':
+            case 'group-checkboxes':
                 return(
                     <div className='checkbox-group'>
                         {field.values.map( value => {
                             return(
-                                <div className='field-wrapper' key={value[field.valueOption]}>
+                                <div className='field-wrapper' 
+                                    key={value[field.valueOption]}
+                                    ref={field.name}
+                                    data-group={true}
+                                    data-index={index}
+                                >
                                     <input 
                                         id={value[field.valueOption]} 
                                         name={field.name} 
                                         type='checkbox' 
                                         value={value[field.valueOption]} 
                                         key={value[field.valueOption]} 
-                                        onChange={this.onChange}
+                                        onChange={(event) => this.onChangeCheckboxInGroup(event, field)}
+                                        data-indexgroup={index}
                                     /> 
                                     <label htmlFor={value[field.valueOption]}>{value[field.textOption]}</label>
                                     
@@ -317,8 +376,7 @@ class Form extends Component {
                             <div key={index}>
                                 <label htmlFor={field.name}>{field.label}</label>
                                 {this.renderField(field, index)}
-                                
-                                { this.renderFieldError(field.name) }
+                                {this.renderFieldError(field.name)}
                             </div>
                         );
                     })
