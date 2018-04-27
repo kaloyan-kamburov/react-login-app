@@ -31,9 +31,23 @@ const ProductSchema = mongoose.Schema({
     // }
 });
 
+const Product = module.exports = mongoose.model('Product', ProductSchema);
+
+module.exports.getAll = async function() {
+    return Product.find({});
+}
 
 module.exports.getProductById = async function(id) {
     return Product.findById(id); 
+}
+
+module.exports.addProduct = async function(newProduct) { 
+    return newProduct.save();
+}
+
+module.exports.getProductByName = async function(name) { 
+    const query = {name: name}; 
+    return Product.findOne(query);
 }
 
 module.exports.addProduct = async function(newProduct) { 
@@ -65,5 +79,4 @@ module.exports.addProduct = async function(newProduct) {
 //     return newProduct.save();
 // }
 
-const Product = module.exports = mongoose.model('Product', ProductSchema);
 

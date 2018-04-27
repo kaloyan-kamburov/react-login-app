@@ -21,8 +21,27 @@ export function* productAddSaga(action) {
     }
 }
 
-//watchers
+export function* productGetAllSaga(action) {
+    try {
+        const products = yield call(() =>
+            axios.get(constants.API_URL + '/products/', action.payload)
+        )
+        if(products) {
+            yield put({ type: constants.PRODUCT_GET_ALL_SUCCESS, payload: products.data });
+        } else {
+            yield put({ type: constants.PRODUCT_GET_ALL_ERROR, payload: products.data });            
+        }
+    
+    } catch(error) {
+        yield put({ type: constants.PRODUCT_GET_ALL_ERROR, payload: error.message });
+    }
+}
 
+//watchers
 export function* watchProductAdd() {
     yield takeLatest(constants.PRODUCT_ADD_REQUEST, productAddSaga)
+}
+
+export function* watchProductGetAll() {
+    yield takeLatest(constants.PRODUCT_GET_ALL_REQUEST, productGetAllSaga)
 }

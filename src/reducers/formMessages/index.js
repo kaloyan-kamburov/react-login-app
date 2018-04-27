@@ -18,6 +18,7 @@ const resetFormMessages = () => {
 		msgCategoryAddError: '',
 		msgCategoryUpdateSuccess: '',
 		msgCategoryUpdateError: '',
+		msgProductAddError: '',
 		formErrorTypes: []
 	}
 }
@@ -84,12 +85,6 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 				msgUserChangePasswordError: action.payload.msg || '',
 				formErrorTypes: action.payload.errorType
 			}
-		case constants.USER_LOGOUT:
-		case constants.ROUTE_CHANGED:
-			return {
-				...state,
-				...resetFormMessages()
-			}
 		
 		case constants.CATEGORY_ADD_ERROR:
 			return {
@@ -139,6 +134,21 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 				...state,
 				...resetFormMessages(),
 				msgAdminUpdateInfoError: action.payload.msg || ''
+			}
+
+		case constants.PRODUCT_ADD_ERROR:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgProductAddError: action.payload.msg || '',
+				formErrorTypes: action.payload.errorType
+			}
+
+		case constants.USER_LOGOUT:
+		case constants.ROUTE_CHANGED:
+			return {
+				...state,
+				...resetFormMessages()
 			}
 		
 		default:

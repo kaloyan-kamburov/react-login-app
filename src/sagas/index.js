@@ -26,7 +26,8 @@ import {
 } from './categorySaga';
 
 import {
-    watchProductAdd
+    watchProductAdd,
+    watchProductGetAll
 } from './productSaga';
 
 
@@ -53,6 +54,7 @@ export default function* rootSaga() {
         watchCategoryUpdate(),
         watchCategoryDelete(),
 
-        watchProductAdd()
+        watchProductAdd(),
+        watchProductGetAll()
     ])
 }

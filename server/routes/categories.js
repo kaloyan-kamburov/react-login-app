@@ -31,6 +31,50 @@ const uploadCategory = multer({
     })
 });
 
+//Add category
+router.post('/add', passport.authenticate('jwt', {session: false}), uploadCategory.single('avatar'), async (req, res, next) => {
+    try {
+        const newCategory = new Category({
+            name: req.body.name,
+            description: req.body.description,
+            avatar: req.body.avatar
+        })
+
+        const category = await Category.getCategoryByName(req.body.name);
+
+        if (!category) {
+            const categoryAdd = await Category.addCategory(newCategory);
+
+            if (categoryAdd) {
+                return res.json({
+                    success: true, 
+                    msg: 'Category created',
+                    category: categoryAdd
+                });
+            } else {
+                return res.json({
+                    success: false, 
+                    msg: 'Category was not created'
+                });
+            }
+        } else {
+            return res.json({
+                success: false, 
+                msg: 'Category exists',
+                errorType: ['name']
+            });
+        }
+
+    } catch(error) {
+        return res.json({
+            success: false, 
+            msg: '', 
+            error: error
+        });
+    }
+    
+});
+
 //Get all categories
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
@@ -87,52 +131,6 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
             error
         })
     }
-});
-
-//Add category
-router.post('/add', passport.authenticate('jwt', {session: false}), uploadCategory.single('avatar'), async (req, res, next) => {
-    try {
-        const newCategory = new Category({
-            name: req.body.name,
-            desc: req.body.desc,
-            avatar: req.body.avatar
-        })
-
-        const category = await Category.getCategoryByName(req.body.name);
-
-        if (!category) {
-            const categoryAdd = await Category.addCategory(newCategory);
-
-            if (categoryAdd) {
-                return res.json({
-                    success: true, 
-                    msg: 'Category created',
-                    category: categoryAdd
-                });
-            } else {
-                return res.json({
-                    success: false, 
-                    msg: 'Category was not created'
-                });
-            }
-        } else {
-            return res.json({
-                success: false, 
-                msg: 'Category exists',
-                errorType: ['name']
-            });
-        }
-
-    } catch(error) {
-        console.log(error)
-        
-        return res.json({
-            success: false, 
-            msg: '', 
-            error: error
-        });
-    }
-    
 });
 
 router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadCategory.single('avatar'), async (req, res, next) => {

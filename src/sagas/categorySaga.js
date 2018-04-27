@@ -4,24 +4,35 @@ import axios from 'axios';
 import * as constants from '../common/constants';
 
 //sagas
-export function* categoryGetAllSaga(action) {
-    if (!action.payload) {
-        try {
-            const categories = yield call(() =>
-                axios.get(constants.API_URL + '/categories/', action.payload)
-            )
-            if(categories) {
-                yield put({ type: constants.CATEGORY_GET_ALL_SUCCESS, payload: categories.data });
-            } else {
-                yield put({ type: constants.CATEGORY_GET_ALL_ERROR, payload: categories.data });            
-            }
+export function* categoryAddSaga(action) {
+    try {
+        const newCategory = yield call(() =>
+            axios.post(constants.API_URL + '/categories/add', action.payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+        )
         
-        } catch(error) {
-            debugger
-            yield put({ type: constants.CATEGORY_GET_ALL_ERROR, payload: error.message });
+        if(newCategory.data.errorType) {
+            yield put({ type: constants.CATEGORY_ADD_ERROR, payload: newCategory.data });
+        } else {
+            yield put({ type: constants.CATEGORY_ADD_SUCCESS, payload: newCategory.data })
         }
-    } else {
-        debugger;
+       
+    } catch(error) {
+        yield put({ type: constants.CATEGORY_ADD_ERROR, payload: error.message });
+    }
+}
+
+export function* categoryGetAllSaga(action) {
+    try {
+        const categories = yield call(() =>
+            axios.get(constants.API_URL + '/categories/')
+        )
+        if(categories) {
+            yield put({ type: constants.CATEGORY_GET_ALL_SUCCESS, payload: categories.data });
+        } else {
+            yield put({ type: constants.CATEGORY_GET_ALL_ERROR, payload: categories.data });            
+        }        
+    } catch(error) {
+        yield put({ type: constants.CATEGORY_GET_ALL_ERROR, payload: error.message });
     }
 }
 
@@ -56,23 +67,6 @@ export function* categoryGetSaga(action) {
         });
     }
     
-}
-
-export function* categoryAddSaga(action) {
-    try {
-        const newCategory = yield call(() =>
-            axios.post(constants.API_URL + '/categories/add', action.payload, { headers: { 'Content-Type': 'multipart/form-data' } })
-        )
-        
-        if(newCategory.data.errorType) {
-            yield put({ type: constants.CATEGORY_ADD_ERROR, payload: newCategory.data });
-        } else {
-            yield put({ type: constants.CATEGORY_ADD_SUCCESS, payload: newCategory.data })
-        }
-       
-    } catch(error) {
-        yield put({ type: constants.CATEGORY_ADD_ERROR, payload: error.message });
-    }
 }
 
 export function* categoryUpdateSaga(action) {

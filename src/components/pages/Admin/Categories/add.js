@@ -45,7 +45,7 @@ export default class CategoryAdd extends Component {
                             {
                                 type: 'textarea',
                                 label: 'Description',
-                                name: 'desc',
+                                name: 'description',
                                 validators: [notEmpty, length(1)]
                             }
                         ]}

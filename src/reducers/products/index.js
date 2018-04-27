@@ -4,8 +4,28 @@ import * as constants from '../../common/constants';
 const productsReducer = (state = initialState.products, action) => {
     // console.log(action)
     switch (action.type) {
-        case constants.PRODUCTS_GET_ALL:
-            return state;
+        case constants.PRODUCT_GET_ALL_SUCCESS:
+            return {
+                ...state,
+                all: action.payload.products
+            }
+
+        case constants.PRODUCT_ADD_SUCCESS:
+            let allProducts = state.all;
+            allProducts.push(action.payload)
+            return {
+                
+                ...state,
+                productAdded: true,
+                all: allProducts
+            }
+
+        case constants.PRODUCT_ADD_ERROR:
+            return {
+                ...state,
+                productAdded: false
+            }
+            
         default:
             return state;
     }

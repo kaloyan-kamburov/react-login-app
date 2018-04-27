@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const Category = require('../models/category');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const fs = require('fs');
@@ -9,23 +8,24 @@ const path = require('path');
 const multer = require('multer');
 require('dotenv').config();
 const secret = process.env.SECRET;
-
 const Product = require('../models/product');
 
 //upload middlewares
 const uploadProduct = multer({
     fileFilter: async (req, file, callback) => {
-        const category = await Category.getCategoryByName(req.body.name);
-        if (!category || (category && req.body.id == category._id) ) {
-            return callback(null, true)
+        const product = await Product.getProductByName(req.body.name);
+        // console.log(product)
+        if (!product || (product && req.body.id == product._id) ) {
+            return callback(null, true);
         }
         return callback(null, false);
+
     },
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
-            let productDir = req.body.name
-            fs.mkdirSync('images/products/' + productDir)
-            callback(null, 'images/products/' + productDir)
+            let productDir = req.body.name;
+            fs.mkdirSync('images/products/' + productDir);
+            callback(null, 'images/products/' + productDir);
         },
         filename: (req, file, callback) => {
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
@@ -35,49 +35,43 @@ const uploadProduct = multer({
     })
 });
 
-//Add category
+//Add product
 router.post('/add', uploadProduct.single('productImage'), passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        console.log(req.body)
-
-        return res.json({
-            success: true, 
-            msg: 'Product created'
+        const newProduct = new Product({
+            name: req.body.name,
+            price: req.body.price,
+            categories: req.body.categories.split(','),
+            description: req.body.description,
+            avatar: req.body.avatar
         });
-        // const newCategory = new Category({
-        //     name: req.body.name,
-        //     desc: req.body.desc,
-        //     avatar: req.body.avatar
-        // })
 
-        // const category = await Category.getCategoryByName(req.body.name);
+        const product = await Product.getProductByName(req.body.name);
 
-        // if (!category) {
-        //     const categoryAdd = await Category.addCategory(newCategory);
+        if (!product) {
+            const productAdd = await Product.addProduct(newProduct);
 
-        //     if (categoryAdd) {
-        //         return res.json({
-        //             success: true, 
-        //             msg: 'Category created',
-        //             category: categoryAdd
-        //         });
-        //     } else {
-        //         return res.json({
-        //             success: false, 
-        //             msg: 'Category was not created'
-        //         });
-        //     }
-        // } else {
-        //     return res.json({
-        //         success: false, 
-        //         msg: 'Category exists',
-        //         errorType: ['name']
-        //     });
-        // }
+            if (productAdd) {
+                return res.json({
+                    success: true, 
+                    msg: 'Product created',
+                    product: productAdd
+                });
+            } else {
+                return res.json({
+                    success: false, 
+                    msg: 'Product was not created'
+                });
+            }
+        } else {
+            return res.json({
+                success: false, 
+                msg: 'Product exists',
+                errorType: ['name']
+            });
+        }
 
     } catch(error) {
-        console.log(error)
-        
         return res.json({
             success: false, 
             msg: '', 
@@ -86,6 +80,32 @@ router.post('/add', uploadProduct.single('productImage'), passport.authenticate(
     }
     
 });
+
+//Get all products
+router.get('/', async (req, res, next) => {
+    try {
+        const products = await Product.getAll();
+
+        if (products.length) {
+            return res.json({
+                success: true,
+                products
+            })
+        } else {            
+            return res.json({
+                success: false,
+                msg: 'No products found'
+            })
+        }
+    } catch(error) {       
+        return res.json({
+            success: false,
+            error
+        })
+
+    }
+});
+
 
 // router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
 //     try {

@@ -20,9 +20,7 @@ export default class ProductAdd extends Component {
     categoriesToArray = () => {
         return Object.keys(this.props.categories.all).map(category => this.props.categories.all[category]);
     }
-
-
-
+    
     render() {
         if (!this.props.products.productAdded) {
             return(
@@ -30,7 +28,7 @@ export default class ProductAdd extends Component {
                     <h2>Add new product</h2>
                     <Form
                         msgSuccess={this.props.formMessages.msgCategoryAddSuccess}
-                        msgError={this.props.formMessages.msgCategoryAddError}
+                        msgError={this.props.formMessages.msgProductAddError}
                         errorTypes={this.props.formMessages.formErrorTypes}
                         onSubmit={this.props.productAdd}
                         encType='multipart/form-data'
@@ -65,7 +63,7 @@ export default class ProductAdd extends Component {
                             {
                                 type: 'textarea',
                                 label: 'Description',
-                                name: 'desc',
+                                name: 'description',
                                 validators: [notEmpty, length(1)]
                             }
                         ]}
@@ -74,7 +72,7 @@ export default class ProductAdd extends Component {
             )
         } else {
             return(
-                <Redirect to='/admin/categories'/>
+                <Redirect to='/admin/products'/>
             )
         }
     }

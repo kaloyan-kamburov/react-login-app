@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../../Modal';
 
-export default class CategoryList extends Component {
+export default class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            linkPath: '/admin/categories/edit/',
-            categories: props.categories,
+            linkPath: '/admin/produts/edit/',
+            products: props.products,
             sortCriteria: '',
             sortDirectionDown: true,
             modalVisible: false,
-            categoryDelete: {}
+            productDelete: {}
             
         }
     }
@@ -19,8 +19,16 @@ export default class CategoryList extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             modalVisible: false,
-            categories: nextProps.categories
+            products: nextProps.products
         })
+    }
+
+    compare = (obj1, obj2, criteria) => {
+        if (obj1[criteria] < obj2[criteria])
+            return -1;
+        if (obj1[criteria] > obj2[criteria])
+            return 1;
+        return 0;
     }
 
     renderTableHeader = () => {
@@ -33,34 +41,34 @@ export default class CategoryList extends Component {
     }
 
     renderData = () => {
-        if (Object.keys(this.state.categories).length) {
+        if (this.state.products.length) {
             return (
                 <div className='list table'>
                     {this.renderTableHeader()}
-                    {Object.keys(this.state.categories).map(key => 
-                        this.categoryRenderFunction(this.state.categories[key])
+                    {Object.keys(this.state.products).map(key => 
+                        this.productRenderFunction(this.state.products[key])
                     )}
                 </div>
             );
         }
-        return <div>No categories found</div>;        
+        return <div>No products found</div>;        
     }
 
-    showDeleteUserModal = category => {
+    showDeleteProductModal = product => {
         this.setState({
-            categoryDelete: category,
+            productDelete: product,
             modalVisible: true
         })
     }
 
-    categoryRenderFunction = category => {
-        let path = this.state.linkPath + category._id;
+    productRenderFunction = product => {
+        let path = this.state.linkPath + product._id;
         return (
-            <div className='list-item' key={category.name}>
-                <div className='list-item-property'>{category.name}</div>
+            <div key={product._id} className='list-item' key={product.name}>
+                <div className='list-item-property'>{product.name}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>
-                    <div onClick={() => this.showDeleteUserModal(category)}>Delete</div>
+                    <div onClick={() => this.showDeleteProductModal(product)}>Delete</div>
                 </div>
             </div>
         )
@@ -73,8 +81,8 @@ export default class CategoryList extends Component {
                 <Modal 
                     show={this.state.modalVisible}
                     type='prompt'
-                    confirmFunction={() => this.props.deleteCategory(this.state.categoryDelete._id)}
-                    msg={`Are you sure you want to delete category <b>${this.state.categoryDelete.name}</b> ?`}
+                    confirmFunction={() => this.props.deleteCategory(this.state.productDelete._id)}
+                    msg={`Are you sure you want to delete product <b>${this.state.productDelete.name}</b> ?`}
                 />
             </div>
         )
