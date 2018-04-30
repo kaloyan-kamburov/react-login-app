@@ -76,7 +76,7 @@ router.post('/add', passport.authenticate('jwt', {session: false}), uploadCatego
 });
 
 //Get all categories
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const categories = await Category.getAll();
 
@@ -112,7 +112,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
                     category: {
                         id: category._id,
                         name: category.name,
-                        desc: category.desc,
+                        description: category.description,
                         avatar: category.avatar,
                         avatarFile: img
                     }

@@ -18,7 +18,7 @@ class CategoryEditContainer extends Component {
     }
 
     componentWillMount() {
-        this.props.getCategory();
+        this.props.getCategory(this.props.match.params.id);
     }
 
     componentWillReceiveProps() {

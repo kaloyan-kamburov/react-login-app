@@ -20,17 +20,6 @@ export default class CategoryEdit extends Component {
 
     }
 
-    componentWillMount() {
-        this.props.getCategory(this.props.match.params.id);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        // console.log(nextProps)
-        this.setState({
-            category: nextProps.categories.currentEditableCategory
-        });
-    }
-
     render() {
         return(
             <div>
@@ -64,7 +53,7 @@ export default class CategoryEdit extends Component {
                                 {
                                     type: 'textarea',
                                     label: 'Description',
-                                    name: 'desc',
+                                    name: 'description',
                                     validators: [notEmpty, length(1)]
                                 }
                             ]}

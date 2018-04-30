@@ -6,7 +6,7 @@ export default class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            linkPath: '/admin/produts/edit/',
+            linkPath: '/admin/products/edit/',
             products: props.products,
             sortCriteria: '',
             sortDirectionDown: true,
@@ -41,7 +41,7 @@ export default class ProductList extends Component {
     }
 
     renderData = () => {
-        if (this.state.products.length) {
+        if (this.state.products && this.state.products.length) {
             return (
                 <div className='list table'>
                     {this.renderTableHeader()}
@@ -64,7 +64,7 @@ export default class ProductList extends Component {
     productRenderFunction = product => {
         let path = this.state.linkPath + product._id;
         return (
-            <div key={product._id} className='list-item' key={product.name}>
+            <div key={product._id} className='list-item' key={product._id}>
                 <div className='list-item-property'>{product.name}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>

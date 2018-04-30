@@ -44,9 +44,6 @@ class Form extends Component {
      * @param {*} nextProps - 
      */
     componentWillReceiveProps(nextProps) {
-        if (this.props.triggerActionAfterSuccess) {
-            return this.props.actionAfterSuccess();
-        }
         let images = {};
         this.props.fields.forEach(field => {
             if (field.type === 'file') {
@@ -136,11 +133,15 @@ class Form extends Component {
             ...this.state.formData[event.target.name]
         ]
 
+
         if (event.target.checked) {
-            checkboxValues.push(event.target.value)
+            checkboxValues.push(event.target.value);
+            // event.target.checked = false;
         } else {
-            checkboxValues.splice(checkboxValues.indexOf(event.target.value), 1)
+            checkboxValues.splice(checkboxValues.indexOf(event.target.value), 1);
+            // event.target.checked = true;
         }
+        
 
         this.setState({
             formData: {
@@ -281,10 +282,9 @@ class Form extends Component {
         }
     }
 
-    renderSelectMultiple = field => {
-        return(
-            <option></option>
-        )
+    checkboxChecked = (mainObj, criteria, value) => {
+        return this.props.formData && mainObj[criteria].indexOf(value) > -1 ? 'checked' : undefined; 
+            
     }
 
     renderField = (field, index)  => {
@@ -338,8 +338,9 @@ class Form extends Component {
                                         type='checkbox' 
                                         value={value[field.valueOption]} 
                                         key={value[field.valueOption]} 
-                                        onChange={(event) => this.onChangeCheckboxInGroup(event, field)}
-                                        data-indexgroup={index}
+                                        onChange={event => this.onChangeCheckboxInGroup(event, field)}
+                                        data-indexgroup={index}                                        
+                                        defaultChecked={this.checkboxChecked(this.props.formData, field.checkboxCheckCriteria, value[field.valueOption])}
                                     /> 
                                     <label htmlFor={value[field.valueOption]}>{value[field.textOption]}</label>
                                     
@@ -385,6 +386,7 @@ class Form extends Component {
                 <button type='submit'>Submit</button>
             </form>
         )
+        
     }
 }
 

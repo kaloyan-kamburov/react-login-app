@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as constants from '../../../common/constants';
 
-import CategoryEdit from '../../../components/pages/Admin/Categories/edit';
+import ProductEdit from '../../../components/pages/Admin/Products/edit';
 import { Redirect } from 'react-router-dom';
 
 import AuthGuard from '../../../common/auth/authGuard'; 
 import { isAuthorized } from '../../../common/auth/authFunctions';
 
-class CategoryEditContainer extends Component {
+class ProductEditContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -18,7 +18,8 @@ class CategoryEditContainer extends Component {
     }
 
     componentWillMount() {
-        this.props.getCategory();
+        console.log('dsdsaas')
+        this.props.getProduct(this.props.match.params.id);
     }
 
     componentWillReceiveProps() {
@@ -33,7 +34,7 @@ class CategoryEditContainer extends Component {
         }
 
         return(
-            <CategoryEdit {...this.props} />
+            <ProductEdit {...this.props} />
         );
     }
 
@@ -46,9 +47,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({ 
-    getCategory: payload => (
+    getProduct: payload => (
         dispatch({
-            type: constants.CATEGORY_GET_REQUEST,
+            type: constants.PRODUCT_GET_REQUEST,
             payload
         })
     ),
@@ -62,4 +63,4 @@ const mapDispatchToProps = dispatch => ({
     
 })
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(CategoryEditContainer), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(ProductEditContainer), true, true);

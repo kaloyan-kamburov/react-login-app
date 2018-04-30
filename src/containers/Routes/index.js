@@ -10,9 +10,10 @@ import UsersContainer from '../../containers/Admin/Users/';
 import UserEditContainer from '../../containers/Admin/Users/edit';
 import CategoriesContainer from '../../containers/Admin/Categories/';
 import CategoryAddContainer from '../../containers/Admin/Categories/add';
-import CategoriesEditContainer from '../../containers/Admin/Categories/edit';
+import CategoryEditContainer from '../../containers/Admin/Categories/edit';
 import ProductsContainer from '../../containers/Admin/Products/';
 import ProductAddContainer from '../../containers/Admin/Products/add';
+import ProductEditContainer from '../../containers/Admin/Products/edit';
 
 class Routes extends Component {
     render() {
@@ -28,10 +29,11 @@ class Routes extends Component {
                     <Route path='/admin/users/edit/:id' component={UserEditContainer} />
                     
                     <Route exact path='/admin/categories/' component={CategoriesContainer} />
-                    <Route exact path='/admin/categories/edit/:id' component={CategoriesEditContainer} />
+                    <Route exact path='/admin/categories/edit/:id' component={CategoryEditContainer} />
                     <Route path='/admin/categories/add/' component={CategoryAddContainer} />  
                     
                     <Route exact path='/admin/products/' component={ProductsContainer} /> 
+                    <Route exact path='/admin/products/edit/:id' component={ProductEditContainer} />
                     <Route path='/admin/products/add' component={ProductAddContainer} /> 
                     <Redirect to='/' />
                 </Switch>

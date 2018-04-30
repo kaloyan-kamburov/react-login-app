@@ -4,13 +4,14 @@ import {
     email, 
     notEmpty, 
     comparePasswords, 
+    notEmptyCheckboxGroup,
     length, 
     password,
     checkFileSize
 } from '../../../../common/validators';
 import { Row, Col } from 'reactstrap';
 
-export default class CategoryEdit extends Component {
+export default class ProductEdit extends Component {
     constructor(props) {
         super(props);
 
@@ -20,29 +21,22 @@ export default class CategoryEdit extends Component {
 
     }
 
-    componentWillMount() {
-        this.props.getCategory(this.props.match.params.id);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        // console.log(nextProps)
-        this.setState({
-            category: nextProps.categories.currentEditableCategory
-        });
+    categoriesToArray = () => {
+        return Object.keys(this.props.categories.all).map(category => this.props.categories.all[category]);
     }
 
     render() {
         return(
             <div>
-                <h2>Edit Category</h2>
+                <h2>Edit product</h2>
                 <Row>
                     <Col>
                         <Form
-                            formData={this.props.categories.currentEditableCategory}
-                            msgSuccess={this.props.formMessages.msgCategoryUpdateSuccess}
-                            msgError={this.props.formMessages.msgCategoryUpdateError}
+                            formData={this.props.products.currentEditableProduct}
+                            msgSuccess={this.props.formMessages.msgProductUpdateSuccess}
+                            msgError={this.props.formMessages.msgProductUpdateError}
                             errorTypes={this.props.formMessages.formErrorTypes}
-                            onSubmit={this.props.updateCategory}
+                            onSubmit={e => { e.preventDefault()}}
                             hiddenData={{
                                 id: this.props.categories.currentEditableCategory.id,
                                 avatar: this.state.avatar
@@ -51,9 +45,9 @@ export default class CategoryEdit extends Component {
                             fields={[
                                 {
                                     type: 'file',
-                                    label: 'Category image',
+                                    label: 'Avatar',
                                     name: 'avatar',
-                                    validators: [checkFileSize(200)]
+                                    validators: []
                                 },
                                 {
                                     type: 'text',
@@ -62,9 +56,25 @@ export default class CategoryEdit extends Component {
                                     validators: [notEmpty, length(1, 24)]
                                 },
                                 {
+                                    type: 'number',
+                                    label: 'Price',
+                                    name: 'price',
+                                    validators: [notEmpty, length(1, 24)]
+                                },
+                                {
+                                    type: 'group-checkboxes',
+                                    label: 'Categories',
+                                    name: 'categories',
+                                    values: this.categoriesToArray(),
+                                    valueOption: '_id',
+                                    textOption: 'name',
+                                    checkboxCheckCriteria: 'categories',
+                                    validators: [notEmptyCheckboxGroup]
+                                },
+                                {
                                     type: 'textarea',
                                     label: 'Description',
-                                    name: 'desc',
+                                    name: 'description',
                                     validators: [notEmpty, length(1)]
                                 }
                             ]}

@@ -106,6 +106,41 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const product = await Product.getProductById(req.params.id)
+        if (product) {
+            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + product.name + '/' + product.avatar), 'base64', (error, file) => {
+                let img = file ? 'data:image/jpeg;base64,' + file.toString('base64') : null;
+                return res.json({
+                    success: true,
+                    product: {
+                        id: product._id,
+                        name: product.name,
+                        categories: product.categories,
+                        price: product.price,
+                        description: product.description,
+                        avatar: product.avatar,
+                        avatarFile: img
+                    }
+                });
+            });
+        } else {
+            return res.json({
+                success: false,
+                msg: 'Product not found'
+            });
+        }
+    } catch(error) {
+        console.log(error)
+        return res.json({
+            success: false, 
+            msg: 'Error getting product', 
+            error
+        })
+    }
+});
+
 
 // router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
 //     try {
