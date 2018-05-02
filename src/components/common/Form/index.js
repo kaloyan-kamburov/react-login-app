@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
-import { debug } from 'util';
 import PropTypes from 'prop-types';
  
 class Form extends Component {
@@ -35,7 +34,8 @@ class Form extends Component {
             formValid: false,
             formSubmitted: false,
             errors,
-            images
+            images,
+            checked: true
         }
     } 
     
@@ -129,6 +129,11 @@ class Form extends Component {
     onChangeCheckboxInGroup = (event, checkbox) => {
         event.persist();
 
+       
+
+        // console.log(this.state.formData[event.target.name])
+
+
         let checkboxValues = [
             ...this.state.formData[event.target.name]
         ]
@@ -141,7 +146,7 @@ class Form extends Component {
             checkboxValues.splice(checkboxValues.indexOf(event.target.value), 1);
             // event.target.checked = true;
         }
-        
+
 
         this.setState({
             formData: {
@@ -150,6 +155,7 @@ class Form extends Component {
             }
         }, () => {
             this.validateField(this.state.formData[event.target.name], true, event.target.dataset.indexgroup, event.target.name)
+            
         });        
     }
 
@@ -283,7 +289,7 @@ class Form extends Component {
     }
 
     checkboxChecked = (mainObj, criteria, value) => {
-        return this.props.formData && mainObj[criteria].indexOf(value) > -1 ? 'checked' : undefined; 
+        return this.props.formData && this.state.formData[criteria].indexOf(value) > -1; 
             
     }
 
@@ -339,8 +345,9 @@ class Form extends Component {
                                         value={value[field.valueOption]} 
                                         key={value[field.valueOption]} 
                                         onChange={event => this.onChangeCheckboxInGroup(event, field)}
-                                        data-indexgroup={index}                                        
-                                        defaultChecked={this.checkboxChecked(this.props.formData, field.checkboxCheckCriteria, value[field.valueOption])}
+                                        data-indexgroup={index}                
+                                        // checked={this.state.checked}                        
+                                        checked={this.checkboxChecked(this.props.formData, field.checkboxCheckCriteria, value[field.valueOption])}
                                     /> 
                                     <label htmlFor={value[field.valueOption]}>{value[field.textOption]}</label>
                                     

@@ -66,9 +66,23 @@ export function* productGetSaga(action) {
         yield put({ 
             type: constants.PRODUCT_GET_ERROR
         });
-    }
-    
+    }    
 }
+
+export function* productUpdateSaga(action) {
+    try {
+        const productData = yield call(() => axios.put(constants.API_URL + '/products/update/' + action.payload.get('id'), action.payload))
+        
+        if (productData.data.success) {
+            yield put({ type: constants.PRODUCT_UPDATE_SUCCESS, payload: productData.data });
+        } else {
+            yield put({ type: constants.PRODUCT_UPDATE_ERROR, payload: productData.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+    }
+}
+
 
 
 //watchers
@@ -82,4 +96,8 @@ export function* watchProductGetAll() {
 
 export function* watchProductGet() {
     yield takeLatest(constants.PRODUCT_GET_REQUEST, productGetSaga)
+}
+
+export function* watchProductUpdate() {
+    yield takeLatest(constants.PRODUCT_UPDATE_REQUEST, productUpdateSaga)
 }

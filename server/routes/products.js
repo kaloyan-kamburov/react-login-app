@@ -141,6 +141,52 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
     }
 });
 
+router.put('/update/:id', passport.authenticate('jwt', {session: false}), uploadProduct.single('avatar'), async (req, res, next) => {
+    try { 
+        const productByName = await Product.getProductByName(req.body.name); 
+        
+        if (!productByName || (productByName && req.body.id == productByName._id) ) { 
+            const product = await Product.updateProduct(req.body.id, {$set: req.body})
+
+            if (product) {
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + '/' + product.name + '/' + product.avatar), 'base64', (error, file) => {});
+
+                return res.json({
+                    success: true,
+                    product: {
+                        _id: product._id,
+                        name: product._doc.name,
+                        price: product._doc.price,
+                        description: product._doc.description,
+                        categories: product._doc.categories,
+                        avatar: product._doc.avatar,
+                        avatarFile: img
+                    },
+                    msg: 'Product updated'
+                });                
+                
+            } else {
+                return res.json({
+                    success: false,
+                    msg: 'Product not found'
+                });
+            } 
+        }
+        return res.json({
+            success: false,
+            msg: 'Product exists',
+            errorType: ['name']
+        });
+    } catch(error) {
+        console.log(error)
+        return res.json({
+            success: false,
+            error,
+            msg: 'Error while updating product'
+        })
+    }    
+});
+
 
 // router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
 //     try {

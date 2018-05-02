@@ -54,6 +54,10 @@ module.exports.addProduct = async function(newProduct) {
     return newProduct.save();
 }
 
+module.exports.updateProduct = async function(id, body) { 
+    return Product.findByIdAndUpdate(id, body, {new: true});
+}
+
 
 // module.exports.getProductById = function(id, callback) {
 //     Product.findById(id, callback); 

@@ -19,6 +19,8 @@ const resetFormMessages = () => {
 		msgCategoryUpdateSuccess: '',
 		msgCategoryUpdateError: '',
 		msgProductAddError: '',
+		msgProductUpdateSuccess: '',
+		msgProductUpdateError: '',
 		formErrorTypes: []
 	}
 }
@@ -141,6 +143,14 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 				...state,
 				...resetFormMessages(),
 				msgProductAddError: action.payload.msg || '',
+				formErrorTypes: action.payload.errorType
+			}
+
+		case constants.PRODUCT_UPDATE_SUCCESS:
+			return {
+				...state,
+				...resetFormMessages(),
+				msgProductUpdateSuccess: action.payload.msg || '',
 				formErrorTypes: action.payload.errorType
 			}
 

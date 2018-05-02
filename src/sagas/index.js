@@ -28,7 +28,8 @@ import {
 import {
     watchProductAdd,
     watchProductGetAll,
-    watchProductGet
+    watchProductGet,
+    watchProductUpdate
 } from './productSaga';
 
 
@@ -57,6 +58,7 @@ export default function* rootSaga() {
 
         watchProductAdd(),
         watchProductGetAll(),
-        watchProductGet()
+        watchProductGet(),
+        watchProductUpdate()
     ])
 }

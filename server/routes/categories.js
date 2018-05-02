@@ -150,7 +150,7 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
                     category: {
                         _id: category._id,
                         name: category._doc.name,
-                        desc: category._doc.desc,
+                        description: category._doc.description,
                         avatar: category._doc.avatar,
                         avatarFile: img
                     },

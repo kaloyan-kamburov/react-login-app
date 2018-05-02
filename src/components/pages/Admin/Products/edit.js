@@ -16,7 +16,7 @@ export default class ProductEdit extends Component {
         super(props);
 
         this.state = {
-            avatar: props.categories.currentEditableCategory.avatar
+            avatar: props.products.currentEditableProduct.avatar
         }
 
     }
@@ -36,9 +36,9 @@ export default class ProductEdit extends Component {
                             msgSuccess={this.props.formMessages.msgProductUpdateSuccess}
                             msgError={this.props.formMessages.msgProductUpdateError}
                             errorTypes={this.props.formMessages.formErrorTypes}
-                            onSubmit={e => { e.preventDefault()}}
+                            onSubmit={this.props.updateProduct}
                             hiddenData={{
-                                id: this.props.categories.currentEditableCategory.id,
+                                id: this.props.products.currentEditableProduct.id,
                                 avatar: this.state.avatar
                             }}
                             encType='multipart/form-data'

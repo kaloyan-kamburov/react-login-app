@@ -18,7 +18,6 @@ class ProductEditContainer extends Component {
     }
 
     componentWillMount() {
-        console.log('dsdsaas')
         this.props.getProduct(this.props.match.params.id);
     }
 
@@ -54,9 +53,9 @@ const mapDispatchToProps = dispatch => ({
         })
     ),
 
-    updateCategory: payload => (
+    updateProduct: payload => (
         dispatch({
-            type: constants.CATEGORY_UPDATE_REQUEST,
+            type: constants.PRODUCT_UPDATE_REQUEST,
             payload
         })
     )
