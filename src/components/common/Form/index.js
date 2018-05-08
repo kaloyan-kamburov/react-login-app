@@ -245,11 +245,13 @@ class Form extends Component {
  
         if (this.props.encType === 'multipart/form-data') {            
             formValues = new FormData();
+            //apply form values to the form data, that is sent
             Object.keys(this.state.formData).forEach(key => {
-                if (!(this.state.formData[key] instanceof File)) { 
+                if (!(this.state.formData[key] instanceof File) && !key.match('File$')) { 
                     formValues.append(key, this.state.formData[key]);
                 }
             });
+            //apply the File to the end of the formData in order to be readable by the file upload middleware (multer)
             Object.keys(this.state.formData).forEach(key => {
                 if (this.state.formData[key] instanceof File) { 
                     formValues.append(key, this.state.formData[key]);
@@ -288,7 +290,7 @@ class Form extends Component {
         }
     }
 
-    checkboxChecked = (mainObj, criteria, value) => {
+    checkboxChecked = (mainObj, criteria, value) => {        
         return this.props.formData && this.state.formData[criteria].indexOf(value) > -1; 
             
     }

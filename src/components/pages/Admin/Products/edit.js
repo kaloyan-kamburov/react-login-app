@@ -26,6 +26,7 @@ export default class ProductEdit extends Component {
     }
 
     render() {
+        // console.log(this.props.products.currentEditableProduct)
         return(
             <div>
                 <h2>Edit product</h2>

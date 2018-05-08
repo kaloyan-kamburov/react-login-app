@@ -11,7 +11,6 @@ const productsReducer = (state = initialState.products, action) => {
             }
         
         case constants.PRODUCT_GET_SUCCESS:
-            console.log(action.payload.product.categories)
             return {
                 ...state,
                 currentEditableProduct: action.payload.product

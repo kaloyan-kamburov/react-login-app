@@ -23,9 +23,7 @@ const uploadProduct = multer({
     },
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
-            let productDir = req.body.name;
-            fs.mkdirSync('images/products/' + productDir);
-            callback(null, 'images/products/' + productDir);
+            callback(null, 'images/products/');
         },
         filename: (req, file, callback) => {
             let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
@@ -110,7 +108,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
     try {
         const product = await Product.getProductById(req.params.id)
         if (product) {
-            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + product.name + '/' + product.avatar), 'base64', (error, file) => {
+            fs.readFile(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + product.avatar), 'base64', (error, file) => {
                 let img = file ? 'data:image/jpeg;base64,' + file.toString('base64') : null;
                 return res.json({
                     success: true,
@@ -146,22 +144,28 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         const productByName = await Product.getProductByName(req.body.name); 
         
         if (!productByName || (productByName && req.body.id == productByName._id) ) { 
-            const product = await Product.updateProduct(req.body.id, {$set: req.body})
+            const product = await Product.updateProduct(req.body.id, {
+                $set: {
+                    ...req.body,
+                    categories: req.body.categories
+                }
+            })
 
             if (product) {
-                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + '/' + product.name + '/' + product.avatar), 'base64', (error, file) => {});
+                let img = 'data:image/jpeg;base64,' + fs.readFileSync(path.resolve(__dirname, '..' + config.imagesFolder + '/products/' + product.avatar), 'base64', (error, file) => {});
 
                 return res.json({
                     success: true,
                     product: {
-                        _id: product._id,
+                        id: product._id,
                         name: product._doc.name,
                         price: product._doc.price,
                         description: product._doc.description,
                         categories: product._doc.categories,
                         avatar: product._doc.avatar,
-                        avatarFile: img
+                        avatarFile: img,
                     },
+                    errorType: [],
                     msg: 'Product updated'
                 });                
                 
