@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../../Modal';
 
-export default class ProductList extends Component {
+export default class ProductListAdmin extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             linkPath: '/admin/products/edit/',
             products: props.products,
@@ -19,16 +20,8 @@ export default class ProductList extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             modalVisible: false,
-            products: nextProps.products
+            products: nextProps.products    
         })
-    }
-
-    compare = (obj1, obj2, criteria) => {
-        if (obj1[criteria] < obj2[criteria])
-            return -1;
-        if (obj1[criteria] > obj2[criteria])
-            return 1;
-        return 0;
     }
 
     renderTableHeader = () => {
@@ -41,12 +34,12 @@ export default class ProductList extends Component {
     }
 
     renderData = () => {
-        if (this.state.products && this.state.products.length) {
+        if (Object.keys(this.state.products).length) {
             return (
                 <div className='list table'>
                     {this.renderTableHeader()}
                     {Object.keys(this.state.products).map(key => 
-                        this.productRenderFunction(this.state.products[key])
+                        this.productRenderFunction(key)
                     )}
                 </div>
             );
@@ -61,14 +54,14 @@ export default class ProductList extends Component {
         })
     }
 
-    productRenderFunction = product => {
-        let path = this.state.linkPath + product._id;
+    productRenderFunction = productId => {
+        let path = this.state.linkPath + productId;
         return (
-            <div key={product._id} className='list-item' key={product._id}>
-                <div className='list-item-property'>{product.name}</div>
+            <div key={productId} className='list-item'>
+                <div className='list-item-property'>{this.state.products[productId].name}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>
-                    <div onClick={() => this.showDeleteProductModal(product)}>Delete</div>
+                    <div onClick={() => this.showDeleteProductModal(productId)}>Delete</div>
                 </div>
             </div>
         )

@@ -144,10 +144,11 @@ router.put('/update/:id', passport.authenticate('jwt', {session: false}), upload
         const productByName = await Product.getProductByName(req.body.name); 
         
         if (!productByName || (productByName && req.body.id == productByName._id) ) { 
+            console.log(req.body.categories)
             const product = await Product.updateProduct(req.body.id, {
                 $set: {
                     ...req.body,
-                    categories: req.body.categories
+                    categories: req.body.categories.split(',')
                 }
             })
 

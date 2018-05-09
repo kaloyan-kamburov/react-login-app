@@ -181,3 +181,24 @@ label {
   margin-top: 9px;
   margin-right: 5px;
 }
+
+.item-product {
+  padding: 10px;
+}
+
+.item-product .content {
+  border: 1px solid #4286f4;
+  text-align: center;
+}
+
+.item-product .content img {
+  display: inline-block;
+  max-height: 80px;
+  max-width: 80px;
+}
+
+.item-product .content strong {
+  clear: both;
+  width: 100%;
+  display: inline-block;
+}

@@ -23,4 +23,4 @@ const mapDispatchToProps = dispatch => ({
     )
 });
 
-export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(Products), true, true);
+export default AuthGuard(connect(mapStateToProps)(Products), true, true);

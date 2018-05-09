@@ -40,6 +40,7 @@ export default {
         users: {
             searchResults: [],
             currentEditableUser: {},
+            all: [],
             searchField: 'username',
             searchValue: ''
         }
@@ -47,7 +48,7 @@ export default {
     products: {
         currentEditableProduct: {},
         productAdded: false,
-        all: []
+        all: {}
     },
     categories: {
         currentEditableCategory: {},

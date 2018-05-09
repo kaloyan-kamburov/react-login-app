@@ -40,6 +40,28 @@ export function* adminGetUserSaga(action) {
     }
 }
 
+export function* adminGetAllUsersSaga(action) {    
+    try {
+        const users = yield call(() => axios.get(constants.API_URL + '/admin/users'))
+        
+        if (users.data.success) {
+            yield put({ 
+                type: constants.ADMIN_GET_ALL_USERS_SUCCESS,
+                payload: users.data
+            }); 
+        } else {
+            yield put({ 
+                type: constants.ADMIN_GET_ALL_USERS_ERROR
+            });
+        }
+
+    } catch (error) {
+        yield put({ 
+            type: constants.ADMIN_GET_ALL_USERS_ERROR
+        });
+    }
+} 
+
 export function* adminUpdateUserSaga(action) {  
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/update/' + action.payload.get('id'), action.payload))
@@ -114,6 +136,10 @@ export function* watchAdminUpdateInfo() {
 
 export function* watchAdminGetUser() {
     yield takeLatest(constants.ADMIN_GET_USER_REQUEST, adminGetUserSaga)
+}
+
+export function* watchAdminGetAllUsers() {
+    yield takeLatest(constants.ADMIN_GET_ALL_USERS_REQUEST, adminGetAllUsersSaga)
 }
 
 export function* watchAdminUpdateUser() {

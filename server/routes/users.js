@@ -32,7 +32,7 @@ const uploadRegister = multer({
             callback(null, req.body.username + '.'+ ext);
         }
     })
-})
+});
 
 const uploadProfile = multer({
     fileFilter: async (req, file, callback) => {
@@ -53,7 +53,7 @@ const uploadProfile = multer({
             callback(null, req.body.username + '.'+ ext);
         }
     })
-})
+});
 
 //Register
 router.post('/register', uploadRegister.single('avatar'), async (req, res, next) => {

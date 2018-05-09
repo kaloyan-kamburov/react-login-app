@@ -11,12 +11,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    // onSubmit: payload => (
-    //     dispatch({
-    //         type: constants.USER_LOGIN_REQUEST,
-    //         payload
-    //     })
-    // )
+    getAllUsers: () => (
+        dispatch({
+            type: constants.ADMIN_GET_ALL_USERS_REQUEST
+        })
+    )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -4,6 +4,11 @@ import * as constants from '../../common/constants';
 
 const usersReducer = (state = initialState.admin.users, action) => {
     switch (action.type) {
+        case constants.ADMIN_GET_ALL_USERS_SUCCESS: 
+            return {
+                ...state,
+                all: action.payload.users
+            } 
         case constants.ADMIN_GET_USER_SUCCESS:
             return {
                 ...state,
