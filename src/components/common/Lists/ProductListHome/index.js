@@ -6,6 +6,7 @@ export default class ProductListHome extends Component {
     }
 
     renderProduct = productId => {
+        console.log(productId)
         let imgPath = '../server/images/products/';
         return(
             <div className='col-md-4 col-xs-12 item-product' key={productId}>
@@ -15,13 +16,22 @@ export default class ProductListHome extends Component {
                 </div>
             </div>
         )
+    }
 
+    renderProducts = () => {
+        if (Object.keys(this.props.products).length) {
+            return Object.keys(this.props.products).map(key => this.renderProduct(key))
+        } else {
+            return(
+                <strong>No products found</strong>
+            )
+        }
     }
 
     render() {
         return(
             <div className='row'>
-                {Object.keys(this.props.products).map(key => this.renderProduct(key))}
+                {this.renderProducts()}                    
             </div>
         )
     }

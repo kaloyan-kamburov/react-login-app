@@ -10,7 +10,7 @@ export default class Home extends Component {
 
     componentWillMount() {
         if (isAdmin()) {
-            this.props.getAllProducts();
+            this.props.getAllUsers();
         }
     }
 

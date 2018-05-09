@@ -6,15 +6,18 @@ const productsReducer = (state = initialState.products, action) => {
     let all = {};
     switch (action.type) {
         case constants.PRODUCT_GET_ALL_SUCCESS:
-            action.payload.products.forEach(product => {
-                all[product._id] = {
-                    categories: product.categories,
-                    name: product.name,
-                    price: product.price,
-                    description: product.description,
-                    avatar: product.avatar
-                }
-            });
+            all = state.all;
+            if (action.payload.products.length) {
+                action.payload.products.forEach(product => {
+                    all[product._id] = {
+                        categories: product.categories,
+                        name: product.name,
+                        price: product.price,
+                        description: product.description,
+                        avatar: product.avatar
+                    }
+                });
+            }
             return {
                 ...state,
                 all
@@ -27,12 +30,19 @@ const productsReducer = (state = initialState.products, action) => {
             }
 
         case constants.PRODUCT_ADD_SUCCESS:
-            let allProducts = state.all;
-            allProducts.push(action.payload.product)
+            all = state.all;
+            all[action.payload.product._id] = {
+                categories: action.payload.product.categories,
+                name: action.payload.product.name,
+                price: action.payload.product.price,
+                description: action.payload.product.description,
+                avatar: action.payload.product.avatar
+            }
+            // allProducts.push(action.payload.product)
             return {
                 ...state,
                 productAdded: true,
-                all: allProducts
+                all
             }
 
         case constants.PRODUCT_ADD_ERROR:
