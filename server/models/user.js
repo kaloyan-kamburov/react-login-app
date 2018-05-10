@@ -51,6 +51,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    cart: {
+        type: Object,
+        required: false
+    },
     roles: {
         type: Array,
         required: false

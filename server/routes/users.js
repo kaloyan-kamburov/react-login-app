@@ -323,6 +323,24 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
         });
     }
 });
+
+//Add to cart
+router.put('/addToCart', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    console.log(req.body)
+    try {
+        const user = await User.updateUser(req.params.id, {$set: {
+    
+        }});
+
+    } catch (error) {
+        return res.json({
+            succes: false,
+            msg: 'Product couldn\'t be added to cart',
+            error
+        });
+    }
+
+})
  
 // //delete user
 // router.delete('/:id/delete', passport.authenticate('jwt', {session: false}), (req, res, next) => {

@@ -189,12 +189,13 @@ label {
 .item-product .content {
   border: 1px solid #4286f4;
   text-align: center;
+  padding: 10px;
 }
 
 .item-product .content img {
   display: inline-block;
   max-height: 80px;
-  max-width: 80px;
+  /* max-width: 80px; */
 }
 
 .item-product .content strong {

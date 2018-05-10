@@ -5,7 +5,8 @@ import {
     watchUserSetPersonalInfo, 
     watchUserUpdate,
     watchUserChangePassword,    
-    watchServerCheck
+    watchServerCheck,
+    watchProductAddToCart
 } from './userSaga';
 
 import {
@@ -30,7 +31,7 @@ import {
     watchProductAdd,
     watchProductGetAll,
     watchProductGet,
-    watchProductUpdate
+    watchProductUpdate    
 } from './productSaga';
 
 
@@ -42,6 +43,7 @@ export default function* rootSaga() {
         watchUserSetPersonalInfo(),
         watchUserUpdate(),
         watchUserChangePassword(),
+        watchProductAddToCart(),
 
         watchAdminGetUser(),
         watchAdminUpdateUser(),

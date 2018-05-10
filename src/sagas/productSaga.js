@@ -83,8 +83,6 @@ export function* productUpdateSaga(action) {
     }
 }
 
-
-
 //watchers
 export function* watchProductAdd() {
     yield takeLatest(constants.PRODUCT_ADD_REQUEST, productAddSaga)

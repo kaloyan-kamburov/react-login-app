@@ -30,6 +30,7 @@ const users = require('./routes/users');
 const products = require('./routes/products')
 const admin = require('./routes/admin')
 const categories = require('./routes/categories')
+const images = require('./routes/images')
 
 //port Number
 const port = 8080;
@@ -57,6 +58,7 @@ app.use('/users', users);
 app.use('/products', products);
 app.use('/admin', admin);
 app.use('/categories', categories);
+app.use('/images', images);
 app.use('/', (req, res, send) => {
     res.end()
 });

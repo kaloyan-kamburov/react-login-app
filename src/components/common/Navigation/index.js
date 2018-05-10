@@ -6,8 +6,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { isAuthorized, isAdmin } from '../../../common/auth/authFunctions';
 
-import { FaSignOut } from 'react-icons/lib/fa'
-import { isatty } from 'tty';
+import { FaSignOut } from 'react-icons/lib/fa';
 
 
 export default class Navigation extends Component {

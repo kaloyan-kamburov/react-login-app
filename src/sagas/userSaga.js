@@ -107,6 +107,32 @@ export function* serverCheckSaga(action) {
     }
 }
 
+export function* productUpdateSaga(action) {
+    try {
+        const productData = yield call(() => axios.put(constants.API_URL + '/products/update/' + action.payload.get('id'), action.payload))
+        
+        if (productData.data.success) {
+            yield put({ type: constants.PRODUCT_UPDATE_SUCCESS, payload: productData.data });
+        } else {
+            yield put({ type: constants.PRODUCT_UPDATE_ERROR, payload: productData.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+    }
+}
+
+export function* productAddToCartSaga(action) {
+    console.log(action.payload)
+    try {
+        const productData = yield call(() => axios.put(constants.API_URL + '/users/addToCart', {
+            userId: action.payload.userId,
+            productId: action.payload.productId
+        }));
+    } catch(error) {
+
+    }
+}
+
 //watchers
 export function* watchUserRegister() {
     yield takeLatest(constants.USER_REGISTER_REQUEST, userRegisterSaga)
@@ -130,4 +156,8 @@ export function* watchUserChangePassword() {
 
 export function* watchServerCheck() {
     yield takeLatest(constants.SERVER_CHECK_REQUEST, serverCheckSaga)
+}
+
+export function* watchProductAddToCart() {
+    yield takeLatest(constants.USER_ADD_PRODUCT_TO_CART_REQUEST, productAddToCartSaga)
 }
