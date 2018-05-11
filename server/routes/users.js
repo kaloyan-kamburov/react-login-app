@@ -66,6 +66,10 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
+        cart: {
+            products: {},
+            totalPrice: ''
+        },
         roles: ["user"]
     }); 
 
@@ -204,7 +208,8 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
                         email: user.email, 
                         avatar: user.avatar,
                         avatarFile: img
-                    }
+                    },
+                    cart: user.cart
                 })
             });
         } else {
@@ -328,9 +333,22 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
 router.put('/addToCart', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     console.log(req.body)
     try {
-        const user = await User.updateUser(req.params.id, {$set: {
-    
+        const user = await User.updateUser(req.body.userId, {$set: {
+            cart: req.body.cart
         }});
+
+        if (user) {
+            return res.json({
+                success: true,
+                cart: user.cart,
+                msg: 'Product added'
+            });
+        } else {
+            return res.json({
+                success: false,
+                msg: 'Product couldn\'t be added'
+            });
+        }
 
     } catch (error) {
         return res.json({

@@ -21,12 +21,12 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
             return {
                 ...state,
             }
-        case constants.USER_SET_PERSONAL_INFO_SUCCESS: 
+        case constants.USER_SET_DATA_SUCCESS: 
             return {
                 ...state,
                 ...action.payload.user
             }
-        case constants.USER_SET_PERSONAL_INFO_ERROR:
+        case constants.USER_SET_DATA_ERROR:
             return state;
         case constants.USER_UPDATE_SUCCESS:
         case constants.ADMIN_UPDATE_INFO_SUCCESS:

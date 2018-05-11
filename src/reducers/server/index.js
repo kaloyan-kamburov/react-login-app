@@ -7,7 +7,7 @@ const serverReducer = (state = initialState.server, action) => {
         case actionTypes.ROUTE_CHANGED:
         case actionTypes.USER_LOGIN_REQUEST:
         case actionTypes.USER_REGISTER_REQUEST:
-        case actionTypes.USER_SET_PERSONAL_INFO_REQUEST:
+        case actionTypes.USER_SET_DATA_REQUEST:
         case actionTypes.USER_UPDATE_REQUEST:
         case actionTypes.USER_CHANGE_PASSWORD_REQUEST:
         case actionTypes.ADMIN_GET_ALL_USERS_REQUEST:

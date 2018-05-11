@@ -42,16 +42,16 @@ export function* userLoginSaga(action) {
     }
 }
 
-export function* userSetPersonalInfoSaga(action) {
+export function* userSetDataSaga(action) {
     if (action.payload) {
         try {
             const user = yield call(() => axios.get(constants.API_URL + '/users/' + action.payload))
             
             if (user.data.success) {
                 yield put({ 
-                    type: constants.USER_SET_PERSONAL_INFO_SUCCESS, 
+                    type: constants.USER_SET_DATA_SUCCESS, 
                     payload: {
-                        ...user.data,
+                        ...user.data
                     } 
                 });
             }
@@ -61,7 +61,7 @@ export function* userSetPersonalInfoSaga(action) {
         }
     } else {
         yield put({ 
-            type: constants.USER_SET_PERSONAL_INFO_ERROR
+            type: constants.USER_SET_DATA_ERROR
         });
     }
     
@@ -122,12 +122,15 @@ export function* productUpdateSaga(action) {
 }
 
 export function* productAddToCartSaga(action) {
-    console.log(action.payload)
     try {
-        const productData = yield call(() => axios.put(constants.API_URL + '/users/addToCart', {
-            userId: action.payload.userId,
-            productId: action.payload.productId
-        }));
+        const userData = yield call(() => axios.put(constants.API_URL + '/users/addToCart', action.payload));
+    
+        if (userData.data.success) {
+            yield put({ type: constants.USER_ADD_PRODUCT_TO_CART_SUCCESS, payload: userData.data });
+        } else {
+            yield put({ type: constants.USER_ADD_PRODUCT_TO_CART_ERROR, payload: userData.data });
+        }
+
     } catch(error) {
 
     }
@@ -142,8 +145,8 @@ export function* watchUserLogin() {
     yield takeLatest(constants.USER_LOGIN_REQUEST, userLoginSaga)
 }
 
-export function* watchUserSetPersonalInfo() {
-    yield takeLatest(constants.USER_SET_PERSONAL_INFO_REQUEST, userSetPersonalInfoSaga)
+export function* watchUserSetData() {
+    yield takeLatest(constants.USER_SET_DATA_REQUEST, userSetDataSaga)
 }
 
 export function* watchUserUpdate() {

@@ -221,12 +221,10 @@ class Form extends Component {
             }
         });
 
-
-
         //fix dis sh..
         setTimeout(() => {
             this.setState({
-                formValid: Object.keys(this.state.errors).every(key => this.state.errors[key].length == 0)
+                formValid: Object.keys(this.state.errors).every(key => this.state.errors[key].length === 0)
             }, () => {
                 if (this.state.formValid) {
                     callback();

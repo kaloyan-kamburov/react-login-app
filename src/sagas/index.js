@@ -2,7 +2,7 @@ import { all } from 'redux-saga/effects';
 import { 
     watchUserRegister, 
     watchUserLogin,
-    watchUserSetPersonalInfo, 
+    watchUserSetData, 
     watchUserUpdate,
     watchUserChangePassword,    
     watchServerCheck,
@@ -40,7 +40,7 @@ export default function* rootSaga() {
         watchAdminUpdateInfo(),
         watchUserRegister(),
         watchUserLogin(),
-        watchUserSetPersonalInfo(),
+        watchUserSetData(),
         watchUserUpdate(),
         watchUserChangePassword(),
         watchProductAddToCart(),

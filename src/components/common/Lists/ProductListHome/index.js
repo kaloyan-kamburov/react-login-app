@@ -13,14 +13,32 @@ class ProductListHome extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps)
+    }
+
+    addToCart = productId => {
+
+        let cart = this.props.user.cart;
+
+        if (typeof cart.products[productId] !== 'undefined') {
+            cart.products[productId]++;
+        } else {
+            cart.products[productId] = 1;
+        }
+        cart.totalPrice += this.props.products.all[productId].price;
+
+        this.props.addToCart({
+            userId: this.props.user.personalInfo.id,
+            cart
+        })
+    }
+
     renderButton = productId => {
         if (isAuthorized()) {
             return(                
                 <button className='btn btn-primary' 
-                    onClick={() => this.props.addToCart({
-                        userId: this.props.user.personalInfo.id,
-                        productId
-                    })}>
+                    onClick={() => this.addToCart(productId)}>
                     <FaCartPlus /> Add to cart
                 </button>
             );
@@ -71,10 +89,7 @@ const mapDispatchToProps = dispatch => ({
     addToCart: payload => (
         dispatch({
             type: constants.USER_ADD_PRODUCT_TO_CART_REQUEST,
-            payload: {
-                userId: payload.userId,
-                productId: payload.productId
-            }
+            payload
         })
     ),
 })

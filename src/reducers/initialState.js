@@ -11,7 +11,10 @@ export default {
             avatar: '',
             avatarFile: ''
         },
-        cartProducts: [],
+        cart: {
+            products: {},
+            totalPrice: 0
+        },
         wishlist: [],
         orders: {
             pending: [],
