@@ -198,7 +198,7 @@ label {
   /* max-width: 80px; */
 }
 
-.item-product .content strong {
+.item-product .content strong, .item-product .content i {
   clear: both;
   width: 100%;
   display: inline-block;
@@ -231,6 +231,7 @@ label {
 
 .nav-item.cart {
   position: relative;
+  margin-right: 20px;
 }
 
 .cart-menu-wrapper {
@@ -284,6 +285,18 @@ label {
 .cart-menu-wrapper .actions svg {
   color: #007bff;
   cursor: pointer;
+}
+
+.cart-menu-wrapper .btn-close {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 14px;
+  color: #007bff;
+}
+
+.cart-menu-wrapper .btn-close:hover {
+  color: #222;
 }
 
 .cart-menu-wrapper .actions svg:hover {

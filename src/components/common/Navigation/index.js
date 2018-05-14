@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { isAuthorized, isAdmin } from '../../../common/auth/authFunctions';
 
-import { FaSignOut, FaShoppingBasket, FaShoppingBag, FaShoppingCart, FaPlusCircle, FaMinusCircle, FaTrash} from 'react-icons/lib/fa';
+import { FaSignOut,FaShoppingCart, FaClose, FaPlusCircle, FaMinusCircle, FaTrash} from 'react-icons/lib/fa';
 
 
 export default class Navigation extends Component {
@@ -87,6 +87,7 @@ export default class Navigation extends Component {
                     <div className='product-count'>{productCount}</div>
                 </div>
                 <div className='cart-menu-wrapper' style={cartVisible}>
+                    <FaClose className='btn-close' onClick={this.toggleCartMenu}/>
                     <div style={tableHidden} className='text-center'>No products added yet</div>
                     <table style={tableVisible}>
                         <thead>
@@ -102,13 +103,13 @@ export default class Navigation extends Component {
                                 return(
                                     <tr className='product' key={key}>
                                         <td>
-                                            {(typeof this.props.products.all[key].name !== 'undefined') ? this.props.products.all[key].name : ''} 
+                                            { this.props.products.all[key].name} 
                                         </td>
                                         <td>
-                                            ${(typeof this.props.products.all[key].price !== 'undefined') ? this.props.products.all[key].price : ''}
+                                            ${this.props.products.all[key].price}
                                         </td>
                                         <td className='text-center'>
-                                            {this.props.user.cart.products[key] || ''}
+                                            {this.props.user.cart.products[key]}
                                         </td>
                                         <td className='actions text-center'>
                                             <FaPlusCircle onClick={() => this.incrementQuantity(key)}/>

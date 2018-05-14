@@ -13,10 +13,6 @@ class ProductListHome extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        // console.log(nextProps)
-    }
-
     addToCart = productId => {
 
         let cart = this.props.user.cart;
@@ -52,6 +48,12 @@ class ProductListHome extends Component {
                     <img src={imgPath} />
                     <strong>{this.state.products[productId].name}   </strong>
                     <strong>${this.state.products[productId].price}   </strong>
+                    <i>{this.state.products[productId].categories.map(categoryId => {
+                        if (typeof this.props.categories.all[categoryId] !== 'undefined') {
+                            return this.props.categories.all[categoryId].name + ' '
+                        }
+                        return 'dsa'
+                    })}</i>
                     {this.renderAddToCartButton(productId)}
                 </div>
             </div>

@@ -73,9 +73,9 @@ class App extends Component {
 
 	componentDidMount() {
 		store.dispatch({ type: actionTypes.SERVER_CHECK_REQUEST, payload: '' });
-		store.dispatch({ type: actionTypes.USER_SET_DATA_REQUEST, payload: getUserIdFromToken() });
 		store.dispatch({ type: actionTypes.PRODUCT_GET_ALL_REQUEST });
 		store.dispatch({ type: actionTypes.CATEGORY_GET_ALL_REQUEST });
+		store.dispatch({ type: actionTypes.USER_SET_DATA_REQUEST, payload: getUserIdFromToken() });
 		store.subscribe(() => {
 			this.setState({
 				serverError: store.getState().server.error
