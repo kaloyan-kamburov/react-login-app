@@ -50,11 +50,11 @@ const personalInfoReducer = (state = initialState.user.personalInfo, action) => 
                 ...state,
                 ...initialState.user.personalInfo
             }        
-        case constants.USER_CHANGE_PASWORD_SUCCESS: 
+        case constants.USER_CHANGE_PASSWORD_SUCCESS: 
             return {
                 ...state
             }
-        case constants.USER_CHANGE_PASWORD_ERROR: 
+        case constants.USER_CHANGE_PASSWORD_ERROR: 
             return {
                 ...state,
                 changePasswordSuccess: false,

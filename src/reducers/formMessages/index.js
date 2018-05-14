@@ -74,13 +74,13 @@ const formMessagesReducer = (state = initialState.formMessages, action) => {
 				msgAdminChangeUserPasswordSuccess: action.payload.msg || ''
 			}
 		
-		case constants.USER_CHANGE_PASWORD_SUCCESS:
+		case constants.USER_CHANGE_PASSWORD_SUCCESS:
 			return {
 				...state,
 				...resetFormMessages(),
 				msgUserChangePasswordSuccess: action.payload.msg || ''
 			}
-		case constants.USER_CHANGE_PASWORD_ERROR:
+		case constants.USER_CHANGE_PASSWORD_ERROR:
 			return {
 				...state,
 				...resetFormMessages(),

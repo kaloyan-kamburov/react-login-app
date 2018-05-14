@@ -52,7 +52,7 @@ export function* userSetDataSaga(action) {
                     type: constants.USER_SET_DATA_SUCCESS, 
                     payload: {
                         ...user.data
-                    } 
+                    }
                 });
             }
            
@@ -85,9 +85,9 @@ export function* userChangePasswordSaga(action) {
     try {
         const newUserData = yield call(() => axios.put(constants.API_URL + '/users/changepassword/' + action.payload.id, action.payload))
         if (newUserData.data.success) {
-            yield put({ type: constants.USER_CHANGE_PASWORD_SUCCESS, payload: newUserData.data });
+            yield put({ type: constants.USER_CHANGE_PASSWORD_SUCCESS, payload: newUserData.data });
         } else {
-            yield put({ type: constants.USER_CHANGE_PASWORD_ERROR, payload: newUserData.data });
+            yield put({ type: constants.USER_CHANGE_PASSWORD_ERROR, payload: newUserData.data });
         }
 
     } catch(error) {
@@ -121,18 +121,45 @@ export function* productUpdateSaga(action) {
     }
 }
 
-export function* productAddToCartSaga(action) {
+export function* productEditCartSaga(action) {
     try {
-        const userData = yield call(() => axios.put(constants.API_URL + '/users/addToCart', action.payload));
-    
+        const userData = yield call(() => axios.put(constants.API_URL + '/users/editCart', action.payload));
+        let type;
+        
         if (userData.data.success) {
-            yield put({ type: constants.USER_ADD_PRODUCT_TO_CART_SUCCESS, payload: userData.data });
+            switch(action.payload.type) {
+                case constants.USER_ADD_PRODUCT_TO_CART_REQUEST:
+                    type = constants.USER_ADD_PRODUCT_TO_CART_SUCCESS;
+                case constants.USER_DECREMENT_PRODUCT_QUANTITY_REQUEST:
+                    type = constants.USER_DECREMENT_PRODUCT_QUANTITY_SUCCESS;
+                default:
+                    type = constants.USER_REMOVE_PRODUCT_FROM_CART_SUCCESS;
+            }
+
+            yield put({ 
+                type, 
+                payload: userData.data 
+            });
+
         } else {
-            yield put({ type: constants.USER_ADD_PRODUCT_TO_CART_ERROR, payload: userData.data });
+            switch(action.payload.type) {
+                case constants.USER_ADD_PRODUCT_TO_CART_REQUEST:
+                    type = constants.USER_ADD_PRODUCT_TO_CART_ERROR;
+                case constants.USER_DECREMENT_PRODUCT_QUANTITY_REQUEST:
+                    type = constants.USER_DECREMENT_PRODUCT_QUANTITY_ERROR;
+                default:
+                    type = constants.USER_REMOVE_PRODUCT_FROM_CART_ERROR;
+            }
+
+            yield put({ 
+                type,
+                payload: userData.data 
+            });
         }
 
     } catch(error) {
-
+        yield put({ type: constants.SERVER_CHECK_ERROR, payload: error.message });
+        
     }
 }
 
@@ -161,6 +188,10 @@ export function* watchServerCheck() {
     yield takeLatest(constants.SERVER_CHECK_REQUEST, serverCheckSaga)
 }
 
-export function* watchProductAddToCart() {
-    yield takeLatest(constants.USER_ADD_PRODUCT_TO_CART_REQUEST, productAddToCartSaga)
+export function* watchProductEditCart() {
+    yield [
+        takeLatest(constants.USER_ADD_PRODUCT_TO_CART_REQUEST, productEditCartSaga),
+        takeLatest(constants.USER_DECREMENT_PRODUCT_QUANTITY_REQUEST, productEditCartSaga),
+        takeLatest(constants.USER_REMOVE_PRODUCT_FROM_CART_REQUEST, productEditCartSaga)
+    ]
 }

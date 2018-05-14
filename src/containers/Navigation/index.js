@@ -5,17 +5,34 @@ import Navigation from '../../components/common/Navigation';
 const mapStateToProps = state => {
     return {
         ...state
-        //email: state.user.personal_info.email.value
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogout: () => {
+        onLogout: () => (
             dispatch({
                 type: constants.USER_LOGOUT
             })
-        }
+        ),
+        incrementQuantity: payload => (
+            dispatch({
+                type: constants.USER_ADD_PRODUCT_TO_CART_REQUEST,
+                payload
+            })
+        ),
+        decrementQuantity: payload => (
+            dispatch({
+                type: constants.USER_DECREMENT_PRODUCT_QUANTITY_REQUEST,
+                payload
+            })
+        ),
+        removeProductFromCart: payload => (
+            dispatch({
+                type: constants.USER_REMOVE_PRODUCT_FROM_CART_REQUEST,
+                payload
+            })
+        ),
 
     }
 }

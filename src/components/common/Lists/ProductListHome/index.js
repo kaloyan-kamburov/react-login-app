@@ -20,13 +20,11 @@ class ProductListHome extends Component {
     addToCart = productId => {
 
         let cart = this.props.user.cart;
-
         if (typeof cart.products[productId] !== 'undefined') {
             cart.products[productId]++;
         } else {
             cart.products[productId] = 1;
         }
-        cart.totalPrice += this.props.products.all[productId].price;
 
         this.props.addToCart({
             userId: this.props.user.personalInfo.id,
@@ -34,7 +32,7 @@ class ProductListHome extends Component {
         })
     }
 
-    renderButton = productId => {
+    renderAddToCartButton = productId => {
         if (isAuthorized()) {
             return(                
                 <button className='btn btn-primary' 
@@ -54,7 +52,7 @@ class ProductListHome extends Component {
                     <img src={imgPath} />
                     <strong>{this.state.products[productId].name}   </strong>
                     <strong>${this.state.products[productId].price}   </strong>
-                    {this.renderButton(productId)}
+                    {this.renderAddToCartButton(productId)}
                 </div>
             </div>
         )

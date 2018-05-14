@@ -67,8 +67,7 @@ router.post('/register', uploadRegister.single('avatar'), async (req, res, next)
         email: req.body.email,
         password: req.body.password,
         cart: {
-            products: {},
-            totalPrice: ''
+            products: {}
         },
         roles: ["user"]
     }); 
@@ -169,7 +168,8 @@ router.post('/authenticate', async (req, res, next) => {
                             phone: user.phone, 
                             email: user.email, 
                             avatar: user.avatar,
-                            avatarFile: img || ''
+                            avatarFile: img || '',
+                            cart: user.cart
                         },
                         token
                     });
@@ -330,8 +330,7 @@ router.put('/changepassword/:id', passport.authenticate('jwt', {session: false})
 });
 
 //Add to cart
-router.put('/addToCart', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-    console.log(req.body)
+router.put('/editCart', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         const user = await User.updateUser(req.body.userId, {$set: {
             cart: req.body.cart

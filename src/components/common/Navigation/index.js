@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { isAuthorized, isAdmin } from '../../../common/auth/authFunctions';
 
-import { FaSignOut } from 'react-icons/lib/fa';
+import { FaSignOut, FaShoppingBasket, FaShoppingBag, FaShoppingCart, FaPlusCircle, FaMinusCircle, FaTrash} from 'react-icons/lib/fa';
 
 
 export default class Navigation extends Component {
@@ -17,7 +17,8 @@ export default class Navigation extends Component {
         this.state = {
             activeRoute: this.props.activeRoute,
             authorized: isAuthorized(),
-            adminLogged: isAdmin()
+            adminLogged: isAdmin(),
+            cartMenuVisible: false
         }
 
     }
@@ -65,12 +66,133 @@ export default class Navigation extends Component {
         return;
     }
 
+    renderCartMenu = () => {
+        let productCount = 0;
+        Object.keys(this.props.user.cart.products).forEach(key => {
+            productCount += this.props.user.cart.products[key]
+        });
+        let cartVisible = {
+            display: this.state.cartMenuVisible ? 'block' : 'none'
+        }
+        let tableVisible = {
+            display: Object.keys(this.props.user.cart.products).length ? 'table' : 'none'
+        } 
+        let tableHidden = {
+            display: Object.keys(this.props.user.cart.products).length ? 'none' : 'block'
+        } 
+        return(
+            <li className='ml-auto nav-item cart'>
+                <div className='cart-button-wrapper' onClick={this.toggleCartMenu}>
+                    <FaShoppingCart />
+                    <div className='product-count'>{productCount}</div>
+                </div>
+                <div className='cart-menu-wrapper' style={cartVisible}>
+                    <div style={tableHidden} className='text-center'>No products added yet</div>
+                    <table style={tableVisible}>
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Price</td>
+                                <td className='text-center'>Quantity</td>
+                                <td className='text-center'>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.keys(this.props.user.cart.products).map(key => {
+                                return(
+                                    <tr className='product' key={key}>
+                                        <td>
+                                            {(typeof this.props.products.all[key].name !== 'undefined') ? this.props.products.all[key].name : ''} 
+                                        </td>
+                                        <td>
+                                            ${(typeof this.props.products.all[key].price !== 'undefined') ? this.props.products.all[key].price : ''}
+                                        </td>
+                                        <td className='text-center'>
+                                            {this.props.user.cart.products[key] || ''}
+                                        </td>
+                                        <td className='actions text-center'>
+                                            <FaPlusCircle onClick={() => this.incrementQuantity(key)}/>
+                                            &nbsp;
+                                            <FaMinusCircle onClick={() => this.decrementQuantity(key)} />
+                                            &nbsp;
+                                            <FaTrash onClick={() => this.removeProductFromCart(key)} />
+                                        </td>
+                                    </tr>
+                                )})
+                            }
+                            <tr>
+                                <td><b>Total: </b></td>
+                                <td colSpan='3'>
+                                    ${this.calculateTotalPrice()}
+                                </td>
+                            </tr>                            
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        )
+    }
+    
+    incrementQuantity = productId => {
+        let cart = this.props.user.cart;
+        if (typeof cart.products[productId] !== 'undefined') {
+            cart.products[productId]++;
+        } else {
+            cart.products[productId] = 1;
+        }
+
+        this.props.incrementQuantity({
+            userId: this.props.user.personalInfo.id,
+            cart
+        });
+    }
+
+    decrementQuantity = productId => {
+        let cart = this.props.user.cart;
+        if (typeof cart.products[productId] !== 'undefined' && cart.products[productId] >= 1) {
+            cart.products[productId]--;
+        }
+        
+        if (cart.products[productId] === 0) {            
+            delete cart.products[productId];
+        }
+
+        this.props.decrementQuantity({
+            userId: this.props.user.personalInfo.id,
+            cart
+        });
+    }
+
+    removeProductFromCart = productId => {
+        let cart = this.props.user.cart;
+        if (typeof cart.products[productId] !== 'undefined') {
+            delete cart.products[productId];
+        }
+
+        this.props.removeProductFromCart({
+            userId: this.props.user.personalInfo.id,
+            cart
+        });
+    }
+
+    calculateTotalPrice = () => {
+        let price = 0;
+        Object.keys(this.props.user.cart.products).forEach(key => {
+            price += (this.props.user.cart.products[key] * this.props.products.all[key].price);
+        })
+
+        return price;
+    }
+
+    toggleCartMenu = () => {
+        this.setState({
+            cartMenuVisible: !this.state.cartMenuVisible
+        })
+    }
+
     
 
     render() {
-        
-        // console.log(this.props)
-        // console.log(this.props)  onClick={() => this.changeActiveState(name)}s
         return (
             <div>
                 <Container>
@@ -85,7 +207,11 @@ export default class Navigation extends Component {
                         {this.renderLink("Products", "/admin/products", false, true)}
                         {this.renderLink("Categories", "/admin/categories", false, true)}
                         {this.renderMenuItem(
-                            <NavItem onClick={() => this.logout()} className="ml-auto">
+                            this.renderCartMenu(),
+                            true
+                        )}
+                        {this.renderMenuItem(
+                            <NavItem onClick={() => this.logout()} >
                                 <NavLink tag={Link} to='/'>
                                     <FaSignOut  className="btn-signout"/>
                                 </NavLink>
