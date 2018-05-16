@@ -58,6 +58,9 @@ module.exports.updateProduct = async function(id, body) {
     return Product.findByIdAndUpdate(id, body, {new: true});
 }
 
+module.exports.deleteProduct = async function(id) {
+    return Product.findByIdAndRemove(id);
+}
 
 // module.exports.getProductById = function(id, callback) {
 //     Product.findById(id, callback); 

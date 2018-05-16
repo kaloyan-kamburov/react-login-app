@@ -65,7 +65,15 @@ const productsReducer = (state = initialState.products, action) => {
                 currentEditableProduct: action.payload.product,
                 all
             }
-        
+
+        case constants.PRODUCT_DELETE_SUCCESS:
+            let products = {
+                ...state
+            }            
+            delete products.all[action.payload.product._id]
+            return {
+                ...products
+            }
             
         case constants.ROUTE_CHANGED:
             return {

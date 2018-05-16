@@ -59,11 +59,14 @@ export default class Navigation extends Component {
         );
     }
 
-    renderMenuItem = (element, authOnly) => {
+    renderMenuItem = (element, authOnly, adminVisible = true) => {
         if (authOnly && this.state.authorized) {
+            if (!adminVisible && this.state.adminLogged) {
+                return null;
+            }
             return element;
         }
-        return;
+        return null;
     }
 
     renderCartMenu = () => {
@@ -197,7 +200,7 @@ export default class Navigation extends Component {
         return (
             <div>
                 <Container>
-                    <Nav className="align-items-center">
+                    <Nav className="">
                         <NavbarBrand tag={Link} to="/">
                             Home
                         </NavbarBrand> 
@@ -209,14 +212,16 @@ export default class Navigation extends Component {
                         {this.renderLink("Categories", "/admin/categories", false, true)}
                         {this.renderMenuItem(
                             this.renderCartMenu(),
-                            true
+                            true,
+                            false
                         )}
                         {this.renderMenuItem(
-                            <NavItem onClick={() => this.logout()} >
+                            <NavItem className={this.state.adminLogged ? 'ml-auto' : ''} onClick={() => this.logout()} >
                                 <NavLink tag={Link} to='/'>
                                     <FaSignOut  className="btn-signout"/>
                                 </NavLink>
                             </NavItem>,
+                            true,
                             true
                         )}
                     </Nav>

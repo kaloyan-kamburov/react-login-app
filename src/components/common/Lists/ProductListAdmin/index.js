@@ -48,6 +48,7 @@ export default class ProductListAdmin extends Component {
     }
 
     showDeleteProductModal = product => {
+        console.log(this.props)
         this.setState({
             productDelete: product,
             modalVisible: true
@@ -74,8 +75,8 @@ export default class ProductListAdmin extends Component {
                 <Modal 
                     show={this.state.modalVisible}
                     type='prompt'
-                    confirmFunction={() => this.props.deleteCategory(this.state.productDelete._id)}
-                    msg={`Are you sure you want to delete product <b>${this.state.productDelete.name}</b> ?`}
+                    confirmFunction={() => this.props.deleteProduct(this.state.productDelete)}
+                    msg={`Are you sure you want to delete this product ?`}
                 />
             </div>
         )

@@ -46,7 +46,7 @@ export default class CategoryList extends Component {
         return <div>No categories found</div>;        
     }
 
-    showDeleteUserModal = category => {
+    showDeleteCategoryModal = category => {
         this.setState({
             categoryDelete: category,
             modalVisible: true
@@ -60,7 +60,7 @@ export default class CategoryList extends Component {
                 <div className='list-item-property'>{category.name}</div>
                 <div className='list-item-property'>
                     <Link to={path}>Edit</Link>
-                    <div onClick={() => this.showDeleteUserModal(category)}>Delete</div>
+                    <div onClick={() => this.showDeleteCategoryModal(category)}>Delete</div>
                 </div>
             </div>
         )

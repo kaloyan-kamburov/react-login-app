@@ -14,6 +14,7 @@ export default class Products extends Component {
                 <Link to='/admin/products/add'>Add product</Link>
                 <ProductListAdmin 
                     products={this.props.products.all}
+                    deleteProduct={this.props.deleteProduct}
                 />
             </div>
         )

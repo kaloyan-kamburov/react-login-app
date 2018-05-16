@@ -8,6 +8,33 @@ import { Redirect } from 'react-router-dom';
 import AuthGuard from '../../../common/auth/authGuard'; 
 import { isAuthorized } from '../../../common/auth/authFunctions';
 
+class ProductsContainer extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentWillMount() {
+        this.setState({
+            authorized: isAuthorized()
+        });
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            authorized: isAuthorized()
+        });
+    }
+
+    render() {
+        if (!this.state.authorized) {
+            return <Redirect to=''/>
+        }
+
+        return(
+            <Products {...this.props} />
+        );
+    }
+} 
 const mapStateToProps = state => {
     return {
         ...state
@@ -15,12 +42,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    changeSearchField: payload => (
+    deleteProduct: payload => (
         dispatch({
-            type: constants.ADMIN_CHANGE_SEARCH_FIELD,
-            payload 
-        })        
+            type: constants.PRODUCT_DELETE_REQUEST,
+            payload
+        })
     )
 });
 
-export default AuthGuard(connect(mapStateToProps)(Products), true, true);
+export default AuthGuard(connect(mapStateToProps, mapDispatchToProps)(ProductsContainer), true, true);

@@ -83,6 +83,22 @@ export function* productUpdateSaga(action) {
     }
 }
 
+export function* productDeleteSaga(action) {
+    try {
+        const productDelete = yield call(
+            () => axios.delete(constants.API_URL + '/products/' + action.payload                     
+        ));
+        if (productDelete.data.success) {
+            yield put({ type: constants.PRODUCT_DELETE_SUCCESS, payload: productDelete.data });
+        } else {
+            yield put({ type: constants.PRODUCT_DELETE_ERROR, payload: productDelete.data });
+        }
+    } catch(error) {
+        yield put({ type: constants.SERVER_CHECK_ERROR, error });
+
+    }
+}
+
 //watchers
 export function* watchProductAdd() {
     yield takeLatest(constants.PRODUCT_ADD_REQUEST, productAddSaga)
@@ -98,4 +114,8 @@ export function* watchProductGet() {
 
 export function* watchProductUpdate() {
     yield takeLatest(constants.PRODUCT_UPDATE_REQUEST, productUpdateSaga)
+}
+
+export function* watchProductDelete() {
+    yield takeLatest(constants.PRODUCT_DELETE_REQUEST, productDeleteSaga)
 }
